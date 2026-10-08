@@ -521,8 +521,8 @@ const INTERAKT_DETAIL_MESSUNG = `(async () => {
 })()`;
 
 /* Bildnachweise: reale DOM-/Fokuspruefung mit gekennzeichneten Fixtures.
- * Entfernte Anzeige, falsche Bildquelle, Button-Verschachtelung oder ein
- * durch die Modal-Fokusfalle unerreichbarer Lightbox-Link muessen rot werden. */
+ * Uebersichten ohne Nachweise, Detail/Lightbox mit vollstaendigen Nachweisen.
+ * Falsche Bildquelle, Darstellungszusatz oder unerreichbare Links werden rot. */
 async function vkBildnachweisMessung() {
   const pause = ms => new Promise(r => setTimeout(r, ms));
   const erfasse = (wurzel, selector) => Array.from(wurzel.querySelectorAll(selector)).filter(el => el.querySelector('img')).map(el => {
@@ -531,6 +531,9 @@ async function vkBildnachweisMessung() {
     const links = credit ? Array.from(credit.querySelectorAll('a')) : [];
     const rect = credit ? credit.getBoundingClientRect() : null;
     return {
+      bildVorhanden: !!img.getAttribute('src') && img.getBoundingClientRect().height > 0,
+      ohneNachweis: !credit && !['Fixture-Fotografin', 'Fixture-Museum', 'Fixture-Bild | Titel; mit Trennern', 'Bildquelle (DZT)', 'CC BY-SA 4.0'].some(text => el.textContent.includes(text)),
+      ohneDarstellung: !el.textContent.includes('Darstellung:'),
       quelle: links.some(a => a.href === img.src),
       lizenz: links.some(a => a.href === 'https://creativecommons.org/licenses/by-sa/4.0/'),
       rechte: !!credit && credit.textContent.includes('Fixture-Fotografin') && credit.textContent.includes('Fixture-Museum'),
@@ -566,7 +569,7 @@ async function vkBildnachweisMessung() {
     const bildRect = bild.getBoundingClientRect();
     const creditRect = credit && credit.getBoundingClientRect();
     erg.lightboxGeometrie = bild.naturalWidth > 0 && bildRect.left >= -1 && bildRect.right <= innerWidth + 1 && bildRect.top >= -1 && bildRect.bottom <= innerHeight + 1 && !!creditRect && creditRect.top >= -1 && creditRect.bottom <= innerHeight + 1;
-    erg.lightboxUnbeschnitten = !!credit && !credit.textContent.includes('beschnitten');
+    erg.lightboxOhneDarstellung = !!credit && !credit.textContent.includes('Darstellung:');
     const lizenzLink = credit && credit.querySelector('a[href="https://creativecommons.org/licenses/by-sa/4.0/"]');
     if (lizenzLink) lizenzLink.focus();
     await pause(25);
@@ -1210,13 +1213,15 @@ async function suite(name) {
     }
   }
   if (name === "bildnachweise") {
-    const passend = liste => Array.isArray(liste) && liste.length > 0 && liste.every(e => e.quelle && e.lizenz && e.rechte && e.titel && e.nichtVerschachtelt && e.passt);
+    const passend = liste => Array.isArray(liste) && liste.length > 0 && liste.every(e => e.quelle && e.lizenz && e.rechte && e.titel && e.nichtVerschachtelt && e.passt && e.ohneDarstellung);
+    const ohneNachweise = liste => Array.isArray(liste) && liste.length > 0 && liste.every(e => e.bildVorhanden && e.ohneNachweis && e.ohneDarstellung);
     for (const [b, h] of [[375, 812], [1366, 768]]) {
       const v = b + "x" + h;
       try {
         const erg = await mitChrome(b, h, FIXTURE_URL, FIXTURE_INJEKTION, BILDNACHWEIS_MESSUNG, 0);
-        for (const ansicht of ['programm', 'katalog', 'archiv', 'detail', 'lightbox']) log('B-' + ansicht, v, passend(erg[ansicht]), erg[ansicht]);
-        log('B-lightbox-geometrie', v, erg.lightboxGeometrie && erg.lightboxUnbeschnitten, { geometrie: erg.lightboxGeometrie, unbeschnitten: erg.lightboxUnbeschnitten });
+        for (const ansicht of ['programm', 'katalog', 'archiv']) log('B-' + ansicht, v, ohneNachweise(erg[ansicht]), erg[ansicht]);
+        for (const ansicht of ['detail', 'lightbox']) log('B-' + ansicht, v, passend(erg[ansicht]), erg[ansicht]);
+        log('B-lightbox-geometrie', v, erg.lightboxGeometrie && erg.lightboxOhneDarstellung, { geometrie: erg.lightboxGeometrie, ohneDarstellung: erg.lightboxOhneDarstellung });
         log('B-lightbox-link-fokus', v, erg.lightboxLinkFokus, erg.fokusDiagnose);
         log('B-kein-overflow-nachladen', v, erg.keinOverflow && erg.keinNachladen, { overflow: !erg.keinOverflow, nachladen: !erg.keinNachladen });
       } catch (e) { log('B-suite', v, false, { fehler: e.message }); }

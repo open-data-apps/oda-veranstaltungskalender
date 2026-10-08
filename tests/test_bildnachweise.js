@@ -1,7 +1,7 @@
 /*
- * v1.4.2: Bildnachweise bleiben an ihre Bild-URL gebunden.
+ * v1.4.5: Bildnachweise bleiben bildgenau, erscheinen aber erst im Detail.
  * Faengt vertauschte Credits, erfundene Lizenzen, verlorene Sonderzeichen,
- * unsichere Links und fehlende Nachweise in den bestehenden Bildansichten ab.
+ * unsichere Links und unerwuenschte Nachweiszeilen in Uebersichten ab.
  */
 const assert = require("assert");
 const fs = require("fs");
@@ -55,6 +55,15 @@ function nachweisAmErstenBild(html) {
   assert.ok(html.includes("CC BY-SA 4.0"), "verstaendliche Lizenzbezeichnung");
   assert.ok(!html.includes("CC0"), "Lizenz des zweiten Bildes darf nicht auf das erste Bild uebertragen werden");
   assert.ok(!html.includes("Zweites Bild"), "Titel des zweiten Bildes darf nicht auf das erste Bild uebertragen werden");
+  assert.ok(!html.includes("Darstellung:"), "kein zusaetzlicher Darstellungs-Hinweis");
+  ohneLinksImButton(html);
+}
+function uebersichtOhneNachweis(html) {
+  assert.ok(html.includes('src="https://example.org/b1.jpg"'), "Bild bleibt sichtbar eingebunden");
+  assert.ok(html.includes('data-vk-event="urn:credit-event"'), "Detail-Zugang bleibt vorhanden");
+  for (const text of ["vk-bildnachweis", "Alice", "Museum &amp; Stadt", "Motiv | a;b", "Bildquelle (DZT)", "CC BY-SA 4.0", "Darstellung:"]) {
+    assert.ok(!html.includes(text), "Uebersicht ohne Bildnachweis: " + text);
+  }
   ohneLinksImButton(html);
 }
 
@@ -82,7 +91,7 @@ test("Parser behaelt Credits pro URL trotz anderer Bildreihenfolge", () => {
     { url: "https://example.org/b2.jpg", titel: "Zweites Bild", lizenz: "https://creativecommons.org/publicdomain/zero/1.0/", copyright: "", urheber: "" },
     { url: "https://example.org/b1.jpg", titel: "Motiv | a;b", lizenz: "https://creativecommons.org/licenses/by-sa/4.0/", copyright: "Museum & Stadt", urheber: "Alice" }
   ]);
-  nachweisAmErstenBild(sandbox.eventKarteHtml(state, result));
+  nachweisAmErstenBild(sandbox.vkDetailHtml(state, result));
 });
 
 test("Ungueltiger Nachweis zerstoert nicht die anderen Datensaetze", () => {
@@ -97,39 +106,36 @@ test("Ungueltiger Nachweis zerstoert nicht die anderen Datensaetze", () => {
 test("Fehlende Metadaten bleiben fehlend statt eine Event-Lizenz zu erben", () => {
   const result = sandbox.parseEvents([{ s: { value: "urn:no-credits" }, name: { value: "Ohne Credits" } }], 0, 0)[0];
   assert.deepStrictEqual(Array.from(result.bildnachweise || []), []);
-  const html = sandbox.eventKarteHtml(state, { ...event, bildnachweise: [], sdLicense: "https://creativecommons.org/publicdomain/zero/1.0/" });
+  const html = sandbox.vkDetailHtml(state, { ...event, bildnachweise: [], sdLicense: "https://creativecommons.org/publicdomain/zero/1.0/" });
   assert.ok(/Lizenzangabe fehlt/.test(html), "fehlende Bildlizenz sichtbar kennzeichnen");
   assert.ok(html.includes('href="https://example.org/b1.jpg"'), "vorhandene Quelle bleibt erreichbar");
   assert.ok(!html.includes("CC0"), "keine erfundene Bildlizenz");
 });
 
-test("Programmeintrag zeigt passenden Nachweis und Zuschnitt", () => {
-  const html = sandbox.eventKarteHtml(state, event);
-  nachweisAmErstenBild(html);
-  assert.ok(/beschnitten/.test(html), "object-fit-cover-Ausschnitt kennzeichnen");
+test("Programmeintrag zeigt Bild und Detail-Zugang, aber keinen Nachweis", () => {
+  uebersichtOhneNachweis(sandbox.eventKarteHtml(state, event));
 });
 
-test("Archiv zeigt denselben bildbezogenen Nachweis", () => {
-  nachweisAmErstenBild(sandbox.renderArchiv({ ...state, gefiltert: [{ ...event, startDatum: "2026-09-20" }] }));
+test("Archiv zeigt Bild und Detail-Zugang, aber keinen Nachweis", () => {
+  uebersichtOhneNachweis(sandbox.renderArchiv({ ...state, gefiltert: [{ ...event, startDatum: "2026-09-20" }] }));
 });
 
-test("Katalog zeigt passende verlinkte Credits ohne verschachtelte Controls", () => {
-  nachweisAmErstenBild(sandbox.renderKatalog({ ...state, gefiltert: [event] }));
+test("Katalog zeigt Bild und Detail-Zugang, aber keinen Nachweis", () => {
+  uebersichtOhneNachweis(sandbox.renderKatalog({ ...state, gefiltert: [event] }));
 });
 
 test("Detail zeigt Nachweis ausserhalb des Vergroessern-Buttons", () => {
   nachweisAmErstenBild(sandbox.vkDetailHtml(state, event));
 });
 
-test("Lightbox zeigt Quelle und Lizenz ohne Zuschnittbehauptung", () => {
+test("Lightbox zeigt Quelle und Lizenz ohne Darstellungszusatz", () => {
   sandbox.zeigeLightbox(state, event);
   const html = angehaengt[angehaengt.length - 1].innerHTML;
   nachweisAmErstenBild(html);
-  assert.ok(!/beschnitten/.test(html), "Vollbild stellt das ganze Motiv dar");
 });
 
 test("CC0 benoetigt keine erfundene oder fehlende Urheber-Warnung", () => {
-  const html = sandbox.eventKarteHtml(state, { ...event, bilder: ["https://example.org/b2.jpg"] });
+  const html = sandbox.vkDetailHtml(state, { ...event, bilder: ["https://example.org/b2.jpg"] });
   assert.ok(html.includes("CC0 1.0"), "CC0-Ausweisung fehlt");
   assert.ok(html.includes('href="https://creativecommons.org/publicdomain/zero/1.0/"'));
   assert.ok(!/Rechteangabe fehlt|Urheberangabe fehlt/.test(html), "CC0 ohne Rechtehinweis ist kein Attribution-Fehler");
@@ -149,7 +155,7 @@ test("Rechte-Metadaten und Lizenzlinks erlauben keine HTML-Injektion", () => {
 });
 
 test("Nicht zugeordnete Credits werden nicht am ersten Bild angezeigt", () => {
-  const html = sandbox.eventKarteHtml(state, { ...event, bildnachweise: [event.bildnachweise[0]] });
+  const html = sandbox.vkDetailHtml(state, { ...event, bildnachweise: [event.bildnachweise[0]] });
   assert.ok(!html.includes("CC0"));
   assert.ok(/Lizenzangabe fehlt/.test(html));
 });

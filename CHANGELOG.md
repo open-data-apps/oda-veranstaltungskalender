@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.5 - 2026-10-08
+
+- **Bildnachweise erst im Detail:** Programm, Katalog und Archiv zeigen keine Bildtitel-, Rechte-, Quellen- oder Lizenzzeile mehr unter den Veranstaltungskarten. Die vollständigen gelieferten Angaben bleiben in der Detailansicht und deren Bildvergrößerung erreichbar.
+- **Darstellungszusatz entfernt:** „Darstellung: skaliert und beschnitten“ und „Darstellung: skaliert“ werden nicht mehr ergänzt. Die Bilddarstellung selbst sowie die geladenen Rechte- und Lizenzmetadaten bleiben unverändert.
+- **Gezielte Regressionen:** Node- und Browserprüfungen verlangen nachweisfreie Übersichten mit weiterhin vorhandenen Bildern und Detailzugängen sowie vollständige bildgenaue Nachweise im Detail. Keine Änderung an Templates, Datenabfragen, Original-Screenshots oder der Bildnachweisdatei.
+
 ## 1.4.4 - 2026-10-08
 
 - **Konkreter Termin statt falschem Datum:** Karten, Details, Teilen-Links und ICS unterscheiden Archiv-/Zukunftstermine derselben DZT-Kennung. Neue Links tragen eine Terminkennung; fehlt dieser Termin im geladenen Bestand, erscheint ein Hinweis statt eines Ersatzdatums. Alte Links nur mit Event-ID bleiben nutzbar, ohne diese zusätzliche Unterscheidung.

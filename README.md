@@ -6,7 +6,7 @@ Die App ist für die Verwendung im [Open Data App Store](https://open-data-app-s
 
 Mehr zu Open Data Apps: <https://github.com/open-data-apps>
 
-**Aktueller App-Stand:** 1.4.4 · [Änderungsverlauf](CHANGELOG.md)  
+**Aktueller App-Stand:** 1.4.5 · [Änderungsverlauf](CHANGELOG.md)  
 **Technischer Name:** `oda-veranstaltungskalender` · **Lieferpaket:** `oda-veranstaltungskalender.zip`
 
 ---
@@ -32,7 +32,7 @@ Die Konfiguration wird vom ODAS geladen. Die App bietet folgende Inhalte:
 - **Detailansicht:** Termine, Ort, Beschreibung, Veranstalter-Link, OpenStreetMap-Ortslink („Route planen“) und Bildvergrößerung. Tab/Shift+Tab bleiben in der Bildansicht; Escape schließt zuerst diese und gibt den Fokus zurück. Detailfenster werden erst nach ihrer Ausblendung freigegeben, auch bei frühem Schließen oder Seitenwechsel.
 - **Kalender-Export:** Eine ICS-Datei wird lokal im Browser erzeugt. Die Kalenderkennung unterscheidet Termine derselben Veranstaltung. Bereits mit älteren Versionen importierte Kalendereinträge werden dadurch nicht automatisch aktualisiert; erneuter Import kann einen zusätzlichen Eintrag erzeugen. Der Export überträgt keine Daten an einen Kalenderdienst.
 - **Teilen:** WhatsApp, X, E-Mail und „Link kopieren“; ein geräteeigenes Teilen-Menü kommt hinzu, wenn der Browser es anbietet. Der Link enthält Veranstaltungskennung und konkreten Termin (`?event=…&termin=…`). Bekannte Termine werden direkt geöffnet, auch aus dem Archiv; unbekannte Kennungen oder Termine führen zu einem Hinweis statt zu einem anderen Datum. Alte Links nur mit `event` bleiben nutzbar, können aber nicht zwischen mehreren Terminen derselben Veranstaltung unterscheiden. Es wird nichts zusätzlich nachgeladen.
-- **Bildnachweise:** Gelieferte Bildtitel, Rechtehinweise, Bildquellen und Lizenzlinks in Programm, Archiv, Katalog, Detail und Bildvergrößerung. Skalierung und Ausschnitte werden benannt; fehlende Angaben bleiben sichtbar.
+- **Bildnachweise:** Gelieferte Bildtitel, Rechtehinweise, Bildquellen und Lizenzlinks erscheinen erst in der Detailansicht und deren Bildvergrößerung. Programm, Katalog und Archiv bleiben frei von diesen Nachweiszeilen. Der zusätzliche Darstellungs-Hinweis entfällt; fehlende Rechte- oder Lizenzangaben werden im Detail weiterhin kenntlich gemacht.
 - **Datenquelle und Methodik:** Einklappbarer Informationsblock mit optionalen Kennzahl-Erklärungen, Datenstand, weiterführenden Links und Fußzeile. Leere optionale Inhalte werden nicht angezeigt.
 - **Sitzungscache:** Geladene Veranstaltungen und Ortsauflösung werden für dieselbe Konfiguration und denselben Kalendertag im Seitenkontext wiederverwendet, etwa bei der Rückkehr von einer Informationsseite. Ein neuer Seitenaufruf lädt die Daten erneut. Ein offen gebliebener Tab erneuert seinen Tagesstand bei Mitternacht beziehungsweise beim nächsten Sichtbarwerden/Fokus; verspätete Antworten des Vortags werden verworfen.
 
@@ -107,7 +107,7 @@ Zusätzlich verarbeitet die App `desc` als `beschreibung` für Suche und Detaila
 
 ## Screenshots
 
-Die sechs Aufnahmen zeigen echte Veranstaltungsdaten aus Böblingen und Umgebung auf einer Dev-Instanz am **01.10.2026, App-Version 1.3.3**. Sie sind historische Aufnahmen und zeigen noch nicht die später ergänzten Bildnachweiszeilen.
+Die sechs Aufnahmen zeigen echte Veranstaltungsdaten aus Böblingen und Umgebung auf einer Dev-Instanz am **01.10.2026, App-Version 1.3.3**. Sie sind historische Aufnahmen und bilden nicht den vollständigen aktuellen Funktions- und Detailstand ab.
 
 Desktop: **1440 × 900 Pixel**. Mobile: **375 × 812 CSS-Pixel**, aufgenommen mit zweifacher Auflösung (**750 × 1624 Pixel**).
 
@@ -203,7 +203,9 @@ node tests/review_browser.js
 
 Ohne Umgebungsvariablen verwendet der Harness `127.0.0.1:8765` und `google-chrome`. Jeder Lauf verwendet ein eigenes Browserprofil; standardmäßig vergibt das Betriebssystem einen freien Steuerungsport. Optional legt `VK_CDP_PORT` den Startport für Audit-Suites fest. Ungültige Suites, null Prüfungen und ungefangene JavaScript-/Promise-Fehler führen zum Fehlschlag. Der Fixture-Transport wird vor der App installiert; lokale Konfiguration wird normal gelesen, unerwartete Fetch-Ziele werden blockiert. OpenStreetMap-Kacheln bleiben bewusst echte externe Abrufe – das ist kein vollständiger Offline-Test. Die Suite `modal` prüft bewusst **mit aktiven Bootstrap-Animationen und Browserfokus**, damit Fehler beim Öffnen/Schließen nicht durch deaktivierte Übergänge verdeckt werden. Die Suite `flows` benötigt zusätzlich `VK_LIVE_HOST` (Host:Port); ihr Live-Teil erwartet die im Harness hinterlegte Audit-Instanz, keine beliebige ODAS-App.
 
-**Lokaler Prüfstand 1.4.4:** 26 Node-Testdateien und 238 lokale Browserprüfungen erfolgreich. Dazu bestanden zwei read-only Navigations-/Cacheprüfungen auf der weiterhin mit **1.4.3** betriebenen Dev-Instanz; sie sind keine Dev-Abnahme von 1.4.4. Die zusätzlichen Regressionen prüfen unter anderem konkrete Archivtermine, tatsächliche Zwischenablage, AX-Dialognamen, native Tastatureingaben, Tageswechsel und absichtlich ausgelöste Fehler als Negativkontrollen. Ein natives Teilen-Menü wurde für die Parameterprüfung ersetzt, nicht als Betriebssystemdialog abgenommen.
+**Lokaler Prüfstand 1.4.5:** 26 Node-Testdateien und 144 gezielte lokale Browserprüfungen bestanden (Viewport-Sweep, Bildnachweise, Modal-Lifecycle und Reviewregressionen). Geprüft sind insbesondere nachweisfreie Übersichten und weiterhin vollständige Bildnachweise in Detail/Bildvergrößerung ohne Darstellungszusatz. Prüfung mit synthetischen Daten und Chrome-Mobil-Emulation, kein Dev-Upload.
+
+**Historischer lokaler Prüfstand 1.4.4:** 26 Node-Testdateien und 238 lokale Browserprüfungen erfolgreich. Dazu bestanden zwei read-only Navigations-/Cacheprüfungen auf der weiterhin mit **1.4.3** betriebenen Dev-Instanz; sie sind keine Dev-Abnahme von 1.4.4. Die zusätzlichen Regressionen prüfen unter anderem konkrete Archivtermine, tatsächliche Zwischenablage, AX-Dialognamen, native Tastatureingaben, Tageswechsel und absichtlich ausgelöste Fehler als Negativkontrollen. Ein natives Teilen-Menü wurde für die Parameterprüfung ersetzt, nicht als Betriebssystemdialog abgenommen.
 
 Mobile Ansichten wurden in Chrome emuliert; daraus folgt keine Abnahme auf echten Mobilgeräten, in anderen Browsern oder mit Screenreadern. Der historische vollständige Dev-Prüfstand 1.4.3 umfasst 21 Prüfungen mit echten Daten sowie sechs ergänzende Tastatur-/Schließprüfungen.
 

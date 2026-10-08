@@ -675,7 +675,8 @@ function vkDistanzText(distanzKm) {
 }
 
 /* Bildrechte gehoeren zur konkreten contentUrl, nicht zur Veranstaltung.
- * Links liegen ausserhalb der Karten-/Bild-Buttons; Fremddaten werden escaped. */
+ * Nachweise erscheinen im Detail und in der Bildvergroesserung ausserhalb
+ * des Bild-Buttons; Fremddaten werden escaped. */
 function vkBildLizenzText(url) {
   const normalisiert = String(url || "").replace(/^http:/, "https:").replace(/\/$/, "");
   const namen = {
@@ -686,7 +687,7 @@ function vkBildLizenzText(url) {
   return namen[normalisiert] || "Lizenz";
 }
 
-function vkBildnachweisHtml(event, bildUrl, beschnitten) {
+function vkBildnachweisHtml(event, bildUrl) {
   if (!bildUrl) return "";
   const nachweise = (event.bildnachweise || []).filter((n) => n.url === bildUrl);
   const eindeutig = (werte) => Array.from(new Set(werte.filter(Boolean)));
@@ -704,7 +705,6 @@ function vkBildnachweisHtml(event, bildUrl, beschnitten) {
   } else {
     teile.push("Lizenzangabe fehlt");
   }
-  teile.push(beschnitten ? "Darstellung: skaliert und beschnitten" : "Darstellung: skaliert");
   return `<div class="vk-bildnachweis">${teile.join(" · ")}</div>`;
 }
 
@@ -730,7 +730,7 @@ function eventKarteHtml(state, event) {
     `<span class="vk-event-typ-badge" style="background:${typFarbe}1f;color:${typFarbe}">${escapeHtml(typLabel)}</span>` +
     `<div class="vk-event-titel">${escapeHtml(event.name)}</div>` +
     `<div class="vk-event-meta">${metaTeile.filter(Boolean).map((t) => `<span>${t}</span>`).join("")}</div>` +
-    `</div></button>` + vkBildnachweisHtml(event, event.bilder && event.bilder[0], true) + '</div>'
+    `</div></button></div>`
   );
 }
 
@@ -1223,7 +1223,7 @@ function renderKatalog(state) {
       `<span class="vk-event-typ-badge" style="background:${typFarbe}1f;color:${typFarbe}">${escapeHtml(typLabel)}</span>` +
       `<div class="vk-event-titel">${escapeHtml(event.name)}</div>` +
       `<div class="vk-event-meta"><span>${escapeHtml(event.startDatum || "")}</span></div>` +
-      `</div></button>` + vkBildnachweisHtml(event, event.bilder[0], true) + '</div>';
+      `</div></button></div>`;
   }
   html += "</div>";
   return html;
@@ -1289,7 +1289,7 @@ function vkDetailHtml(state, event) {
     html +=
       `<div class="vk-detail-bild"><button type="button" class="vk-detail-bild-btn" data-vk-lightbox="1" aria-label="Bild vergrößern">` +
       `<img src="${escapeHtml(event.bilder[0])}" alt="${escapeHtml(event.name)}" /></button>` +
-      vkBildnachweisHtml(event, event.bilder[0], true) + '</div>';
+      vkBildnachweisHtml(event, event.bilder[0]) + '</div>';
   }
 
   const datumZeile = `${vkDatumText(event.startDatum)}${event.startZeit ? " · " + escapeHtml(event.startZeit) : ""}`;
@@ -1355,7 +1355,7 @@ function zeigeLightbox(state, event) {
   overlay.setAttribute("role", "dialog");
   overlay.setAttribute("aria-label", "Bildansicht");
   overlay.innerHTML = `<div class="vk-lightbox-inhalt"><img src="${escapeHtml(event.bilder[0])}" alt="${escapeHtml(event.name)}" />` +
-    vkBildnachweisHtml(event, event.bilder[0], false) +
+    vkBildnachweisHtml(event, event.bilder[0]) +
     '</div><button type="button" class="vk-lightbox-schliessen" aria-label="Bildansicht schließen">✕</button>';
   overlay.addEventListener("click", (e) => {
     if (e.target === overlay || e.target.classList.contains("vk-lightbox-schliessen")) vkSchliesseLightbox(state);
