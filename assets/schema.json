@@ -1,0 +1,119 @@
+{
+  "$schema": "https://frictionlessdata.io/schemas/table-schema.json",
+  "fields": [
+    {
+      "name": "id",
+      "type": "string",
+      "format": "uri",
+      "title": "ID",
+      "description": "Eindeutige Kennung der Veranstaltung im DZT Knowledge Graph."
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "title": "Name",
+      "description": "Bezeichnung der Veranstaltung (deutsche Bevorzugung)."
+    },
+    {
+      "name": "beschreibung",
+      "type": "string",
+      "title": "Beschreibung",
+      "description": "Veranstaltungsbeschreibung aus schema:description, falls im Knowledge Graph vorhanden."
+    },
+    {
+      "name": "typ",
+      "type": "string",
+      "title": "Art",
+      "description": "Veranstaltungsart als Kürzel: musik, theater, ausstellung, fest, sport, kinder, essen oder sozial (basierend auf schema.org-Eventtypen MusicEvent, TheaterEvent, ExhibitionEvent, Festival, SportsEvent, ChildrensEvent, FoodEvent, SocialEvent)."
+    },
+    {
+      "name": "startDatum",
+      "type": "date",
+      "title": "Beginn (Datum)",
+      "description": "Startdatum der Veranstaltung (YYYY-MM-DD); bei Serien-Veranstaltungen (schema:eventSchedule) der Serienbeginn."
+    },
+    {
+      "name": "startZeit",
+      "type": "string",
+      "title": "Beginn (Uhrzeit)",
+      "description": "Startzeit als HH:MM (bei Serien aus schema:startTime), leer bei ganztägigen Veranstaltungen."
+    },
+    {
+      "name": "endDatum",
+      "type": "date",
+      "title": "Ende (Datum)",
+      "description": "Enddatum der Veranstaltung (YYYY-MM-DD), leer bei eintägigen Veranstaltungen; bei Serien-Veranstaltungen (schema:eventSchedule) das Serienende."
+    },
+    {
+      "name": "endZeit",
+      "type": "string",
+      "title": "Ende (Uhrzeit)",
+      "description": "Endzeit als HH:MM, leer wenn nicht angegeben."
+    },
+    {
+      "name": "ortName",
+      "type": "string",
+      "title": "Ort",
+      "description": "Name des Veranstaltungsortes."
+    },
+    {
+      "name": "adresse",
+      "type": "string",
+      "title": "Adresse",
+      "description": "Postalische Adresse des Veranstaltungsortes (Straße, PLZ Ort), falls im Knowledge Graph vorhanden."
+    },
+    {
+      "name": "lat",
+      "type": "number",
+      "title": "Breitengrad",
+      "description": "Breitengrad des Veranstaltungsortes, falls Geokoordinaten vorliegen."
+    },
+    {
+      "name": "lon",
+      "type": "number",
+      "title": "Längengrad",
+      "description": "Längengrad des Veranstaltungsortes, falls Geokoordinaten vorliegen."
+    },
+    {
+      "name": "distanzKm",
+      "type": "number",
+      "title": "Entfernung (km)",
+      "description": "Luftlinie vom konfigurierten Instanz-Ort in Kilometern, falls Geokoordinaten vorliegen."
+    },
+    {
+      "name": "bilder",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      },
+      "title": "Bilder",
+      "description": "Per „|“ verbundene Bild-URLs aus der SPARQL-Antwort, falls vorhanden."
+    },
+    {
+      "name": "bildnachweise",
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "title": "Bildnachweise",
+      "description": "Objekte mit url (konkrete Bild-URL), titel, lizenz (Bildlizenz), copyright (Copyright-Hinweis) und urheber (gelieferter Name aus schema:copyrightHolder, nicht unabhaengig bestaetigte Urheberschaft). Fehlende Angaben bleiben leer; keine Ableitung aus der Veranstaltungslizenz."
+    },
+    {
+      "name": "url",
+      "type": "string",
+      "format": "uri",
+      "title": "Link",
+      "description": "Veranstalter- oder Detail-URL, falls vorhanden."
+    },
+    {
+      "name": "kostenlos",
+      "type": "boolean",
+      "title": "Kostenlos",
+      "description": "true, wenn laut Attribut isAccessibleForFree kostenfrei; leer, wenn unbekannt."
+    }
+  ],
+  "missingValues": [
+    ""
+  ]
+}

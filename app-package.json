@@ -1,0 +1,374 @@
+{
+  "app-entwickler-id": "12343",
+  "app-entwickler-name": "ondics-gmbh",
+  "name-in-url": "oda-veranstaltungskalender",
+  "name": "Veranstaltungskalender",
+  "app-version": "1.4.4",
+  "app-package-version": "2",
+  "odas-app-icon": "assets/odas-app-icon.svg",
+  "app-icon": "assets/odas-app-icon.svg",
+  "kurzbeschreibung": "Veranstaltungen aus dem DZT Knowledge Graph im Orts-Umkreis: Programm-Board, Karte, Katalog, Archiv und ICS-Kalender-Export für Bürger in Kommunen.",
+  "beschreibung": [
+    "_multiline_",
+    "Der Veranstaltungskalender macht Veranstaltungen aus dem Knowledge Graph der Deutschen Zentrale für Tourismus (DZT) für Bürgerinnen und Bürger erlebbar: Was läuft heute, morgen oder am Wochenende – in der eigenen Stadt und Umgebung?",
+    "",
+    "Die App zeigt kommende und vergangene Veranstaltungen in acht Kategorien (Musik, Theater, Ausstellung, Fest, Sport, Kinder, Essen & Trinken, Soziales) als Programm-Board, auf einer Karte, in einem Foto-Katalog und im Archiv – begrenzt auf einen konfigurierbaren Ort mit Umkreis.",
+    "",
+    "Für wen ist diese App? Für alle, die schnell wissen möchten, was in ihrer Kommune los ist – ohne Datenbankkenntnis, ohne Anmeldung. Kommunen und Städte konfigurieren einfach Ort und Umkreis.",
+    "",
+    "## Methodik",
+    "",
+    "Der Betreiber der App-Instanz konfiguriert einen Ort und einen Suchradius. Die App löst den Ort per OpenStreetMap-Geokodierung (Nominatim) auf Koordinaten auf und fragt dann beim Aufruf über die SPARQL-Schnittstelle des DZT Knowledge Graphs Veranstaltungen im Umkreis ab. Der Datenabruf läuft ausschließlich über den DZT-Relay des Open Data App Store – ein API-Key bleibt serverseitig im Store, kein Key im App-Code.",
+    "",
+    "Geladen werden zwei Abfragen: kommende Veranstaltungen (bis zu 365 Tage im Voraus, maximal 600 Einträge) und ein Archiv der vergangenen 365 Tage (maximal 400 Einträge). Zeitraum (Heute, 7, 30, 90 Tage, alle), Veranstaltungstyp und Suchtext filtern die geladenen Ereignisse direkt im Browser. Veranstaltungen ohne Geokoordinaten erscheinen im Programm und Archiv mit Klartext-Ort, nicht auf der Karte. Über die Detailansicht lässt sich jede Veranstaltung als Kalendereintrag (ICS-Datei) in den eigenen Kalender exportieren. Serien-Veranstaltungen mit Wiederholungsmustern (eventSchedule) werden als Zeitraum angezeigt, nicht als Einzeltermine expandiert.",
+    "",
+    "## Datenquelle",
+    "",
+    "Die Daten stammen aus dem Knowledge Graph der Deutschen Zentrale für Tourismus (DZT), einem gemeinsamen Projekt der DZT und der Landesmarketingorganisationen. Die App fragt Veranstaltungen (MusicEvent, TheaterEvent, ExhibitionEvent, FoodEvent, SocialEvent, SportsEvent, Festival, ChildrensEvent) beim Aufruf über die SPARQL-Schnittstelle des Knowledge Graphs ab.",
+    "",
+    "- **Open Data Portal:** [Open Data Destination Germany](https://open-data-germany.org/knowledge-graphen/)",
+    "- **Datensatz:** [DZT Knowledge Graph – Zugriffsdokumentation]({{{appinstanz.urlDaten}}})",
+    "- **Ressource:** [SPARQL-Endpunkt]({{{appinstanz.apiurls.1}}})",
+    "",
+    "## Open Data App",
+    "",
+    "Diese App ist für den [Open Data App Store](https://open-data-app-store.de/) entwickelt. Der Datenabruf läuft über den DZT-Relay des Open Data App Store; ein eigener API-Key ist für den Betrieb dieser App nicht nötig.",
+    "",
+    "Die App ist Open Source:",
+    "",
+    "- [Open Data App Store](https://open-data-app-store.de/) – die Plattform für Open Data Apps",
+    "- [Alle Open Data Apps auf GitHub](https://github.com/open-data-apps) – die Organisation mit allen Apps",
+    "- [oda-veranstaltungskalender](https://github.com/D3nn1s-7/oda-veranstaltungskalender) – das Repository dieser App"
+  ],
+  "tags-funktion": [
+    "Programm-Board",
+    "Karte",
+    "Filter",
+    "Kalender-Export"
+  ],
+  "tags-dateityp": [
+    "JSON-LD",
+    "SPARQL"
+  ],
+  "tags-datenart": [
+    "Tourismus",
+    "Veranstaltungen",
+    "Geodaten"
+  ],
+  "screenshots": [
+    "assets/Desktop_Screenshot_1.png",
+    "assets/Desktop_Screenshot_2.png",
+    "assets/Desktop_Screenshot_3.png",
+    "assets/Mobile_Screenshot_1.png",
+    "assets/Mobile_Screenshot_2.png",
+    "assets/Mobile_Screenshot_3.png"
+  ],
+  "daten": {
+    "beschreibung": "Veranstaltungen (8 schema.org-Eventtypen) aus dem DZT Knowledge Graph. Suche per SPARQL-Geo-Umkreisabfrage um den geokodierten Instanz-Ort; zwei Abfragen: kommende (bis +365 Tage, LIMIT 600) und Archiv (vergangene 365 Tage, LIMIT 400). Abruf ausschließlich über den DZT-Relay des Stores (API-Key serverseitig).",
+    "schema": "assets/schema.json",
+    "beispiel": "SPARQL-Ergebnis im Format application/sparql-results+json mit den Variablen s, name, desc, startDatum, endDatum, startZeitRaw, ortName, street, postal, city, lat, lng, url, kostenlos, img (per | verbundene Bild-URLs), bildnachweise (URI-codierte Datensätze mit Bild-URL, Titel, Bildlizenz, Copyright und Rechteinhaber), typ (per , verbundene Typ-IRIs) je Veranstaltung – eine Ergebniszeile pro Veranstaltung (GROUP BY ?s).",
+    "beispiel-url": "https://proxy.opendatagermany.io/api/ts/v1/kg/sparql"
+  },
+  "branding-css": "",
+  "api-version": "1",
+  "odas-services": ["tourismus-odg"],
+  "instanz-config": {
+    "seitentitel": {
+      "label": "Seitentitel",
+      "category": "allgemein",
+      "hilfe": "Der Seitentitel wird im Browser-Tab der App angezeigt.",
+      "default": "Veranstaltungskalender",
+      "format": {
+        "typ": "string",
+        "laenge": 80
+      },
+      "erforderlich": "ja"
+    },
+    "titel": {
+      "label": "Titel",
+      "category": "allgemein",
+      "hilfe": "Der Titel wird in der Kopfzeile der App angezeigt.",
+      "default": "Veranstaltungskalender",
+      "format": {
+        "typ": "string",
+        "laenge": 80
+      },
+      "erforderlich": "ja"
+    },
+    "icon": {
+      "label": "Portal-Logo",
+      "category": "allgemein",
+      "hilfe": "Das Logo wird links oben in der Kopfzeile angezeigt und führt zur Startseite.",
+      "default": "{{{odp.logo}}}",
+      "format": {
+        "typ": "image",
+        "hoehe": 100,
+        "breite": 300
+      },
+      "erforderlich": "ja"
+    },
+    "kontakt": {
+      "label": "Kontakt",
+      "category": "kontakt-rechtliches",
+      "hilfe": "Der Markdown-Inhalt wird im Menüpunkt Kontakt angezeigt.",
+      "default": [
+        "_multiline_",
+        "Sie haben Fragen, Hinweise oder Verbesserungsvorschläge zu dieser App? Wenden Sie sich gern an den Anbieter des Open Data Portals.",
+        "",
+        "- Tel.: [{{odp.anbieter.tel}}](tel:{{odp.anbieter.tel}})",
+        "- E-Mail: [{{odp.anbieter.email}}](mailto:{{odp.anbieter.email}})"
+      ],
+      "format": {
+        "typ": "markdown"
+      },
+      "erforderlich": "ja"
+    },
+    "beschreibung": {
+      "label": "Beschreibung",
+      "category": "beschreibung",
+      "hilfe": "Der Markdown-Inhalt wird im Menüpunkt Über diese App angezeigt.",
+      "default": [
+        "_multiline_",
+        "Der Veranstaltungskalender macht Veranstaltungen aus dem Knowledge Graph der Deutschen Zentrale für Tourismus (DZT) für Bürgerinnen und Bürger erlebbar: Was läuft heute, morgen oder am Wochenende – in der eigenen Stadt und Umgebung?",
+        "",
+        "Die App zeigt kommende und vergangene Veranstaltungen in acht Kategorien (Musik, Theater, Ausstellung, Fest, Sport, Kinder, Essen & Trinken, Soziales) als Programm-Board, auf einer Karte, in einem Foto-Katalog und im Archiv – begrenzt auf einen konfigurierbaren Ort mit Umkreis.",
+        "",
+        "Für wen ist diese App? Für alle, die schnell wissen möchten, was in ihrer Kommune los ist – ohne Datenbankkenntnis, ohne Anmeldung. Kommunen und Städte konfigurieren einfach Ort und Umkreis.",
+        "",
+        "## Methodik",
+        "",
+        "Der Betreiber der App-Instanz konfiguriert einen Ort und einen Suchradius. Die App löst den Ort per OpenStreetMap-Geokodierung (Nominatim) auf Koordinaten auf und fragt dann beim Aufruf über die SPARQL-Schnittstelle des DZT Knowledge Graphs Veranstaltungen im Umkreis ab. Der Datenabruf läuft ausschließlich über den DZT-Relay des Open Data App Store – ein API-Key bleibt serverseitig im Store, kein Key im App-Code.",
+        "",
+        "Geladen werden zwei Abfragen: kommende Veranstaltungen (bis zu 365 Tage im Voraus, maximal 600 Einträge) und ein Archiv der vergangenen 365 Tage (maximal 400 Einträge). Zeitraum (Heute, 7, 30, 90 Tage, alle), Veranstaltungstyp und Suchtext filtern die geladenen Ereignisse direkt im Browser. Veranstaltungen ohne Geokoordinaten erscheinen im Programm und Archiv mit Klartext-Ort, nicht auf der Karte. Über die Detailansicht lässt sich jede Veranstaltung als Kalendereintrag (ICS-Datei) in den eigenen Kalender exportieren. Serien-Veranstaltungen mit Wiederholungsmustern (eventSchedule) werden als Zeitraum angezeigt, nicht als Einzeltermine expandiert.",
+        "",
+        "## Datenquelle",
+        "",
+        "Die Daten stammen aus dem Knowledge Graph der Deutschen Zentrale für Tourismus (DZT), einem gemeinsamen Projekt der DZT und der Landesmarketingorganisationen. Die App fragt Veranstaltungen (MusicEvent, TheaterEvent, ExhibitionEvent, FoodEvent, SocialEvent, SportsEvent, Festival, ChildrensEvent) beim Aufruf über die SPARQL-Schnittstelle des Knowledge Graphs ab.",
+        "",
+        "- **Open Data Portal:** [Open Data Destination Germany](https://open-data-germany.org/knowledge-graphen/)",
+        "- **Datensatz:** [DZT Knowledge Graph – Zugriffsdokumentation]({{{appinstanz.urlDaten}}})",
+        "- **Ressource:** [SPARQL-Endpunkt]({{{appinstanz.apiurls.1}}})",
+        "",
+        "## Open Data App",
+        "",
+        "Diese App ist für den [Open Data App Store](https://open-data-app-store.de/) entwickelt. Der Datenabruf läuft über den DZT-Relay des Open Data App Store; ein eigener API-Key ist für den Betrieb dieser App nicht nötig.",
+        "",
+        "Die App ist Open Source:",
+        "",
+        "- [Open Data App Store](https://open-data-app-store.de/) – die Plattform für Open Data Apps",
+        "- [Alle Open Data Apps auf GitHub](https://github.com/open-data-apps) – die Organisation mit allen Apps",
+        "- [oda-veranstaltungskalender](https://github.com/D3nn1s-7/oda-veranstaltungskalender) – das Repository dieser App"
+      ],
+      "format": {
+        "typ": "markdown"
+      },
+      "erforderlich": "ja"
+    },
+    "impressum": {
+      "label": "Impressum",
+      "category": "kontakt-rechtliches",
+      "hilfe": "Der Markdown-Inhalt wird im Menüpunkt Impressum angezeigt.",
+      "default": [
+        "_multiline_",
+        "## Anbieter",
+        "",
+        "{{{odp.anbieter.orgName}}}  ",
+        "{{{odp.anbieter.orgUnit}}}",
+        "",
+        "{{odp.anbieter.strasse}}  ",
+        "{{odp.anbieter.plzort}}",
+        "",
+        "Website: [{{odp.anbieter.url}}]({{odp.anbieter.url}})",
+        "",
+        "## Ansprechperson",
+        "",
+        "{{odp.anbieter.kontakt-bezeichnung}}  ",
+        "{{odp.anbieter.name}}",
+        "",
+        "## Kontakt",
+        "",
+        "Tel.: {{odp.anbieter.tel}}  ",
+        "E-Mail: [{{odp.anbieter.email}}](mailto:{{odp.anbieter.email}})"
+      ],
+      "format": {
+        "typ": "markdown"
+      },
+      "erforderlich": "ja"
+    },
+    "datenschutz": {
+      "label": "Datenschutz",
+      "category": "kontakt-rechtliches",
+      "hilfe": "Der Markdown-Inhalt wird im Menüpunkt Datenschutz angezeigt.",
+      "default": [
+        "_multiline_",
+        "Der Veranstaltungskalender verarbeitet im Browser die vom ODAS bereitgestellte Instanz-Konfiguration und die daraus geladenen Veranstaltungsdaten des DZT Knowledge Graph. Die App legt keine Cookies an und speichert keine Angaben über die Nutzenden.",
+        "",
+        "Alle für die Darstellung benötigten Programmbibliotheken werden mit der App ausgeliefert; beim Aufruf werden dafür keine externen Server kontaktiert. Für den Kartenaufbau werden Kacheln von OpenStreetMap geladen. Der Ortsname der Instanz-Konfiguration wird zur Ermittlung der Koordinaten einmalig an den OpenStreetMap-Geokodierungsdienst Nominatim übertragen. Veranstaltungsdaten werden ausschließlich über den DZT-Relay des Open Data App Store abgerufen; ein API-Key bleibt serverseitig im Store.",
+        "",
+        "Bringt eine Veranstaltung ein Bild mit, lädt der Browser dieses Bild direkt vom Server des jeweiligen Datenlieferanten – im DZT-Datenbestand unter anderem mein.toubiz.de. An diesen Server werden dabei die technisch notwendigen Verbindungsdaten einschließlich der IP-Adresse des aufrufenden Geräts übertragen. Welche Server als Bildquelle genannt werden, ergibt sich aus den Veranstaltungsdaten und liegt nicht in der Hand der App.",
+        "",
+        "Der als Kalendereintrag (ICS-Datei) exportierte Inhalt wird lokal im Browser erzeugt und nicht übertragen.",
+        "",
+        "Beim Teilen einer Veranstaltung baut der Browser eine Verbindung erst dann auf, wenn eine Teilen-Schaltfläche angeklickt wird – dann an den gewählten Dienst (zum Beispiel WhatsApp oder das E-Mail-Programm). Die App selbst lädt keine Inhalte sozialer Netzwerke und bindet keine fremden Skripte ein."
+      ],
+      "format": {
+        "typ": "markdown"
+      },
+      "erforderlich": "ja"
+    },
+    "fusszeile": {
+      "label": "Fußzeile",
+      "category": "kontakt-rechtliches",
+      "hilfe": "Der Text wird am unteren Rand der App angezeigt.",
+      "default": "© {{jahr}} | App und Daten: {{odp.anbieter.name}} | Entwicklung: {{app.developer.name}} | ODAS: {{odas.betreiber.name}}",
+      "format": {
+        "typ": "string",
+        "laenge": 255
+      },
+      "erforderlich": "ja"
+    },
+    "brandingCSS": {
+      "label": "Zusätzliches Branding-CSS",
+      "category": "sonstiges",
+      "hilfe": "Optionaler CSS-Code für die konkrete App-Instanz.",
+      "default": "",
+      "format": {
+        "typ": "string",
+        "laenge": 10000
+      },
+      "erforderlich": "nein"
+    },
+    "brandingCSSFile": {
+      "label": "Branding-CSS-Datei",
+      "category": "sonstiges",
+      "hilfe": "Optionale URL zu einer zusätzlichen CSS-Datei für die konkrete App-Instanz.",
+      "default": "",
+      "format": {
+        "typ": "url",
+        "laenge": 500
+      },
+      "erforderlich": "nein"
+    },
+    "urlDaten": {
+      "label": "URL zum Datensatz",
+      "category": "datenherkunft",
+      "hilfe": "Link zur Zugriffsdokumentation des DZT Knowledge Graph (nicht der API-Endpunkt). Wird in der App unter „Über diese App → Datenquelle“ verlinkt.",
+      "default": "https://changelog-dzt-kg.readme.io/docs/how-to-access-the-data",
+      "format": {
+        "typ": "url",
+        "laenge": 500
+      },
+      "erforderlich": "nein"
+    },
+    "apiurls": {
+      "label": "URLs zu Datenressourcen",
+      "category": "datenherkunft",
+      "hilfe": "Diese App benötigt die „Wissensdatenbank (SPARQL)“ des DZT Knowledge Graph. Der Endpunkt wird über das ODAS-Wissens-Relay (/dzt) erreicht, nicht direkt. Keine CKAN/WFS-URL eintragen. Beispiel: https://proxy.opendatagermany.io/api/ts/v1/kg/sparql. Nur dieser Typ funktioniert.",
+      "typ": "array",
+      "format": {
+        "typ": "url",
+        "laenge": 500
+      },
+      "urls": [
+        {
+          "name": "veranstaltungen",
+          "label": "SPARQL-Endpunkt (DZT Knowledge Graph)",
+          "default": "https://proxy.opendatagermany.io/api/ts/v1/kg/sparql",
+          "beispiel": "https://proxy.opendatagermany.io/api/ts/v1/kg/sparql",
+          "erforderlich": "ja"
+        }
+      ]
+    },
+    "ort": {
+      "label": "Ort",
+      "category": "sonstiges",
+      "hilfe": "Ortsname, um den Veranstaltungen dieser Instanz gesucht werden (wird per OpenStreetMap-Geokodierung aufgelöst), z. B. „Böblingen“.",
+      "default": "",
+      "format": {
+        "typ": "string",
+        "laenge": 120
+      },
+      "erforderlich": "ja"
+    },
+    "radiusKm": {
+      "label": "Umkreis",
+      "category": "sonstiges",
+      "hilfe": "Suchradius um den konfigurierten Ort.",
+      "default": "25",
+      "format": {
+        "typ": "dropdown",
+        "optionen": [
+          "5",
+          "10",
+          "25",
+          "50"
+        ]
+      },
+      "erforderlich": "ja"
+    },
+    "datenquelleHinweis": {
+      "label": "Methodik-Kasten",
+      "category": "beschreibung",
+      "hilfe": "Erläutert Datenherkunft und Methodik. Wird als Hinweis-Kasten angezeigt. Leer lassen, um den Kasten auszublenden.",
+      "default": "Die Veranstaltungsdaten stammen aus dem Knowledge Graph der Deutschen Zentrale für Tourismus (DZT), in den Landesmarketingorganisationen und weitere Partner touristische Daten einspeisen. Die App fragt acht Veranstaltungstypen (Musik, Theater, Ausstellung, Fest, Sport, Kinder, Essen & Trinken, Soziales) per SPARQL-Geo-Umkreisabfrage ab: kommende Veranstaltungen bis zu 365 Tage im Voraus (max. 600) und ein Archiv der vergangenen 365 Tage (max. 400). Umfang und Detailtiefe je Veranstaltung (Zeitpunkt, Ort, Beschreibung, Bild) hängen von den Daten der Partner ab. Der Datenabruf läuft über den DZT-Relay des Open Data App Store.",
+      "format": {
+        "typ": "markdown"
+      },
+      "erforderlich": "nein"
+    },
+    "datenStand": {
+      "label": "Datenstand (Text)",
+      "category": "beschreibung",
+      "hilfe": "Zusätzlicher Text zum Datenstand.",
+      "default": "Stand: Live-Abruf beim DZT Knowledge Graph",
+      "format": {
+        "typ": "string",
+        "laenge": 100
+      },
+      "erforderlich": "nein"
+    },
+    "weiterfuehrendeLinks": {
+      "label": "Weiterführende Links",
+      "category": "beschreibung",
+      "hilfe": "Links zu verwandten Datensätzen/Hintergrundquellen (Markdown). Leer = Abschnitt ausgeblendet.",
+      "default": "- [DZT Knowledge Graph – Übersicht](https://open-data-germany.org/knowledge-graphen/)\n- [Datenbestand erkunden (Such-Widget)](https://open-data-germany.org/datenbestand-such-widget/)\n- [Zugriff auf die Daten (Dokumentation)](https://changelog-dzt-kg.readme.io/docs/how-to-access-the-data)",
+      "format": {
+        "typ": "markdown"
+      },
+      "erforderlich": "nein"
+    },
+    "kpiKontext1": {
+      "label": "KPI-Kontext 1",
+      "category": "beschreibung",
+      "hilfe": "Optionaler Erklärtext unter dem ersten KPI-Wert (Veranstaltungen im Zeitraum). Leer = kein Kontext.",
+      "default": "",
+      "format": {
+        "typ": "string",
+        "laenge": 160
+      },
+      "erforderlich": "nein"
+    },
+    "kpiKontext2": {
+      "label": "KPI-Kontext 2",
+      "category": "beschreibung",
+      "hilfe": "Optionaler Erklärtext unter dem zweiten KPI-Wert (heute laufend). Leer = kein Kontext.",
+      "default": "",
+      "format": {
+        "typ": "string",
+        "laenge": 160
+      },
+      "erforderlich": "nein"
+    },
+    "kpiKontext3": {
+      "label": "KPI-Kontext 3",
+      "category": "beschreibung",
+      "hilfe": "Optionaler Erklärtext unter dem dritten KPI-Wert (dieses Wochenende). Leer = kein Kontext.",
+      "default": "",
+      "format": {
+        "typ": "string",
+        "laenge": 160
+      },
+      "erforderlich": "nein"
+    }
+  }
+}

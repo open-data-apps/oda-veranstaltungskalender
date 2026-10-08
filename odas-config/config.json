@@ -1,0 +1,81 @@
+{
+  "seitentitel": "Veranstaltungskalender",
+  "titel": "Veranstaltungskalender",
+  "icon": "logo_ondics.png",
+  "kontakt": [
+    "_multiline_",
+    "<p>Sie haben Fragen, Hinweise oder Verbesserungsvorschläge zu dieser App? Wenden Sie sich gern an den Anbieter des Open Data Portals.</p>",
+    "<p>Telefon: <a href='tel:+49711310093100'>0711 31009-3100</a><br>E-Mail: <a href='mailto:info@ondics.de'>info@ondics.de</a></p>"
+  ],
+  "beschreibung": [
+    "<p>Der Veranstaltungskalender macht Veranstaltungen aus dem Knowledge Graph der Deutschen Zentrale für Tourismus (DZT) für Bürgerinnen und Bürger erlebbar: Was läuft heute, morgen oder am Wochenende – in der eigenen Stadt und Umgebung?</p>",
+    "<p>Die App zeigt kommende und vergangene Veranstaltungen in acht Kategorien (Musik, Theater, Ausstellung, Fest, Sport, Kinder, Essen &amp; Trinken, Soziales) als Programm-Board, auf einer Karte, in einem Foto-Katalog und im Archiv – begrenzt auf einen konfigurierbaren Ort mit Umkreis.</p>",
+    "<p><strong>Für wen ist diese App?</strong> Für alle, die schnell wissen möchten, was in ihrer Kommune los ist – ohne Datenbankkenntnis, ohne Anmeldung. Kommunen und Städte konfigurieren einfach Ort und Umkreis.</p>",
+    "<h2>Methodik</h2>",
+    "<p>Der Betreiber der App-Instanz konfiguriert einen Ort und einen Suchradius. Die App löst den Ort per OpenStreetMap-Geokodierung (Nominatim) auf Koordinaten auf und fragt dann beim Aufruf über die SPARQL-Schnittstelle des DZT Knowledge Graphs Veranstaltungen im Umkreis ab. Der Datenabruf läuft ausschließlich über den DZT-Relay des Open Data App Store – ein API-Key bleibt serverseitig im Store, kein Key im App-Code.</p>",
+    "<p>Geladen werden zwei Abfragen: kommende Veranstaltungen (bis zu 365 Tage im Voraus, maximal 600 Einträge) und ein Archiv der vergangenen 365 Tage (maximal 400 Einträge). Zeitraum (Heute, 7, 30, 90 Tage, alle), Veranstaltungstyp und Suchtext filtern die geladenen Ereignisse direkt im Browser. Veranstaltungen ohne Geokoordinaten erscheinen im Programm und Archiv mit Klartext-Ort, nicht auf der Karte. Über die Detailansicht lässt sich jede Veranstaltung als Kalendereintrag (ICS-Datei) in den eigenen Kalender exportieren. Serien-Veranstaltungen mit Wiederholungsmustern (eventSchedule) werden als Zeitraum angezeigt, nicht als Einzeltermine expandiert.</p>",
+    "<h2>Datenquelle</h2>",
+    "<p>Die Daten stammen aus dem Knowledge Graph der Deutschen Zentrale für Tourismus (DZT), einem gemeinsamen Projekt der DZT und der Landesmarketingorganisationen. Die App fragt Veranstaltungen (MusicEvent, TheaterEvent, ExhibitionEvent, FoodEvent, SocialEvent, SportsEvent, Festival, ChildrensEvent) beim Aufruf über die SPARQL-Schnittstelle des Knowledge Graphs ab.</p>",
+    "<ul>",
+    "<li><strong>Open Data Portal:</strong> <a href=\"https://open-data-germany.org/knowledge-graphen/\" target=\"_blank\">Open Data Destination Germany</a></li>",
+    "<li><strong>Datensatz:</strong> <a href=\"https://changelog-dzt-kg.readme.io/docs/how-to-access-the-data\" target=\"_blank\">DZT Knowledge Graph – Zugriffsdokumentation</a></li>",
+    "<li><strong>Ressource:</strong> <a href=\"https://proxy.opendatagermany.io/api/ts/v1/kg/sparql\" target=\"_blank\">SPARQL-Endpunkt</a></li>",
+    "</ul>",
+    "<h2>Open Data App</h2>",
+    "<p>Diese App ist für den <a href=\"https://open-data-app-store.de/\" target=\"_blank\">Open Data App Store</a> entwickelt. Der Datenabruf läuft über den DZT-Relay des Open Data App Store; ein eigener API-Key ist für den Betrieb dieser App nicht nötig.</p>",
+    "<p>Die App ist Open Source:</p>",
+    "<ul>",
+    "<li><a href=\"https://open-data-app-store.de/\" target=\"_blank\">Open Data App Store</a> – die Plattform für Open Data Apps</li>",
+    "<li><a href=\"https://github.com/open-data-apps\" target=\"_blank\">Alle Open Data Apps auf GitHub</a> – die Organisation mit allen Apps</li>",
+    "<li><a href=\"https://github.com/D3nn1s-7/oda-veranstaltungskalender\" target=\"_blank\">oda-veranstaltungskalender</a> – das Repository dieser App</li>",
+    "</ul>"
+  ],
+  "impressum": [
+    "_multiline_",
+    "<h2>Anbieter</h2>",
+    "<p>Ondics GmbH<br>Abteilung Open Data</p>",
+    "<p>Reutersstraße 21<br>70376 Stuttgart</p>",
+    "<p>Website: <a href='https://www.ondics.de' target='_blank'>https://www.ondics.de</a></p>",
+    "<h2>Ansprechperson</h2>",
+    "<p>Geschäftsführung<br>Dennis Mellican</p>",
+    "<h2>Kontakt</h2>",
+    "<p>Tel.: 0711 31009-3100<br>E-Mail: <a href='mailto:info@ondics.de'>info@ondics.de</a></p>"
+  ],
+  "datenschutz": [
+    "_multiline_",
+    "<p>Der Veranstaltungskalender verarbeitet im Browser die vom ODAS bereitgestellte Instanz-Konfiguration und die daraus geladenen Veranstaltungsdaten des DZT Knowledge Graph. Die App legt keine Cookies an und speichert keine Angaben über die Nutzenden.</p>",
+    "<p>Alle für die Darstellung benötigten Programmbibliotheken werden mit der App ausgeliefert; beim Aufruf werden dafür keine externen Server kontaktiert. Für den Kartenaufbau werden Kacheln von OpenStreetMap geladen. Der Ortsname der Instanz-Konfiguration wird zur Ermittlung der Koordinaten einmalig an den OpenStreetMap-Geokodierungsdienst Nominatim übertragen. Veranstaltungsdaten werden ausschließlich über den DZT-Relay des Open Data App Store abgerufen; ein API-Key bleibt serverseitig im Store.</p>",
+    "<p>Bringt eine Veranstaltung ein Bild mit, lädt der Browser dieses Bild direkt vom Server des jeweiligen Datenlieferanten – im DZT-Datenbestand unter anderem mein.toubiz.de. An diesen Server werden dabei die technisch notwendigen Verbindungsdaten einschließlich der IP-Adresse des aufrufenden Geräts übertragen. Welche Server als Bildquelle genannt werden, ergibt sich aus den Veranstaltungsdaten und liegt nicht in der Hand der App.</p>",
+    "<p>Der als Kalendereintrag (ICS-Datei) exportierte Inhalt wird lokal im Browser erzeugt und nicht übertragen.</p>",
+    "<p>Beim Teilen einer Veranstaltung baut der Browser eine Verbindung erst dann auf, wenn eine Teilen-Schaltfläche angeklickt wird – dann an den gewählten Dienst (zum Beispiel WhatsApp oder das E-Mail-Programm). Die App selbst lädt keine Inhalte sozialer Netzwerke und bindet keine fremden Skripte ein.</p>"
+  ],
+  "fusszeile": "© {{jahr}} | App und Daten: {{odp.anbieter.name}} | Entwicklung: {{app.developer.name}} | ODAS: {{odas.betreiber.name}}",
+  "brandingCSS": "",
+  "brandingCSSFile": "",
+  "urlDaten": "https://changelog-dzt-kg.readme.io/docs/how-to-access-the-data",
+  "apiurls": [
+    {
+      "name": "veranstaltungen",
+      "label": "SPARQL-Endpunkt",
+      "url": "https://proxy.opendatagermany.io/api/ts/v1/kg/sparql"
+    }
+  ],
+  "ort": "Böblingen",
+  "radiusKm": "25",
+  "datenquelleHinweis": [
+    "_multiline_",
+    "<p>Die Veranstaltungsdaten stammen aus dem Knowledge Graph der Deutschen Zentrale für Tourismus (DZT), in den Landesmarketingorganisationen und weitere Partner touristische Daten einspeisen. Die App fragt acht Veranstaltungstypen (Musik, Theater, Ausstellung, Fest, Sport, Kinder, Essen &amp; Trinken, Soziales) per SPARQL-Geo-Umkreisabfrage ab: kommende Veranstaltungen bis zu 365 Tage im Voraus (max. 600) und ein Archiv der vergangenen 365 Tage (max. 400). Umfang und Detailtiefe je Veranstaltung (Zeitpunkt, Ort, Beschreibung, Bild) hängen von den Daten der Partner ab. Der Datenabruf läuft über den DZT-Relay des Open Data App Store.</p>"
+  ],
+  "datenStand": "Stand: Live-Abruf beim DZT Knowledge Graph",
+  "weiterfuehrendeLinks": [
+    "_multiline_",
+    "<ul>",
+    "<li><a href=\"https://open-data-germany.org/knowledge-graphen/\" target=\"_blank\">DZT Knowledge Graph – Übersicht</a></li>",
+    "<li><a href=\"https://open-data-germany.org/datenbestand-such-widget/\" target=\"_blank\">Datenbestand erkunden (Such-Widget)</a></li>",
+    "<li><a href=\"https://changelog-dzt-kg.readme.io/docs/how-to-access-the-data\" target=\"_blank\">Zugriff auf die Daten (Dokumentation)</a></li>",
+    "</ul>"
+  ],
+  "kpiKontext1": "Veranstaltungen im gewählten Zeitraum und Umkreis, geladen aus dem DZT Knowledge Graph.",
+  "kpiKontext2": "Veranstaltungen, die heute beginnen oder noch laufen.",
+  "kpiKontext3": "Veranstaltungen im Zeitraum von Freitag bis Sonntag."
+}
