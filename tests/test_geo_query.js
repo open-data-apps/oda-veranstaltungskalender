@@ -102,6 +102,7 @@ test('calendar requests use a constant complete geo area and limit event IDs bef
   const q = subject.buildSparqlQuery({ modus: 'zukunft', lat, lon, radiusKm: 25, heuteKey: '2026-10-12', geoQuery: JSON.stringify(west) });
   const shapes = [...q.matchAll(/con:query\s+("(?:\\.|[^"\\])*")/g)].map((m) => JSON.parse(JSON.parse(m[1])));
   assert.deepEqual(shapes, [west]);
+  assert.match(q, /SELECT DISTINCT \?loc WHERE/, 'materialize geo places before event joins');
   assert.match(q, /MIN\(STR\(\?vkStart\)\) AS \?vkStartWahl/);
   assert.match(q, /GROUP BY \?s\s+ORDER BY \?vkStartWahl \?s\s+LIMIT 600/);
   assert.match(q, /FILTER\(STR\(\?vkStart\) = \?vkStartWahl\)/, 'metadata belongs to the selected date');

@@ -21,7 +21,7 @@ try {
     Intl, Date, AbortController
   };
   vm.createContext(sandbox);
-  vm.runInContext(appJsCode + "\n;globalThis.__e = { vkCacheKey, vkCachePruefe, vkCacheLege };", sandbox);
+  vm.runInContext(appJsCode + "\n;globalThis.__e = { vkCacheKey, vkCachePruefe, vkCacheLege, heutigerTagKey };", sandbox);
   exp = sandbox.__e || {};
 } catch (e) { /* RED */ }
 
@@ -41,7 +41,7 @@ function test() {
   console.log("  [1] Key-Bildung: deterministisch, instanzspezifisch");
 
   assert.strictEqual(exp.vkCachePruefe(confA), null, "vor dem ersten Laden: kein Treffer");
-  const ergebnis = { zukunft: [1, 2], archiv: [], geo: { lat: 1, lon: 2 }, heuteKey: "2026-10-01" };
+  const ergebnis = { zukunft: [1, 2], archiv: [], geo: { lat: 1, lon: 2 }, heuteKey: exp.heutigerTagKey() };
   exp.vkCacheLege(confA, ergebnis);
   const geholt = exp.vkCachePruefe(confA);
   assert.ok(geholt === ergebnis, "nach dem Laden: Ergebnis sofort aus dem Cache");

@@ -250,6 +250,10 @@ function verdrahteShell(state) {
       wendeFilterAn(state);
       return;
     }
+    if (ziel.closest("[data-vk-archiv-neu]")) {
+      vkLadeArchiv(state);
+      return;
+    }
     const zeitBtn = ziel.closest("[data-vk-zeitraum]");
     if (zeitBtn) {
       state.zeitraum = zeitBtn.getAttribute("data-vk-zeitraum");
@@ -438,6 +442,7 @@ function basisEvents(state) {
 }
 
 function wendeFilterAn(state) {
+  if (state.status === "bereit" && !state.aktualisiert && state.modus === "archiv" && state.events && state.events.archivGeladen === false && !state.archivPromise && state.archivStatus !== "fehler") vkLadeArchiv(state);
   const zeitraum = state.modus === "archiv" ? "alle" : state.zeitraum;
   state.gefiltert = filterEvents(basisEvents(state), {
     suche: state.suche,
@@ -480,6 +485,8 @@ function aktualisiereZaehler(state, zeitraum) {
  * bleibt aber erhalten: Rueckkehr aus den Sekundaerseiten rendert sofort aus
  * dem Cache, ohne erneuten DZT- oder OpenStreetMap-Abruf. Ein Cache-Eintrag
  * gilt pro Instanz-Konfiguration (Ort, Radius, Relay-Adresse).
+ * v1.5: zusaetzlich localStorage pro Instanzpfad; 15 Minuten frisch,
+ * aeltere Tagesdaten werden angezeigt und im Hintergrund erneuert.
  * --------------------------------------------------------------------------- */
 
 const vkDatenCache = new Map();
@@ -489,6 +496,7 @@ function vkCacheKey(configdata) {
    * Zeitfenster haengen am heuteKey; ein ueber Mitternacht offener Tab
    * muss am Folgetag neu laden statt mit altem Fenster zu rechnen. */
   return JSON.stringify([
+    getOdasAppBasePath(),
     String((configdata && configdata.ort) || "").trim(),
     String((configdata && configdata.radiusKm) || "").trim(),
     getOdasApiUrl(configdata, "veranstaltungen") || "",
@@ -496,13 +504,47 @@ function vkCacheKey(configdata) {
   ]);
 }
 
+function vkCacheSpeicherKey() {
+  return "vk-daten-v1:" + getOdasAppBasePath();
+}
+
+function vkCacheFrisch(ergebnis) {
+  const alter = Date.now() - ergebnis.geladenAm;
+  return alter >= 0 && alter < 15 * 60 * 1000;
+}
+
 function vkCachePruefe(configdata) {
-  return vkDatenCache.get(vkCacheKey(configdata)) || null;
+  const key = vkCacheKey(configdata);
+  let data = vkDatenCache.get(key);
+  if (!data) {
+    try {
+      const gespeichert = JSON.parse(localStorage.getItem(vkCacheSpeicherKey()));
+      if (!gespeichert || gespeichert.key !== key) return null;
+      data = gespeichert.data;
+      const eventGueltig = (e) => e && ["id", "name", "startDatum"].every(k => typeof e[k] === "string") &&
+        ["endDatum", "startZeit", "endZeit", "beschreibung", "ortName", "adresse", "url", "typ"].every(k => e[k] === null || typeof e[k] === "string") &&
+        Array.isArray(e.bilder) && e.bilder.every(u => typeof u === "string") && Array.isArray(e.bildnachweise) &&
+        e.bildnachweise.every(b => b && ["url", "titel", "lizenz", "copyright", "urheber"].every(k => typeof b[k] === "string"));
+      if (!data || !Array.isArray(data.zukunft) || data.zukunft.length > VK_LIMIT_ZUKUNFT || !data.zukunft.every(eventGueltig) ||
+          !Array.isArray(data.archiv) || data.archiv.length > VK_LIMIT_ARCHIV || !data.archiv.every(eventGueltig) ||
+          typeof data.archivGeladen !== "boolean" || !data.geo || !Number.isFinite(data.geo.lat) || !Number.isFinite(data.geo.lon) ||
+          !Array.isArray(data.geoQueries) || !data.geoQueries.every(q => typeof q === "string")) return null;
+    } catch (_error) { return null; /* Speicher gesperrt oder beschaedigt: normal laden. */ }
+  }
+  const alter = Date.now() - data.geladenAm;
+  if (!Number.isFinite(alter) || alter < 0 || alter > 24 * 60 * 60 * 1000 || data.heuteKey !== heutigerTagKey()) return null;
+  vkDatenCache.set(key, data);
+  return data;
 }
 
 function vkCacheLege(configdata, ergebnis) {
   if (!ergebnis) return; /* Fehler/ohne Quelle werden nie gecacht */
-  vkDatenCache.set(vkCacheKey(configdata), ergebnis);
+  if (!ergebnis.geladenAm) ergebnis.geladenAm = Date.now();
+  const key = vkCacheKey(configdata);
+  vkDatenCache.set(key, ergebnis);
+  try {
+    localStorage.setItem(vkCacheSpeicherKey(), JSON.stringify({ key, data: ergebnis }));
+  } catch (_error) { /* Quota/Privatmodus: Memory-Cache bleibt nutzbar. */ }
 }
 
 /* Ein offener Tab muss seinen Tagesstand selbst erneuern, nicht erst bei
@@ -546,19 +588,22 @@ async function ladeDaten(state) {
     state.heuteKey = heutigerTagKey(); /* lokale Tagesformung aktuell halten */
     state.status = "bereit";
     state.fehlermeldung = "";
+    state.ausCache = true;
+    state.aktualisiert = !vkCacheFrisch(gecached);
     vkPruefeGeteiltenLink(state);
     renderModus(state);
     wendeFilterAn(state);
-    return;
+    if (!state.aktualisiert) return;
   }
-  state.status = "lade";
+  if (!gecached) state.status = "lade";
   state.fehlermeldung = "";
   state.ladefortschritt = { phase: "ort" };
   renderModus(state);
   try {
     const ergebnis = await ladeEvents(state.configdata, controller.signal, {
+      modus: "zukunft",
       onFortschritt: (fortschritt) => {
-        if (controller.signal.aborted || controller !== state.controller || state.status !== "lade") return;
+        if (controller.signal.aborted || controller !== state.controller || (state.status !== "lade" && !state.aktualisiert)) return;
         state.ladefortschritt = fortschritt;
         vkAktualisiereLadeanzeige(state);
       }
@@ -573,16 +618,63 @@ async function ladeDaten(state) {
     } else {
       vkCacheLege(state.configdata, ergebnis);
       state.events = ergebnis;
+      state.archivStatus = "offen";
+      state.archivQuelle = null;
+      state.archivPromise = null;
+      state.ausCache = false;
       state.heuteKey = ergebnis.heuteKey;
       state.status = "bereit";
     }
   } catch (fehler) {
     if (controller.signal.aborted || controller !== state.controller || (fehler && fehler.name === "AbortError")) return;
-    state.status = "fehler";
+    state.status = gecached ? "bereit" : "fehler";
     state.fehlermeldung = (fehler && fehler.message) || "Unbekannter Fehler beim Laden der Veranstaltungen.";
   }
+  state.aktualisiert = false;
   vkPruefeGeteiltenLink(state);
   wendeFilterAn(state);
+}
+
+/* Archiv erst bei Bedarf; derselbe Geo-Plan gilt fuer beide Zeitbereiche. */
+function vkLadeArchiv(state) {
+  if (!state.events || state.events.archivGeladen !== false || state.status !== "bereit") return Promise.resolve();
+  if (state.archivPromise) return state.archivPromise;
+  const vorlage = state.events, controller = state.controller;
+  state.archivStatus = "lade";
+  if (state.geteiltFehler) { state.geteiltLaden = true; state.geteiltFehler = false; }
+  state.archivQuelle = vorlage;
+  state.archivFortschritt = { phase: "events", erledigt: 0, gesamt: (vorlage.geoQueries || []).length };
+  state.archivPromise = (async () => {
+    try {
+      const ergebnis = await ladeEvents(state.configdata, controller.signal, {
+        modus: "archiv", vorlage,
+        onFortschritt: (p) => {
+          if (controller.signal.aborted || controller !== state.controller || state.events !== vorlage) return;
+          state.archivFortschritt = p;
+          if (state.modus === "archiv") vkAktualisiereLadeanzeige(state);
+        }
+      });
+      if (controller.signal.aborted || controller !== state.controller || state.events !== vorlage) return;
+      if (ergebnis.heuteKey !== heutigerTagKey()) { await vkTageswechselPruefen(state); return; }
+      state.events = { ...vorlage, archiv: ergebnis.archiv, archivGeladen: true };
+      state.archivStatus = "bereit";
+      state.geteiltLaden = false;
+      state.geteiltFehler = false;
+      vkCacheLege(state.configdata, state.events);
+      vkPruefeGeteiltenLink(state);
+    } catch (fehler) {
+      if (controller.signal.aborted || controller !== state.controller || state.events !== vorlage) return;
+      state.archivStatus = "fehler";
+      state.archivFehler = fehler.message || "Archiv konnte nicht geladen werden.";
+      state.geteiltFehler = !!state.geteiltLaden;
+      state.geteiltLaden = false;
+    } finally {
+      if (state.archivQuelle === vorlage) state.archivPromise = null;
+      if (!controller.signal.aborted && controller === state.controller) wendeFilterAn(state);
+    }
+  })();
+  renderModus(state);
+  return state.archivPromise;
 }
 
 /* ---------------------------------------------------------------------------
@@ -1152,7 +1244,7 @@ function vkAktualisiereLadeanzeige(state) {
   const balken = inhalt && inhalt.querySelector(".vk-ladebalken");
   const text = inhalt && inhalt.querySelector(".vk-ladephase");
   if (!balken || !text) return;
-  const p = state.ladefortschritt || { phase: "ort" };
+  const p = (state.modus === "archiv" && state.archivStatus === "lade" ? state.archivFortschritt : state.ladefortschritt) || { phase: "ort" };
   let meldung = p.phase === "geo" ? "Suchgebiet wird geprüft …" : "Ort wird bestimmt …";
   if (p.phase === "events") {
     balken.max = p.gesamt;
@@ -1177,7 +1269,7 @@ function renderModus(state) {
   const zeitGruppe = shell ? shell.querySelector('[data-vk-gruppe="zeitraum"]') : null;
   if (zeitGruppe) zeitGruppe.style.display = state.modus === "archiv" ? "none" : "";
 
-  if (state.status === "lade") {
+  if (state.status === "lade" || (state.modus === "archiv" && (state.archivStatus === "lade" || (state.aktualisiert && state.events.archivGeladen === false)))) {
     inhalt.innerHTML = `<div class="vk-status"><div class="vk-status-titel">Veranstaltungen werden geladen …</div><progress class="vk-ladebalken" aria-label="Fortschritt der Datenabfragen"></progress><p class="vk-status-text vk-ladephase" role="status" aria-live="polite" aria-atomic="true"></p><p class="vk-status-text mt-2">Einzelne Abfragen können länger dauern. Der Balken zählt abgeschlossene Abfragen, nicht die verbleibende Wartezeit.</p></div>`;
     vkAktualisiereLadeanzeige(state);
     return;
@@ -1191,15 +1283,26 @@ function renderModus(state) {
     return;
   }
 
+  if (state.modus === "archiv" && state.archivStatus === "fehler") {
+    inhalt.innerHTML = `<div class="vk-status"><div class="vk-status-titel">Archiv konnte nicht geladen werden</div><p class="vk-status-text">${escapeHtml(state.archivFehler)}</p><button class="btn btn-outline-secondary mt-2" type="button" data-vk-archiv-neu>Erneut versuchen</button></div>`;
+    return;
+  }
   const renderer = VK_MODUS_RENDERER[state.modus] || vkModusPlatzhalter;
   const ergebnis = renderer(state);
   /* v1.3.0: Hinweis auf eine nicht gefundene geteilte Veranstaltung. */
-  const geteiltHinweis = state.geteiltHinweis ? vkGeteiltHinweisHtml() : "";
+  const datenHinweis = state.events && state.events.geladenAm
+    ? `<p class="vk-datenstand" role="status">Daten geladen: ${escapeHtml(new Date(state.events.geladenAm).toLocaleString("de-DE"))}${state.aktualisiert ? " · Gespeicherte Daten werden aktualisiert …" : state.ausCache && state.fehlermeldung ? " · Aktualisierung fehlgeschlagen; gespeicherte Daten bleiben sichtbar." : state.ausCache ? " · Aus dem Browser-Cache" : ""}</p>`
+    : "";
+  const geteiltHinweis = state.geteiltLaden
+    ? '<p class="vk-status-text" role="status">Geteilte Veranstaltung wird im Archiv gesucht …</p>'
+    : state.geteiltFehler
+      ? '<div class="vk-status" role="status">Die geteilte Veranstaltung konnte im Archiv noch nicht geprüft werden. <button class="btn btn-outline-secondary" type="button" data-vk-archiv-neu>Erneut versuchen</button></div>'
+      : state.geteiltHinweis ? vkGeteiltHinweisHtml() : "";
   if (ergebnis && typeof ergebnis === "object" && ergebnis.html !== undefined) {
-    inhalt.innerHTML = geteiltHinweis + ergebnis.html;
+    inhalt.innerHTML = datenHinweis + geteiltHinweis + ergebnis.html;
     if (typeof ergebnis.nachbau === "function") ergebnis.nachbau();
   } else {
-    inhalt.innerHTML = geteiltHinweis + ergebnis;
+    inhalt.innerHTML = datenHinweis + geteiltHinweis + ergebnis;
   }
 }
 
@@ -1838,7 +1941,7 @@ WHERE {
   {
     SELECT ?s (${zukunft ? "MIN" : "MAX"}(STR(?vkStart)) AS ?vkStartWahl)
       (MIN(STR(?loc)) AS ?vkOrtIri) WHERE {
-      { ${geoPattern} }
+      { SELECT DISTINCT ?loc WHERE { ${geoPattern} } }
       ?s schema:location ?loc .
       VALUES ?t { ${typListe} }
       ?s a ?t .
@@ -2439,15 +2542,21 @@ function vkGeteiltHinweisHtml() {
  */
 function vkPruefeGeteiltenLink(state) {
   if (!state || state.geteiltGeprueft || state.status !== "bereit") return;
-  state.geteiltGeprueft = true;
   const id = vkGeteilteEventId(typeof window !== "undefined" && window.location ? window.location.search : "");
-  if (!id) return;
+  if (!id) { state.geteiltGeprueft = true; return; }
   const termin = new URLSearchParams(typeof window !== "undefined" && window.location ? window.location.search : "").get("termin");
   const event = vkFindeEvent(state, id, termin);
   if (event) {
+    state.geteiltGeprueft = true;
     zeigeEventDetail(state, event);
     return;
   }
+  if (state.aktualisiert || (state.events && state.events.archivGeladen === false)) {
+    state.geteiltLaden = true;
+    if (!state.aktualisiert) vkLadeArchiv(state);
+    return;
+  }
+  state.geteiltGeprueft = true;
   state.geteiltHinweis = true;
 }
 
@@ -2584,8 +2693,10 @@ function heutigerTagKey() {
  *
  * null = keine Datenquelle konfiguriert (Guard gegen fetch("")).
  * Wirft Klartext-Fehler bei ungueltigem Ort oder nicht ableitbarem Endpunkt.
- * Geo-Trefferpruefung, dann Teilabfragen fuer beide Zeitfenster parallel.
+ * Geo-Trefferpruefung, dann Teilabfragen je Zeitfenster.
  * Globale Grenzen: 600 kommende / 400 vergangene IDs, Archiv absteigend.
+ * optionen.modus: zukunft beim Start, archiv bei Bedarf; ohne Angabe beide.
+ * optionen.vorlage: intern wiederverwendeter Geo-Plan derselben Konfiguration.
  * optionen.heuteKey ist Test-Hook (Standard: lokales Heute).
  */
 async function ladeEvents(configdata, signal, optionen) {
@@ -2603,8 +2714,11 @@ async function ladeEvents(configdata, signal, optionen) {
       optionen.onFortschritt(fortschritt);
     }
   };
-  meldeFortschritt({ phase: "ort" });
-  const geo = await geocodeOrt(ort, signal);
+  const heuteKey = (optionen && optionen.heuteKey) || heutigerTagKey();
+  const modus = optionen && optionen.modus;
+  const vorlage = optionen && optionen.vorlage && optionen.vorlage.heuteKey === heuteKey ? optionen.vorlage : null;
+  if (!vorlage) meldeFortschritt({ phase: "ort" });
+  const geo = vorlage ? vorlage.geo : await geocodeOrt(ort, signal);
   if (!geo) {
     throw new Error(`Der Ort „${ort}“ konnte über OpenStreetMap nicht gefunden werden. Bitte die Instanz-Konfiguration prüfen.`);
   }
@@ -2614,13 +2728,13 @@ async function ladeEvents(configdata, signal, optionen) {
     throw new Error("Der SPARQL-Endpunkt konnte nicht aus der Instanz-Konfiguration abgeleitet werden.");
   }
 
-  const heuteKey = (optionen && optionen.heuteKey) || heutigerTagKey();
   const radiusKm = String((configdata && configdata.radiusKm) || "25");
-  meldeFortschritt({ phase: "geo" });
-  const geoQueries = await vkPlaneGeoAbfragen(base, geo.lat, geo.lon, radiusKm, signal);
-  if (!geoQueries.length) return { zukunft: [], archiv: [], geo, heuteKey };
+  if (!vorlage) meldeFortschritt({ phase: "geo" });
+  const geoQueries = vorlage ? vorlage.geoQueries : await vkPlaneGeoAbfragen(base, geo.lat, geo.lon, radiusKm, signal);
+  const archivGeladen = modus !== "zukunft" || !geoQueries.length;
+  if (!geoQueries.length) return { zukunft: [], archiv: [], archivGeladen, geo, geoQueries, heuteKey };
   let erledigt = 0;
-  const gesamt = geoQueries.length * 2;
+  const gesamt = geoQueries.length * (modus ? 1 : 2);
   meldeFortschritt({ phase: "events", erledigt, gesamt });
 
   const sparqlRequest = (modus, geoQuery) => {
@@ -2671,14 +2785,17 @@ async function ladeEvents(configdata, signal, optionen) {
   };
   let zukunftRows, archivRows;
   try {
-    [zukunftRows, archivRows] = await Promise.all([ladeBereich("zukunft"), ladeBereich("archiv")]);
+    [zukunftRows, archivRows] = await Promise.all([
+      modus === "archiv" ? [] : ladeBereich("zukunft"),
+      modus === "zukunft" ? [] : ladeBereich("archiv")
+    ]);
   } finally {
     fortschrittAktiv = false;
   }
   const zukunft = parseEvents(zukunftRows, geo.lat, geo.lon);
   const archiv = parseEvents(archivRows, geo.lat, geo.lon).reverse();
 
-  return { zukunft, archiv, geo, heuteKey };
+  return { zukunft, archiv, archivGeladen, geo, geoQueries, heuteKey };
 }
 
 /*

@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.5.0 - 2026-10-12
+
+- **Schnellerer Start, unveränderte Daten:** Eigene DISTINCT-Geo-Unterabfrage vor dem Event-Join; vollständige Beschreibungen und Bildnachweise bleiben enthalten. Hamburg/25 km über denselben unveränderten Dev-Relay: 38,4 s statt 69,3 s im erneuten Vergleichslauf; 600 identische IDs samt Terminen, Orten, Koordinaten, Bildern und Bildnachweisen. Einzelmessung, keine garantierte Ladezeit.
+- **Archiv bei Bedarf:** Erst beim Öffnen oder für geteilte Archivtermine laden; Geo-Plan wiederverwenden, parallele Anforderer zusammenfassen, unabhängige Fehler-/Wiederholungsanzeige. Programm bleibt nutzbar.
+- **Browser-Cache:** localStorage je Instanz/Konfiguration/Tag, 15 Minuten frisch; ältere Tagesdaten sofort anzeigen und im Hintergrund erneuern (maximal 24 Stunden nutzbar). Sichtbarer Ladezeitpunkt, Hinweis bei Aktualisierungsfehlern, Rückfall auf Netzabruf bei gesperrtem/defektem Speicher. Datenschutzhinweis ergänzt.
+- **Nachweise:** Zusätzliche Node-/Browserregressionen für Reload, Archiv, Cachefristen, geteilte Links und verspätete Antworten. Keine Store-/Relay-/Template-Änderungen. Historische Screenshots unverändert; kein Dev-/Produktiv-Upload dieser Version.
+
 ## 1.4.9 - 2026-10-12
 
 - **Erkennbarer Ladefortschritt:** Ladebalken mit Phasen für Ortsauflösung und Geo-Prüfung, anschließend tatsächliche Anzahl abgeschlossener Veranstaltungsabfragen (z. B. 2 von 4). Keine erfundenen Prozentwerte während der Vorbereitung und keine Schätzung der Restzeit.

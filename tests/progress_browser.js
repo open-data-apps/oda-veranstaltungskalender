@@ -21,9 +21,9 @@ function check(name, value) { assert.ok(value, name); checks++; console.log('PAS
       await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
       await run(`window.__progressFetch=window.fetch;window.__gates=[];
         window.fetch=(u,init)=>String(u).includes('nominatim')||String(u).includes('/dzt?')
-          ?new Promise(resolve=>__gates.push({ok:()=>resolve(__progressFetch(u,init)),fail:()=>resolve({ok:false,status:500,text:async()=>''})}))
+          ?new Promise(resolve=>__gates.push({ok:async()=>{let response=await __progressFetch(u,init);if(String(u).includes('/dzt?')){const q=new URL(new URL(u,location.href).searchParams.get('path'),'http://dzt').searchParams.get('query');if(q.includes('con:totalHits')&&!q.includes('envelope'))response={ok:true,status:200,text:async()=>JSON.stringify({results:{bindings:[{vkGeoTotal:{value:'10852'}}]}})};}resolve(response);},fail:()=>resolve({ok:false,status:500,text:async()=>''})}))
           :__progressFetch(u,init);
-        vkDatenCache.clear();loadPage('startseite');`);
+        vkDatenCache.clear();localStorage.removeItem(vkCacheSpeicherKey());loadPage('startseite');`);
       await until("__gates.length===1 && !!document.querySelector('.vk-ladebalken')");
       check('Ort indeterminate ' + width, await run("!document.querySelector('.vk-ladebalken').hasAttribute('value') && document.querySelector('.vk-ladephase').textContent.includes('Ort')"));
       check('Responsive ' + width, await run("document.documentElement.scrollWidth<=innerWidth+1 && document.querySelector('.vk-ladebalken').getBoundingClientRect().width>100"));
@@ -31,7 +31,10 @@ function check(name, value) { assert.ok(value, name); checks++; console.log('PAS
       await until("__gates.length===1 && document.querySelector('.vk-ladephase').textContent.includes('Suchgebiet')");
       check('Geo indeterminate ' + width, await run("!document.querySelector('.vk-ladebalken').hasAttribute('value')"));
       await run('__gates.shift().ok()');
-      await until("__gates.length===2 && document.querySelector('.vk-ladebalken').max===2");
+      // Two extra geo-count requests verify the halves; two future queries follow sequentially.
+      await until('__gates.length===1'); await run('__gates.shift().ok()');
+      await until('__gates.length===1'); await run('__gates.shift().ok()');
+      await until("__gates.length===1 && document.querySelector('.vk-ladebalken').max===2");
       check('0/2 ' + width, await run("document.querySelector('.vk-ladebalken').value===0 && document.querySelector('.vk-ladephase').textContent==='0 von 2 Datenabfragen abgeschlossen'"));
       await run("window.__liveRegion=document.querySelector('.vk-ladephase');__gates.shift().ok()");
       await until("document.querySelector('.vk-ladebalken').value===1");
@@ -49,12 +52,13 @@ function check(name, value) { assert.ok(value, name); checks++; console.log('PAS
       await run("loadPage('startseite')");
       await until("[...vkInstances.values()][0]?.status==='bereit'");
       check('Cache skips reload ' + width, await run("__gates.length===0 && !document.querySelector('.vk-ladebalken')"));
-      await run("vkDatenCache.clear();loadPage('startseite')");
+      await run("vkDatenCache.clear();localStorage.removeItem(vkCacheSpeicherKey());loadPage('startseite')");
       await until('__gates.length===1'); await run('__gates.shift().ok()');
       await until('__gates.length===1'); await run('__gates.shift().ok()');
-      await until('__gates.length===2'); await run('__gates.shift().fail()');
+      await until('__gates.length===1'); await run('__gates.shift().ok()');
+      await until('__gates.length===1'); await run('__gates.shift().ok()');
+      await until('__gates.length===1'); await run('__gates.shift().fail()');
       await until("[...vkInstances.values()][0]?.status==='fehler'");
-      await run('__gates.shift().ok()');
       check('Error not overwritten ' + width, await run("!document.querySelector('.vk-ladebalken') && document.querySelector('.vk-status-titel').textContent.includes('nicht geladen')"));
       await run("loadPage('startseite')"); await until('__gates.length===1');
       await run("(async()=>{window.__leftController=[...vkInstances.values()][0].controller;await loadPage('beschreibung');__gates.shift().ok()})()");

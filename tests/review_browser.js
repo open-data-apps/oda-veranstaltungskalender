@@ -41,8 +41,9 @@ async function main() {
       check('R-kein-Fokusdiebstahl-'+width, await run("document.activeElement.matches('.vk-suche') && document.querySelector('.vk-art-panel').hidden"));
 
       await run(`Object.defineProperty(navigator,'share',{configurable:true,value:async data=>{window.__nativeShare=data}});
-        document.querySelector('[data-vk-modus=archiv]').click();
-        window.__archive = Array.from(vkInstances.values())[0].events.archiv.find(e=>e.id==='urn:vk-fixture:heute-musik');
+        document.querySelector('[data-vk-modus=archiv]').click()`);
+      await until("[...vkInstances.values()][0]?.events.archivGeladen === true");
+      await run(`window.__archive = Array.from(vkInstances.values())[0].events.archiv.find(e=>e.id==='urn:vk-fixture:heute-musik');
         window.__archiveKey = vkTerminSchluessel(__archive);
         document.querySelector('[data-vk-event="urn:vk-fixture:heute-musik"]').click()`);
       await until("document.querySelector('.modal.show') && __reviewShown.has(document.querySelector('.modal'))");
@@ -104,7 +105,7 @@ async function main() {
       })()`);
       await until(ready);
       const dayState=await run("({day:Array.from(vkInstances.values())[0].heuteKey,aborted:__oldController.signal.aborted,requests:vkFixtureResult.requests.filter(u=>u.includes('/dzt?')).length})");
-      check('R-Tageswechsel-'+width, dayState.day===rollover.tomorrow && dayState.aborted && dayState.requests===rollover.before+3, dayState);
+      check('R-Tageswechsel-'+width, dayState.day===rollover.tomorrow && dayState.aborted && dayState.requests===rollover.before+2, dayState);
       await run('window.Date=__realDate');
 
       await run("installVkFixture('empty')"); await until("Array.from(vkInstances.values())[0]?.status === 'bereit'");

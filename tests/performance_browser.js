@@ -1,0 +1,44 @@
+/* App-only performance lifecycle on Live Server, synthetic fixture transport. */
+const assert=require('node:assert/strict');
+const {mitChrome,FIXTURE_URL,sleep}=require('./mobile_audit');
+let checks=0;
+const check=(name,pass)=>{assert.ok(pass,name);checks++;console.log('PASS '+name);};
+(async()=>{for(const width of [375,1440])await mitChrome(width,812,FIXTURE_URL,null,async send=>{
+ const run=async expression=>{const r=await send('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true});if(r.exceptionDetails)throw Error(r.exceptionDetails.exception?.description||r.exceptionDetails.text);return r.result?.value;};
+ const until=async expression=>{const end=Date.now()+12000;while(Date.now()<end){if(await run(expression))return;await sleep(30);}throw Error('Timeout '+expression);};
+ const ready="typeof vkInstances!=='undefined' && [...vkInstances.values()][0]?.status==='bereit'";
+ await until(ready);
+ check('Future first '+width,await run("[...vkInstances.values()][0].events.archivGeladen===false && vkFixtureResult.requests.filter(u=>u.includes('/dzt?')).length===2"));
+ const futureCount=await run('[...vkInstances.values()][0].events.zukunft.length');
+ await run(`window.__pf=fetch;window.__gates=[];window.fetch=(u,i)=>String(u).includes('/dzt?')?new Promise(resolve=>__gates.push({ok:()=>resolve(__pf(u,i)),fail:()=>resolve({ok:false,status:500,text:async()=>''})})):__pf(u,i);
+ document.querySelector('[data-vk-modus=archiv]').click();document.querySelector('[data-vk-modus=archiv]').click();`);
+ await until('__gates.length===1');
+ check('Lazy archive single request '+width,await run("!!document.querySelector('.vk-ladebalken') && __gates.length===1"));
+ await run("document.querySelector('[data-vk-modus=programm]').click()");
+ check('Future available during archive load '+width,await run("!document.querySelector('.vk-ladebalken') && document.querySelectorAll('[data-vk-event]').length>0"));
+ await run('__gates.shift().fail()');await until("[...vkInstances.values()][0].archivStatus==='fehler'");
+ check('Archive failure isolated '+width,await run('[...vkInstances.values()][0].events.zukunft.length')===futureCount);
+ await run("document.querySelector('[data-vk-modus=archiv]').click()");
+ check('Archive retry shown '+width,await run("!!document.querySelector('[data-vk-archiv-neu]') && !document.querySelector('.vk-ladebalken')"));
+ await run("document.querySelector('[data-vk-archiv-neu]').click()");await until('__gates.length===1');await run('__gates.shift().ok()');
+ await until('[...vkInstances.values()][0].events.archivGeladen===true');
+ check('Archive retry success '+width,await run("[...vkInstances.values()][0].events.archiv.length>0 && document.querySelectorAll('[data-vk-event]').length>0"));
+ const shared=await run(`(()=>{const e=[...vkInstances.values()][0].events.archiv.find(e=>e.id==='urn:vk-fixture:heute-musik');const u=new URL(location.href);u.searchParams.set('event',e.id);u.searchParams.set('termin',vkTerminSchluessel(e));localStorage.removeItem(vkCacheSpeicherKey());return u.href;})()`);
+ await send('Page.navigate',{url:shared});await until("document.querySelector('.vk-detail-titel')?.textContent.includes('Archivtermin')");
+ check('Cold shared archive link '+width,await run("[...vkInstances.values()][0].events.archivGeladen===true && vkFixtureResult.requests.filter(u=>u.includes('/dzt?')).length===3"));
+ await send('Page.navigate',{url:FIXTURE_URL});await until(ready);
+ check('Full reload from browser cache '+width,await run("vkFixtureResult.requests.length===0 && document.querySelector('.vk-datenstand')?.textContent.includes('Browser-Cache')"));
+ await send('Page.addScriptToEvaluateOnNewDocument',{source:`if(sessionStorage.getItem('vk-perf-hold')){const original=fetch;window.__gates=[];window.fetch=(u,i)=>String(u).includes('nominatim')||String(u).includes('/dzt?')?new Promise(resolve=>__gates.push({ok:()=>resolve(original(u,i)),fail:()=>resolve({ok:false,status:500,text:async()=>''})})):original(u,i);}`});
+ await run("(()=>{const key=vkCacheSpeicherKey(),s=JSON.parse(localStorage.getItem(key));s.data.geladenAm=Date.now()-16*60000;localStorage.setItem(key,JSON.stringify(s));sessionStorage.setItem('vk-perf-hold','yes')})()");
+ await send('Page.reload');await until("typeof __gates!=='undefined' && __gates.length===1 && typeof vkInstances!=='undefined' && [...vkInstances.values()][0]?.aktualisiert");
+ check('Stale immediately visible '+width,await run("document.querySelectorAll('[data-vk-event]').length>0 && document.querySelector('.vk-datenstand').textContent.includes('aktualisiert')"));
+ await run('__gates.shift().ok()');await until('__gates.length===1');await run('__gates.shift().ok()');await until('__gates.length===1');await run('__gates.shift().fail()');
+ await until("![...vkInstances.values()][0].aktualisiert && !![...vkInstances.values()][0].fehlermeldung");
+ check('Refresh failure keeps data '+width,await run("[...vkInstances.values()][0].status==='bereit' && document.querySelectorAll('[data-vk-event]').length>0 && document.querySelector('.vk-datenstand').textContent.includes('fehlgeschlagen')"));
+ await send('Page.reload');await until("typeof __gates!=='undefined' && __gates.length===1 && typeof vkInstances!=='undefined' && [...vkInstances.values()][0]?.aktualisiert");
+ for(let i=0;i<3;i++){await until('__gates.length===1');await run('__gates.shift().ok()');}
+ await until("![...vkInstances.values()][0].aktualisiert");
+ check('Background refresh replaces stale '+width,await run("[...vkInstances.values()][0].ausCache===false && Date.now()-[...vkInstances.values()][0].events.geladenAm<10000 && [...vkInstances.values()][0].events.archivGeladen===false"));
+ check('No horizontal overflow '+width,await run('document.documentElement.scrollWidth<=innerWidth+1'));
+ await run("sessionStorage.removeItem('vk-perf-hold')");
+},0,{port:0});console.log('PASS '+checks+' performance browser checks');})().catch(e=>{console.error(e.stack);process.exitCode=1;});

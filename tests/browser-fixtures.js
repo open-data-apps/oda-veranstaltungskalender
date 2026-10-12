@@ -85,6 +85,7 @@
 
     if (typeof onPageLeave === "function") onPageLeave("startseite");
     if (typeof vkDatenCache !== "undefined") vkDatenCache.clear();
+    try { localStorage.removeItem(vkCacheSpeicherKey()); } catch (_e) { /* Storage may be disabled. */ }
 
     const fixtureConfig = Object.assign({}, window.configData, {
       titel: "Veranstaltungskalender",

@@ -1,0 +1,121 @@
+{
+  "date": "2026-10-12",
+  "method": "new local app loader first, then git HEAD 1.4.9 baseline; real public Dev relay, no injected data, no Store/build mutation",
+  "baseline": {
+    "ms": 69346,
+    "future": 600,
+    "archive": 0,
+    "week": 416,
+    "calls": [
+      {
+        "status": 200,
+        "ms": 235,
+        "urlBytes": 1034
+      },
+      {
+        "status": 200,
+        "ms": 173,
+        "urlBytes": 1539
+      },
+      {
+        "status": 200,
+        "ms": 158,
+        "urlBytes": 1540
+      },
+      {
+        "status": 200,
+        "ms": 44630,
+        "urlBytes": 7695
+      },
+      {
+        "status": 200,
+        "ms": 49562,
+        "urlBytes": 7684
+      },
+      {
+        "status": 200,
+        "ms": 16260,
+        "urlBytes": 7696
+      },
+      {
+        "status": 200,
+        "ms": 19019,
+        "urlBytes": 7685
+      }
+    ]
+  },
+  "optimized": {
+    "ms": 38437,
+    "future": 600,
+    "week": 416,
+    "calls": [
+      {
+        "status": 200,
+        "ms": 240,
+        "urlBytes": 1034
+      },
+      {
+        "status": 200,
+        "ms": 253,
+        "urlBytes": 1539
+      },
+      {
+        "status": 200,
+        "ms": 161,
+        "urlBytes": 1540
+      },
+      {
+        "status": 200,
+        "ms": 24875,
+        "urlBytes": 7730
+      },
+      {
+        "status": 200,
+        "ms": 12534,
+        "urlBytes": 7731
+      }
+    ]
+  },
+  "idsIdentical": true,
+  "idsSha256": "b1202f1f0f223c7d1151569762ea57d1d7c89fcc44790f16bc1dffb57127e386",
+  "fieldParity": {
+    "startDatum": true,
+    "endDatum": true,
+    "startZeit": true,
+    "ortName": true,
+    "lat": true,
+    "lon": true,
+    "bilder": true,
+    "bildnachweise": true
+  },
+  "reductionPercent": 44.6,
+  "archiveAtStartup": "not requested by optimized loader",
+  "limitsUnchanged": {
+    "future": 600,
+    "archive": 400
+  },
+  "archiveOnDemand": {
+    "ms": 34906,
+    "archive": 0,
+    "calls": [
+      {
+        "status": 200,
+        "ms": 24802,
+        "urlBytes": 7741
+      },
+      {
+        "status": 200,
+        "ms": 10100,
+        "urlBytes": 7742
+      }
+    ],
+    "geocodingRequests": 0
+  },
+  "localTests": {
+    "nodeFiles": 31,
+    "browserChecks": 280,
+    "liveServerPort": 5503,
+    "fixtures": true,
+    "devBuildUploaded": false
+  }
+}

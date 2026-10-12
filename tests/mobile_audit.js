@@ -582,7 +582,8 @@ async function vkBildnachweisMessung() {
   await pause(100);
   const inhalt = document.querySelector('.vk-inhalt');
   erg.keinOverflow = document.documentElement.scrollWidth <= innerWidth + 1 && inhalt.scrollWidth <= inhalt.clientWidth + 1;
-  erg.keinNachladen = anfragenVorher === 2 && vkFixtureResult.requests.filter(url => url.includes('/dzt?')).length === anfragenVorher;
+  /* Geo + Zukunft beim Start; nur ein weiterer Request beim ersten Archivklick. */
+  erg.nurArchivNachgeladen = anfragenVorher === 2 && vkFixtureResult.requests.filter(url => url.includes('/dzt?')).length === anfragenVorher + 1;
   return erg;
 }
 const BILDNACHWEIS_MESSUNG = `(${vkBildnachweisMessung.toString()})()`;
@@ -1223,7 +1224,7 @@ async function suite(name) {
         for (const ansicht of ['detail', 'lightbox']) log('B-' + ansicht, v, passend(erg[ansicht]), erg[ansicht]);
         log('B-lightbox-geometrie', v, erg.lightboxGeometrie && erg.lightboxOhneDarstellung, { geometrie: erg.lightboxGeometrie, ohneDarstellung: erg.lightboxOhneDarstellung });
         log('B-lightbox-link-fokus', v, erg.lightboxLinkFokus, erg.fokusDiagnose);
-        log('B-kein-overflow-nachladen', v, erg.keinOverflow && erg.keinNachladen, { overflow: !erg.keinOverflow, nachladen: !erg.keinNachladen });
+        log('B-kein-overflow-nur-archiv-nachgeladen', v, erg.keinOverflow && erg.nurArchivNachgeladen, { overflow: !erg.keinOverflow, nurArchivNachgeladen: erg.nurArchivNachgeladen });
       } catch (e) { log('B-suite', v, false, { fehler: e.message }); }
     }
   }
