@@ -553,9 +553,16 @@ async function ladeDaten(state) {
   }
   state.status = "lade";
   state.fehlermeldung = "";
+  state.ladefortschritt = { phase: "ort" };
   renderModus(state);
   try {
-    const ergebnis = await ladeEvents(state.configdata, controller.signal);
+    const ergebnis = await ladeEvents(state.configdata, controller.signal, {
+      onFortschritt: (fortschritt) => {
+        if (controller.signal.aborted || controller !== state.controller || state.status !== "lade") return;
+        state.ladefortschritt = fortschritt;
+        vkAktualisiereLadeanzeige(state);
+      }
+    });
     if (controller.signal.aborted || controller !== state.controller) return;
     if (ergebnis && ergebnis.heuteKey !== heutigerTagKey()) {
       await vkTageswechselPruefen(state);
@@ -1138,6 +1145,26 @@ function renderKarte(state) {
   };
 }
 
+/* Fortschritt zaehlt abgeschlossene Abfragen, nicht verstrichene Zeit.
+ * Die Live-Region bleibt bei Updates erhalten, damit Screenreader sie melden. */
+function vkAktualisiereLadeanzeige(state) {
+  const inhalt = document.getElementById(`vk-${state.appUid}-inhalt`);
+  const balken = inhalt && inhalt.querySelector(".vk-ladebalken");
+  const text = inhalt && inhalt.querySelector(".vk-ladephase");
+  if (!balken || !text) return;
+  const p = state.ladefortschritt || { phase: "ort" };
+  let meldung = p.phase === "geo" ? "Suchgebiet wird geprüft …" : "Ort wird bestimmt …";
+  if (p.phase === "events") {
+    balken.max = p.gesamt;
+    balken.value = p.erledigt;
+    meldung = `${p.erledigt} von ${p.gesamt} Datenabfragen abgeschlossen`;
+  } else {
+    balken.removeAttribute("value");
+  }
+  balken.setAttribute("aria-valuetext", meldung);
+  text.textContent = meldung;
+}
+
 function renderModus(state) {
   const inhalt = document.getElementById(`vk-${state.appUid}-inhalt`);
   if (!inhalt) return;
@@ -1151,7 +1178,8 @@ function renderModus(state) {
   if (zeitGruppe) zeitGruppe.style.display = state.modus === "archiv" ? "none" : "";
 
   if (state.status === "lade") {
-    inhalt.innerHTML = `<div class="vk-status"><div class="vk-spinner" role="status" aria-label="Lade Veranstaltungen"></div><p class="vk-status-text">Veranstaltungen werden geladen …</p></div>`;
+    inhalt.innerHTML = `<div class="vk-status"><div class="vk-status-titel">Veranstaltungen werden geladen …</div><progress class="vk-ladebalken" aria-label="Fortschritt der Datenabfragen"></progress><p class="vk-status-text vk-ladephase" role="status" aria-live="polite" aria-atomic="true"></p><p class="vk-status-text mt-2">Einzelne Abfragen können länger dauern. Der Balken zählt abgeschlossene Abfragen, nicht die verbleibende Wartezeit.</p></div>`;
+    vkAktualisiereLadeanzeige(state);
     return;
   }
   if (state.status === "ohneQuelle") {
@@ -2569,6 +2597,13 @@ async function ladeEvents(configdata, signal, optionen) {
     throw new Error("Es ist kein Ort konfiguriert. Bitte in der Instanz-Konfiguration einen Ort eintragen.");
   }
 
+  let fortschrittAktiv = true;
+  const meldeFortschritt = (fortschritt) => {
+    if (fortschrittAktiv && !(signal && signal.aborted) && optionen && typeof optionen.onFortschritt === "function") {
+      optionen.onFortschritt(fortschritt);
+    }
+  };
+  meldeFortschritt({ phase: "ort" });
   const geo = await geocodeOrt(ort, signal);
   if (!geo) {
     throw new Error(`Der Ort „${ort}“ konnte über OpenStreetMap nicht gefunden werden. Bitte die Instanz-Konfiguration prüfen.`);
@@ -2581,8 +2616,12 @@ async function ladeEvents(configdata, signal, optionen) {
 
   const heuteKey = (optionen && optionen.heuteKey) || heutigerTagKey();
   const radiusKm = String((configdata && configdata.radiusKm) || "25");
+  meldeFortschritt({ phase: "geo" });
   const geoQueries = await vkPlaneGeoAbfragen(base, geo.lat, geo.lon, radiusKm, signal);
   if (!geoQueries.length) return { zukunft: [], archiv: [], geo, heuteKey };
+  let erledigt = 0;
+  const gesamt = geoQueries.length * 2;
+  meldeFortschritt({ phase: "events", erledigt, gesamt });
 
   const sparqlRequest = (modus, geoQuery) => {
     // Relay-GET kodiert doppelt: Layout kuerzen, Literale/IRIs unveraendert lassen.
@@ -2608,7 +2647,14 @@ async function ladeEvents(configdata, signal, optionen) {
     const rows = [];
     const bereich = modus === "zukunft" ? "kommende Veranstaltungen" : "Archiv";
     for (const geoQuery of geoQueries) {
-      rows.push(...leseBindings(await sparqlRequest(modus, geoQuery), bereich));
+      if (!fortschrittAktiv) break;
+      try {
+        rows.push(...leseBindings(await sparqlRequest(modus, geoQuery), bereich));
+      } catch (fehler) {
+        fortschrittAktiv = false;
+        throw fehler;
+      }
+      meldeFortschritt({ phase: "events", erledigt: ++erledigt, gesamt });
     }
     rows.sort((a, b) => {
       const datum = String(a.startDatum && a.startDatum.value || "").localeCompare(String(b.startDatum && b.startDatum.value || ""));
@@ -2623,7 +2669,12 @@ async function ladeEvents(configdata, signal, optionen) {
     }
     return Array.from(unique.values());
   };
-  const [zukunftRows, archivRows] = await Promise.all([ladeBereich("zukunft"), ladeBereich("archiv")]);
+  let zukunftRows, archivRows;
+  try {
+    [zukunftRows, archivRows] = await Promise.all([ladeBereich("zukunft"), ladeBereich("archiv")]);
+  } finally {
+    fortschrittAktiv = false;
+  }
   const zukunft = parseEvents(zukunftRows, geo.lat, geo.lon);
   const archiv = parseEvents(archivRows, geo.lat, geo.lon).reverse();
 

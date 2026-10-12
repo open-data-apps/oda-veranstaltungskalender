@@ -6,7 +6,7 @@ Die App ist für die Verwendung im [Open Data App Store](https://open-data-app-s
 
 Mehr zu Open Data Apps: <https://github.com/open-data-apps>
 
-**Aktueller App-Stand:** 1.4.8 · [Änderungsverlauf](CHANGELOG.md)\
+**Aktueller App-Stand:** 1.4.9 · [Änderungsverlauf](CHANGELOG.md)\
 **Technischer Name:** `oda-veranstaltungskalender` · **Lieferpaket:** `oda-veranstaltungskalender.zip`\
 **Demo-Vorbelegung:** Hamburg · 25 km; Ort und Umkreis bleiben konfigurierbar.
 
@@ -49,7 +49,7 @@ Die App richtet sich an Bürgerinnen und Bürger, Gäste sowie kommunale Portalb
 
 Die App verarbeitet **SPARQL-Ergebnisse im JSON-Format** (`application/sparql-results+json`) aus dem DZT Knowledge Graph. Sie erwartet `results.bindings`; eine beliebige JSON-Datei, CSV-Datei oder ICS-Quelle kann nicht als Datenquelle eingesetzt werden.
 
-Beim ersten Laden wird die Geo-Trefferzahl geprüft. Ab 10.000 Orten wird der Suchkreis rekursiv in überlappende Teilflächen aufgeteilt, bis jede Teilabfrage unter dem nativen DZT-Ergebnisfenster bleibt. Der ursprüngliche Kreis bleibt immer als Filter erhalten. Anschließend werden zwei Zeitbereiche geladen:
+Beim ersten Laden wird die Geo-Trefferzahl geprüft. Ab 10.000 Orten wird der Suchkreis rekursiv in überlappende Teilflächen aufgeteilt, bis jede Teilabfrage unter dem nativen DZT-Ergebnisfenster bleibt. Der ursprüngliche Kreis bleibt immer als Filter erhalten. Anschließend werden zwei Zeitbereiche geladen. Der Ladebalken zeigt zunächst „Ort wird bestimmt“ und „Suchgebiet wird geprüft“ ohne Prozentwert. Sobald die Zahl der Veranstaltungsabfragen feststeht, zählt er deren tatsächlich abgeschlossene Antworten (z. B. „2 von 4 Datenabfragen abgeschlossen“). Einzelne Abfragen können lange dauern; die Anzeige ist keine Restzeitprognose. Bei einem Ansichtswechsel bleibt der Fortschritt erhalten, bei Rückkehr aus dem Sitzungscache entfällt ein erneuter Abruf.
 
 | Bereich | Zeitfenster | Globale Begrenzung eindeutiger Veranstaltungen |
 | --- | --- | --- |
@@ -209,9 +209,12 @@ node tests/mobile_audit.js sekundaer
 node tests/mobile_audit.js bildnachweise
 node tests/mobile_audit.js modal
 node tests/review_browser.js
+node tests/progress_browser.js
 ```
 
 Ohne Umgebungsvariablen verwendet der Harness `127.0.0.1:8765` und `google-chrome`. Jeder Lauf verwendet ein eigenes Browserprofil; standardmäßig vergibt das Betriebssystem einen freien Steuerungsport. Optional legt `VK_CDP_PORT` den Startport für Audit-Suites fest. Ungültige Suites, null Prüfungen und ungefangene JavaScript-/Promise-Fehler führen zum Fehlschlag. Der Fixture-Transport wird vor der App installiert; lokale Konfiguration wird normal gelesen, unerwartete Fetch-Ziele werden blockiert. OpenStreetMap-Kacheln bleiben bewusst echte externe Abrufe – das ist kein vollständiger Offline-Test. Die Suite `modal` prüft bewusst **mit aktiven Bootstrap-Animationen und Browserfokus**, damit Fehler beim Öffnen/Schließen nicht durch deaktivierte Übergänge verdeckt werden. Die Suite `flows` benötigt zusätzlich `VK_LIVE_HOST` (Host:Port); ihr Live-Teil erwartet die im Harness hinterlegte Audit-Instanz, keine beliebige ODAS-App.
+
+**Prüfstand 1.4.9 (12.10.2026):** 29 Node-Testdateien, 22 gezielte lokale Browserprüfungen für den Ladefortschritt und 39 bestehende Browserregressionen bestanden (375/1440 CSS-Pixel, reduzierte Bewegung, zugänglicher Balken, Phasen, parallele Antworten, Ansichtswechsel, Fehler, Cache und Seitenwechsel-Abbruch). Browserprüfungen über Live Server mit kontrollierten Fixture-Antworten, keine echte Dev-Abnahme. Der Upload dieser Version erfolgt durch den Betreiber; die bestehenden Screenshots zeigen weiterhin die unveränderten fertig geladenen Ansichten der Runtime 1.4.7.
 
 **Prüfstand 1.4.8 (12.10.2026):** Sechs neue echte Dev-Aufnahmen nach Geo-Fix, visuell geprüft; PNG-Abmessungen, Prüfsummen, geladene Bilder und zwölf bildgenaue Foto-Nachweise geprüft. Paket auf Dev eingespielt: alle sechs PNGs, Aufnahmebeleg, Bildnachweise und unveränderte Runtime per HTTP 200 byte-identisch ausgeliefert; Instanzkonfiguration unverändert. 28 Node-Testdateien und Konfigurations-Linter bestanden. [Liefernachweis](docs/screenshots-postupload-2026-10-12.json). Die Dateinamen 1.4.7 benennen die aufgenommene Runtime, 1.4.8 das aktualisierte Screenshot-Paket.
 

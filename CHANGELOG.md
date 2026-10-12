@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.9 - 2026-10-12
+
+- **Erkennbarer Ladefortschritt:** Ladebalken mit Phasen für Ortsauflösung und Geo-Prüfung, anschließend tatsächliche Anzahl abgeschlossener Veranstaltungsabfragen (z. B. 2 von 4). Keine erfundenen Prozentwerte während der Vorbereitung und keine Schätzung der Restzeit.
+- **Zugänglich und robust:** Natives Progress-Element mit zugänglichem Namen, beständige höfliche Live-Region und ruhige Darstellung. Fortschritt bleibt bei Ansichtswechsel erhalten; Cache-Rückkehr ohne neue Ladeanzeige. Fehler/Seitenwechsel verhindern verspätete Fortschrittsupdates; nach einem Fehler werden keine weiteren Teilabfragen gestartet.
+- **Prüfungen:** Regressionen für parallele Antworten, Schemafehler und Abbruch; lokale Browserprüfungen mit kontrolliert verzögerten Fixture-Antworten auf Desktop und Mobile. Keine Änderung an Geo-Auswahl, Template-Dateien oder bestehenden Screenshots. Kein Dev-/Produktiv-Upload dieser Version.
+
 ## 1.4.8 - 2026-10-12
 
 - **Screenshots nach dem Geo-Fix:** Sechs neue Dev-Aufnahmen von Programm, Karte und Katalog für Desktop/Mobile zeigen Hamburg · 25 km mit 600 geladenen Veranstaltungen und sichtbarem 90-Tage-Filter. Die Dateinamen `*_1.4.7.png` benennen die aufgenommene Runtime; der Screenshot-Lieferstand ist 1.4.8.

@@ -177,7 +177,7 @@ const FIXTURE_INJEKTION = `(async () => {
     }
     return false;
   };
-  const bereit = () => document.querySelectorAll('.vk-event-karte').length > 0 && !document.querySelector('.vk-spinner');
+  const bereit = () => document.querySelectorAll('.vk-event-karte').length > 0 && !document.querySelector('.vk-ladebalken');
   const startBereit = await warteAuf(bereit);
   if (!startBereit) throw new Error('Initialer Fixture-Bestand fehlt');
   const st = document.createElement('style');

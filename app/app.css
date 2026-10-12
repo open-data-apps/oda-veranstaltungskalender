@@ -195,17 +195,23 @@
 .vk-status-text { font-size: 0.85rem; color: var(--vk-mut); margin: 0; }
 .vk-status-lade { color: var(--vk-mut); font-size: 0.85rem; }
 
-.vk-spinner {
-  width: 28px;
-  height: 28px;
-  margin: 0 auto 10px;
-  border: 3px solid var(--vk-line);
-  border-top-color: var(--vk-ink);
-  border-radius: 50%;
-  animation: vk-drehen 0.9s linear infinite;
+.vk-ladebalken {
+  display: block;
+  width: min(100%, 440px);
+  height: 14px;
+  margin: 16px auto;
+  accent-color: var(--vk-ink);
 }
 
-@keyframes vk-drehen { to { transform: rotate(360deg); } }
+/* Unbekannte Gesamtzahl: ruhiger Balken statt vorgetaeuschtem Prozentwert. */
+.vk-ladebalken:indeterminate {
+  appearance: none;
+  background: var(--vk-line);
+  border: 1px solid var(--vk-mut);
+  border-radius: 7px;
+}
+.vk-ladebalken:indeterminate::-webkit-progress-bar { background: var(--vk-line); border-radius: 7px; }
+.vk-ladebalken:indeterminate::-moz-progress-bar { background: var(--vk-line); }
 
 /* ---------- KPI-Reihe (Werte folgen in Task 7) ---------- */
 
