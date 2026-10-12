@@ -1,0 +1,158 @@
+{
+  "version": "1.4.7",
+  "url": "http://100.66.238.123:3000/view/audit-test/oda-veranstaltungskalender/cmuo0ajoh0001t12n0bqdkd2a/",
+  "date": "2026-10-12",
+  "data": "real DZT via ODAS relay; no fixtures",
+  "checks": [
+    {
+      "id": "real-600-distinct",
+      "pass": true,
+      "details": {
+        "status": "bereit",
+        "count": 600,
+        "archive": 0,
+        "ids": 600,
+        "week": 416,
+        "requests": [
+          {
+            "status": 200,
+            "length": 1034,
+            "duration": 288.5
+          },
+          {
+            "status": 200,
+            "length": 1539,
+            "duration": 207.59999999962747
+          },
+          {
+            "status": 200,
+            "length": 1540,
+            "duration": 222.69999999925494
+          },
+          {
+            "status": 200,
+            "length": 7684,
+            "duration": 54972.40000000037
+          },
+          {
+            "status": 200,
+            "length": 7695,
+            "duration": 42465.29999999888
+          },
+          {
+            "status": 200,
+            "length": 7696,
+            "duration": 16753.400000000373
+          },
+          {
+            "status": 200,
+            "length": 7685,
+            "duration": 21683.400000000373
+          }
+        ]
+      }
+    },
+    {
+      "id": "week-416",
+      "pass": true,
+      "details": 416
+    },
+    {
+      "id": "relay-http200",
+      "pass": true,
+      "details": [
+        {
+          "status": 200,
+          "length": 1034,
+          "duration": 288.5
+        },
+        {
+          "status": 200,
+          "length": 1539,
+          "duration": 207.59999999962747
+        },
+        {
+          "status": 200,
+          "length": 1540,
+          "duration": 222.69999999925494
+        },
+        {
+          "status": 200,
+          "length": 7684,
+          "duration": 54972.40000000037
+        },
+        {
+          "status": 200,
+          "length": 7695,
+          "duration": 42465.29999999888
+        },
+        {
+          "status": 200,
+          "length": 7696,
+          "duration": 16753.400000000373
+        },
+        {
+          "status": 200,
+          "length": 7685,
+          "duration": 21683.400000000373
+        }
+      ]
+    },
+    {
+      "id": "program-1440",
+      "pass": true
+    },
+    {
+      "id": "no-overflow-1440",
+      "pass": true
+    },
+    {
+      "id": "detail-1440",
+      "pass": true
+    },
+    {
+      "id": "map-attribution-1440",
+      "pass": true
+    },
+    {
+      "id": "catalog-1440",
+      "pass": true
+    },
+    {
+      "id": "archive-1440",
+      "pass": true
+    },
+    {
+      "id": "cached-navigation-1440",
+      "pass": true
+    },
+    {
+      "id": "program-375",
+      "pass": true
+    },
+    {
+      "id": "no-overflow-375",
+      "pass": true
+    },
+    {
+      "id": "detail-375",
+      "pass": true
+    },
+    {
+      "id": "map-attribution-375",
+      "pass": true
+    },
+    {
+      "id": "catalog-375",
+      "pass": true
+    },
+    {
+      "id": "archive-375",
+      "pass": true
+    },
+    {
+      "id": "cached-navigation-375",
+      "pass": true
+    }
+  ]
+}

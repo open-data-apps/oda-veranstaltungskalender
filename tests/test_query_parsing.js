@@ -100,7 +100,8 @@ function test(typRegistry) {
   assert.ok(q.includes("inst:dzt-geo-shapes"), "geo-shape-Connector");
   assert.ok(q.includes('\\"radius\\":\\"25km\\"'), "Radius 25km im (doppelt encodierten) geo_shape-Literal");
   assert.ok(q.includes('\\"coordinates\\":[9.0086,48.6813]'), "Koordinaten [lon,lat] im geo_shape");
-  for (const key of erwarteteKeys) assert.ok(q.includes(erwarteteUris[key]), `VALUES mit ${erwarteteUris[key]}`);
+  assert.ok(q.includes("PREFIX schema: <https://schema.org/>"), "exakter schema.org-Namensraum");
+  for (const key of erwarteteKeys) assert.ok(q.includes(erwarteteUris[key].replace("https://schema.org/", "schema:")), `VALUES mit ${erwarteteUris[key]}`);
   assert.ok(q.includes("?s schema:location ?loc"), "Location-Join");
   assert.ok(q.includes("schema:eventSchedule"), "Schedule-Pfad (v1.1)");
   assert.ok(q.includes("COALESCE(?d, ?vkSd)"), "vkStart = COALESCE(direkt, Schedule)");
@@ -108,7 +109,7 @@ function test(typRegistry) {
   assert.ok(q.includes('COALESCE(STR(?vkEnde), STR(?vkStart)) >= "2026-09-30"'), "Zukunft-Fenster ab heute (auf vkStart/vkEnde)");
   assert.ok(q.includes('STR(?vkStart) < "2027-10-01"'), "Exklusive Obergrenze nach +365 Tagen (letzter Tag 2027-09-30 vollstaendig)");
   assert.ok(q.includes("ORDER BY ?vkStart"), "Sortierung aufsteigend");
-  assert.ok(q.includes("COALESCE(?vkSt)"), "startZeitRaw aus schedule:startTime");
+  assert.ok(q.includes("schema:startTime ?vkZeit"), "startZeitRaw aus schedule:startTime");
   assert.ok(q.includes("LIMIT 600"), "LIMIT 600");
   assert.ok(q.includes("GROUP BY ?s"), "GROUP BY ?s außen");
   assert.ok(q.includes('lang(?nameDe) = "de" || lang(?nameDe) = ""'), "de-Sprachfilter");
@@ -122,7 +123,7 @@ function test(typRegistry) {
   assert.ok(qa.includes('\\"radius\\":\\"10km\\"'), "Radius 10km");
   assert.ok(qa.includes('COALESCE(STR(?vkEnde), STR(?vkStart)) < "2026-09-30"'), "Archiv: vorbei vor heute");
   assert.ok(qa.includes('STR(?vkStart) >= "2025-09-30"'), "Archiv-Fenster -365 Tage (hartes Orakel 2025-09-30)");
-  assert.ok(qa.includes("ORDER BY DESC(?vkStart)"), "absteigend sortiert");
+  assert.ok(qa.includes("ORDER BY DESC(?vkStartWahl) ?s"), "nach ausgewaehltem Archivtermin absteigend, mit stabiler ID-Reihenfolge");
   assert.ok(qa.includes("LIMIT 400"), "LIMIT 400");
   console.log("  [5] buildSparqlQuery archiv: DESC+LIMIT 400");
 

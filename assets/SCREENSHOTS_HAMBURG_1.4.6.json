@@ -1,0 +1,481 @@
+{
+  "date": "2026-10-12",
+  "appVersion": "1.4.6",
+  "source": "single real Dev ODAS DZT relay session for desktop and mobile; no injected event data",
+  "locality": "Hamburg",
+  "radiusKm": 25,
+  "filterDays": 90,
+  "captures": [
+    {
+      "file": "Desktop_Hamburg_Programm_1.4.6.png",
+      "mode": "programm",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "loadedUpcoming": 2,
+      "loadedArchive": 0,
+      "filtered": 2,
+      "mapAttribution": null,
+      "visibleImages": [
+        {
+          "url": "https://imxplatform-cust-hht.fsn1.your-objectstorage.com/media/partnerclient/event/28_10_26.jpg",
+          "alt": "FatJazz präsentiert: KLIMA KALIMA",
+          "width": 2362,
+          "height": 1575
+        }
+      ],
+      "events": [
+        {
+          "id": "https://hht.imxplatform.de/imxplatform/eventdate_1501504_30554359",
+          "name": "FatJazz präsentiert: KLIMA KALIMA",
+          "date": "2026-10-28",
+          "images": [
+            "https://imxplatform-cust-hht.fsn1.your-objectstorage.com/media/partnerclient/event/28_10_26.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://imxplatform-cust-hht.fsn1.your-objectstorage.com/media/partnerclient/event/28_10_26.jpg",
+              "titel": "KLIMA KALIMA",
+              "lizenz": "https://creativecommons.org/publicdomain/zero/1.0/",
+              "copyright": "",
+              "urheber": "KLIMA KALIMA"
+            }
+          ]
+        },
+        {
+          "id": "https://hht.imxplatform.de/imxplatform/eventdate_1504648_30555500",
+          "name": "Nadiya Teraz & Anton Genkin",
+          "date": "2026-12-19",
+          "images": [],
+          "credits": []
+        }
+      ]
+    },
+    {
+      "file": "Desktop_Hamburg_Karte_1.4.6.png",
+      "mode": "karte",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "loadedUpcoming": 2,
+      "loadedArchive": 0,
+      "filtered": 2,
+      "mapAttribution": " Leaflet | © OpenStreetMap",
+      "visibleImages": [
+        {
+          "url": "https://b.tile.openstreetmap.org/11/1080/661.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://c.tile.openstreetmap.org/11/1081/661.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://c.tile.openstreetmap.org/11/1080/662.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://a.tile.openstreetmap.org/11/1081/662.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://a.tile.openstreetmap.org/11/1080/660.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://b.tile.openstreetmap.org/11/1081/660.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://a.tile.openstreetmap.org/11/1079/661.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://a.tile.openstreetmap.org/11/1082/661.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://b.tile.openstreetmap.org/11/1079/662.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://b.tile.openstreetmap.org/11/1082/662.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://a.tile.openstreetmap.org/11/1080/663.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://b.tile.openstreetmap.org/11/1081/663.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://c.tile.openstreetmap.org/11/1079/660.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://c.tile.openstreetmap.org/11/1082/660.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://c.tile.openstreetmap.org/11/1079/663.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://c.tile.openstreetmap.org/11/1082/663.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://c.tile.openstreetmap.org/11/1078/661.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://b.tile.openstreetmap.org/11/1083/661.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://a.tile.openstreetmap.org/11/1078/662.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://c.tile.openstreetmap.org/11/1083/662.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://b.tile.openstreetmap.org/11/1078/660.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://a.tile.openstreetmap.org/11/1083/660.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://b.tile.openstreetmap.org/11/1078/663.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://a.tile.openstreetmap.org/11/1083/663.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        }
+      ],
+      "events": [
+        {
+          "id": "https://hht.imxplatform.de/imxplatform/eventdate_1501504_30554359",
+          "name": "FatJazz präsentiert: KLIMA KALIMA",
+          "date": "2026-10-28",
+          "images": [
+            "https://imxplatform-cust-hht.fsn1.your-objectstorage.com/media/partnerclient/event/28_10_26.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://imxplatform-cust-hht.fsn1.your-objectstorage.com/media/partnerclient/event/28_10_26.jpg",
+              "titel": "KLIMA KALIMA",
+              "lizenz": "https://creativecommons.org/publicdomain/zero/1.0/",
+              "copyright": "",
+              "urheber": "KLIMA KALIMA"
+            }
+          ]
+        },
+        {
+          "id": "https://hht.imxplatform.de/imxplatform/eventdate_1504648_30555500",
+          "name": "Nadiya Teraz & Anton Genkin",
+          "date": "2026-12-19",
+          "images": [],
+          "credits": []
+        }
+      ]
+    },
+    {
+      "file": "Desktop_Hamburg_Katalog_1.4.6.png",
+      "mode": "katalog",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "loadedUpcoming": 2,
+      "loadedArchive": 0,
+      "filtered": 2,
+      "mapAttribution": null,
+      "visibleImages": [
+        {
+          "url": "https://imxplatform-cust-hht.fsn1.your-objectstorage.com/media/partnerclient/event/28_10_26.jpg",
+          "alt": "FatJazz präsentiert: KLIMA KALIMA",
+          "width": 2362,
+          "height": 1575
+        }
+      ],
+      "events": [
+        {
+          "id": "https://hht.imxplatform.de/imxplatform/eventdate_1501504_30554359",
+          "name": "FatJazz präsentiert: KLIMA KALIMA",
+          "date": "2026-10-28",
+          "images": [
+            "https://imxplatform-cust-hht.fsn1.your-objectstorage.com/media/partnerclient/event/28_10_26.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://imxplatform-cust-hht.fsn1.your-objectstorage.com/media/partnerclient/event/28_10_26.jpg",
+              "titel": "KLIMA KALIMA",
+              "lizenz": "https://creativecommons.org/publicdomain/zero/1.0/",
+              "copyright": "",
+              "urheber": "KLIMA KALIMA"
+            }
+          ]
+        },
+        {
+          "id": "https://hht.imxplatform.de/imxplatform/eventdate_1504648_30555500",
+          "name": "Nadiya Teraz & Anton Genkin",
+          "date": "2026-12-19",
+          "images": [],
+          "credits": []
+        }
+      ]
+    },
+    {
+      "file": "Mobile_Hamburg_Programm_1.4.6.png",
+      "mode": "programm",
+      "viewport": {
+        "width": 375,
+        "height": 812,
+        "dpr": 2
+      },
+      "loadedUpcoming": 2,
+      "loadedArchive": 0,
+      "filtered": 2,
+      "mapAttribution": null,
+      "visibleImages": [
+        {
+          "url": "https://imxplatform-cust-hht.fsn1.your-objectstorage.com/media/partnerclient/event/28_10_26.jpg",
+          "alt": "FatJazz präsentiert: KLIMA KALIMA",
+          "width": 2362,
+          "height": 1575
+        }
+      ],
+      "events": [
+        {
+          "id": "https://hht.imxplatform.de/imxplatform/eventdate_1501504_30554359",
+          "name": "FatJazz präsentiert: KLIMA KALIMA",
+          "date": "2026-10-28",
+          "images": [
+            "https://imxplatform-cust-hht.fsn1.your-objectstorage.com/media/partnerclient/event/28_10_26.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://imxplatform-cust-hht.fsn1.your-objectstorage.com/media/partnerclient/event/28_10_26.jpg",
+              "titel": "KLIMA KALIMA",
+              "lizenz": "https://creativecommons.org/publicdomain/zero/1.0/",
+              "copyright": "",
+              "urheber": "KLIMA KALIMA"
+            }
+          ]
+        },
+        {
+          "id": "https://hht.imxplatform.de/imxplatform/eventdate_1504648_30555500",
+          "name": "Nadiya Teraz & Anton Genkin",
+          "date": "2026-12-19",
+          "images": [],
+          "credits": []
+        }
+      ]
+    },
+    {
+      "file": "Mobile_Hamburg_Karte_1.4.6.png",
+      "mode": "karte",
+      "viewport": {
+        "width": 375,
+        "height": 812,
+        "dpr": 2
+      },
+      "loadedUpcoming": 2,
+      "loadedArchive": 0,
+      "filtered": 2,
+      "mapAttribution": " Leaflet | © OpenStreetMap",
+      "visibleImages": [
+        {
+          "url": "https://b.tile.openstreetmap.org/11/1080/661.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://c.tile.openstreetmap.org/11/1081/661.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://c.tile.openstreetmap.org/11/1080/662.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://a.tile.openstreetmap.org/11/1081/662.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://a.tile.openstreetmap.org/11/1080/660.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://b.tile.openstreetmap.org/11/1081/660.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://a.tile.openstreetmap.org/11/1080/663.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://b.tile.openstreetmap.org/11/1081/663.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        }
+      ],
+      "events": [
+        {
+          "id": "https://hht.imxplatform.de/imxplatform/eventdate_1501504_30554359",
+          "name": "FatJazz präsentiert: KLIMA KALIMA",
+          "date": "2026-10-28",
+          "images": [
+            "https://imxplatform-cust-hht.fsn1.your-objectstorage.com/media/partnerclient/event/28_10_26.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://imxplatform-cust-hht.fsn1.your-objectstorage.com/media/partnerclient/event/28_10_26.jpg",
+              "titel": "KLIMA KALIMA",
+              "lizenz": "https://creativecommons.org/publicdomain/zero/1.0/",
+              "copyright": "",
+              "urheber": "KLIMA KALIMA"
+            }
+          ]
+        },
+        {
+          "id": "https://hht.imxplatform.de/imxplatform/eventdate_1504648_30555500",
+          "name": "Nadiya Teraz & Anton Genkin",
+          "date": "2026-12-19",
+          "images": [],
+          "credits": []
+        }
+      ]
+    },
+    {
+      "file": "Mobile_Hamburg_Katalog_1.4.6.png",
+      "mode": "katalog",
+      "viewport": {
+        "width": 375,
+        "height": 812,
+        "dpr": 2
+      },
+      "loadedUpcoming": 2,
+      "loadedArchive": 0,
+      "filtered": 2,
+      "mapAttribution": null,
+      "visibleImages": [
+        {
+          "url": "https://imxplatform-cust-hht.fsn1.your-objectstorage.com/media/partnerclient/event/28_10_26.jpg",
+          "alt": "FatJazz präsentiert: KLIMA KALIMA",
+          "width": 2362,
+          "height": 1575
+        }
+      ],
+      "events": [
+        {
+          "id": "https://hht.imxplatform.de/imxplatform/eventdate_1501504_30554359",
+          "name": "FatJazz präsentiert: KLIMA KALIMA",
+          "date": "2026-10-28",
+          "images": [
+            "https://imxplatform-cust-hht.fsn1.your-objectstorage.com/media/partnerclient/event/28_10_26.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://imxplatform-cust-hht.fsn1.your-objectstorage.com/media/partnerclient/event/28_10_26.jpg",
+              "titel": "KLIMA KALIMA",
+              "lizenz": "https://creativecommons.org/publicdomain/zero/1.0/",
+              "copyright": "",
+              "urheber": "KLIMA KALIMA"
+            }
+          ]
+        },
+        {
+          "id": "https://hht.imxplatform.de/imxplatform/eventdate_1504648_30555500",
+          "name": "Nadiya Teraz & Anton Genkin",
+          "date": "2026-12-19",
+          "images": [],
+          "credits": []
+        }
+      ]
+    }
+  ],
+  "imageVerification": {
+    "date": "2026-10-12",
+    "source": "DZT MCP get_entity_details",
+    "eventId": "https://hht.imxplatform.de/imxplatform/eventdate_1501504_30554359",
+    "imageObjectId": "https://hht.imxplatform.de/imxplatform/pooleddataobjectmedium_imageobject_1406607",
+    "url": "https://imxplatform-cust-hht.fsn1.your-objectstorage.com/media/partnerclient/event/28_10_26.jpg",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "copyrightHolder": "KLIMA KALIMA"
+  }
+}

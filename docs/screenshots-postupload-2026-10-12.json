@@ -1,0 +1,59 @@
+{
+  "date": "2026-10-12T10:22:22.241Z",
+  "version": "1.4.8",
+  "screenshotsRuntime": "1.4.7",
+  "method": "real Dev capture, browser UI build upload, HTTP byte comparison",
+  "checks": [
+    {
+      "path": "assets/Desktop_Hamburg_Programm_1.4.7.png",
+      "status": 200,
+      "byteMatch": true
+    },
+    {
+      "path": "assets/Desktop_Hamburg_Karte_1.4.7.png",
+      "status": 200,
+      "byteMatch": true
+    },
+    {
+      "path": "assets/Desktop_Hamburg_Katalog_1.4.7.png",
+      "status": 200,
+      "byteMatch": true
+    },
+    {
+      "path": "assets/Mobile_Hamburg_Programm_1.4.7.png",
+      "status": 200,
+      "byteMatch": true
+    },
+    {
+      "path": "assets/Mobile_Hamburg_Karte_1.4.7.png",
+      "status": 200,
+      "byteMatch": true
+    },
+    {
+      "path": "assets/Mobile_Hamburg_Katalog_1.4.7.png",
+      "status": 200,
+      "byteMatch": true
+    },
+    {
+      "path": "assets/SCREENSHOTS_HAMBURG_1.4.7.json",
+      "status": 200,
+      "byteMatch": true
+    },
+    {
+      "path": "assets/BILDNACHWEISE.md",
+      "status": 200,
+      "byteMatch": true
+    },
+    {
+      "path": "app.js",
+      "status": 200,
+      "byteMatch": true
+    },
+    {
+      "id": "instance-config-unchanged",
+      "pass": true
+    }
+  ],
+  "zipBytes": 13920152,
+  "zipSha256": "ae097da28bb8b6dbd0a5a7f7bf62e460e852e2d9b8da8fa3631b71c7a80bec93"
+}

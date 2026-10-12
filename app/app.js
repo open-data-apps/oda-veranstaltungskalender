@@ -1691,41 +1691,99 @@ function haversineKm(lat1, lon1, lat2, lon2) {
   return 2 * R * Math.asin(Math.sqrt(a));
 }
 
-/*
- * buildSparqlQuery({ modus: "zukunft"|"archiv", lat, lon, radiusKm, heuteKey })
- *
- * Sub-SELECT: geo_shape-Umkreis ueber die Location-Entity + exakte Typ-URIs
- * (VALUES) + Zeitfenster + Ausschluss abgesagter Events (eventStatus
- * EventCancelled), sortiert und begrenzt. Außen GROUP BY ?s mit SAMPLE- und
- * GROUP_CONCAT-Anreicherung (eine Zeile je Event, Sprachfilter de/"").
- */
-function buildSparqlQuery({ modus, lat, lon, radiusKm, heuteKey }) {
-  const numLat = Number(lat);
-  const numLon = Number(lon);
+/* Derselbe Kreis bleibt in allen Teilabfragen erhalten; das Rechteck teilt nur
+ * das native Geo-Ergebnisfenster auf, nicht den konfigurierten Suchradius. */
+function vkGeoQuery(lat, lon, radiusKm, box) {
   const radius = `${Math.max(1, Math.round(Number(radiusKm) || 25))}km`;
-  const zukunft = modus !== "archiv";
-  const bisKey = plusTage(heuteKey, VK_FENSTER_TAGE + 1); /* exklusive Grenze nach dem vollen letzten Tag */
-  const vonKey = plusTage(heuteKey, -VK_FENSTER_TAGE);
+  const circle = { geo_shape: { geometry: {
+    shape: { type: "circle", radius, coordinates: [Number(lon), Number(lat)] },
+    relation: "intersects"
+  } } };
+  const query = box ? { bool: { filter: [circle, { geo_shape: { geometry: {
+    shape: { type: "envelope", coordinates: [[box.west, box.north], [box.east, box.south]] },
+    relation: "intersects"
+  } } }] } } : circle;
+  return JSON.stringify({ query });
+}
 
-  const geoShapeJson = JSON.stringify({
-    query: {
-      geo_shape: {
-        geometry: {
-          shape: { type: "circle", radius, coordinates: [numLon, numLat] },
-          relation: "intersects"
-        }
-      }
+/* Der DZT-Connector liefert hoechstens 10.000 Geo-Orte, noch VOR dem
+ * Veranstaltungs-Join. Ueberlaufende Kreise werden deshalb raeumlich geteilt.
+ * totalHits wird vorab geprueft; keine stille Kappung und kein OFFSET > 10.000. */
+async function vkPlaneGeoAbfragen(base, lat, lon, radiusKm, signal) {
+  const radius = Math.max(1, Math.round(Number(radiusKm) || 25));
+  const winkel = radius / 6371;
+  const latDelta = winkel * 180 / Math.PI * 1.01;
+  const lonDelta = Math.asin(Math.min(1, Math.sin(winkel) / Math.cos(Number(lat) * Math.PI / 180))) * 180 / Math.PI * 1.01;
+  const umkreisBox = { west: Number(lon) - lonDelta, east: Number(lon) + lonDelta,
+    south: Number(lat) - latDelta, north: Number(lat) + latDelta };
+
+  const teile = async (box, tiefe) => {
+    const geoQuery = vkGeoQuery(lat, lon, radius, box);
+    const query = `PREFIX inst: <http://www.ontotext.com/connectors/elasticsearch/instance#>
+PREFIX con: <http://www.ontotext.com/connectors/elasticsearch#>
+SELECT ?vkGeoTotal WHERE {
+  ?search a inst:dzt-geo-shapes ; con:query ${JSON.stringify(geoQuery)} ;
+    con:limit 1 ; con:totalHits ?vkGeoTotal .
+}`;
+    const path = `${base}?${new URLSearchParams({ query }).toString()}`;
+    const json = await fetchKgJson(path, { accept: "application/sparql-results+json" }, signal);
+    const wert = json && json.results && Array.isArray(json.results.bindings) && json.results.bindings[0] && json.results.bindings[0].vkGeoTotal;
+    const total = wert && String(wert.value).trim() !== "" ? Number(wert.value) : NaN;
+    if (!Number.isSafeInteger(total) || total < 0) {
+      throw new Error("Unerwartetes Antwortformat des DZT-Relays (Geo-Trefferzahl). Bitte später erneut laden.");
     }
-  });
+    if (total === 0) return [];
+    if (total < 10000) return [geoQuery];
+    if (tiefe >= 8) {
+      throw new Error("Die Geo-Abfrage kann diesen Umkreis nicht vollständig erfassen. Bitte einen kleineren Umkreis konfigurieren.");
+    }
+    const bounds = box || umkreisBox;
+    let a, b;
+    if (tiefe % 2 === 0) {
+      const mitte = (bounds.west + bounds.east) / 2;
+      a = { ...bounds, east: mitte }; b = { ...bounds, west: mitte };
+    } else {
+      const mitte = (bounds.south + bounds.north) / 2;
+      a = { ...bounds, north: mitte }; b = { ...bounds, south: mitte };
+    }
+    const west = await teile(a, tiefe + 1);
+    const ost = await teile(b, tiefe + 1);
+    return west.concat(ost);
+  };
+  return teile(null, 0);
+}
 
-  const typListe = Object.values(VK_EVENT_TYPES).map((t) => `<${t.uri}>`).join(" ");
-  /* v1.1: Serien-Events (Toubiz) tragen Termine im Schedule-Objekt; der
-   * effektive Zeitraum ist COALESCE(direkt, Schedule). Pflicht: mind. ein Start. */
+/*
+ * Geo-Orte sind vollstaendig vorgeplant. Zuerst werden eindeutige Event-IDs
+ * mit dem fruehesten Zukunfts-/juengsten Archivtermin begrenzt, erst danach
+ * angereichert. Zeit und Ende stammen vom ausgewaehlten Termin; Ort und
+ * Koordinaten vom Geo-Treffer, nicht von einem beliebigen weiteren Ort.
+ */
+function buildSparqlQuery({ modus, lat, lon, radiusKm, heuteKey, geoQuery }) {
+  const zukunft = modus !== "archiv";
+  const bisKey = plusTage(heuteKey, VK_FENSTER_TAGE + 1);
+  const vonKey = plusTage(heuteKey, -VK_FENSTER_TAGE);
+  const geoPattern = `?search a inst:dzt-geo-shapes ;
+        con:query ${JSON.stringify(geoQuery || vkGeoQuery(lat, lon, radiusKm))} ;
+        con:limit 10000 ; con:entities ?loc .`;
+  const typListe = Object.values(VK_EVENT_TYPES).map((t) => t.uri.replace("https://schema.org/", "schema:")).join(" ");
   const fenster = zukunft
     ? `FILTER(COALESCE(STR(?vkEnde), STR(?vkStart)) >= "${heuteKey}" && STR(?vkStart) < "${bisKey}")`
     : `FILTER(COALESCE(STR(?vkEnde), STR(?vkStart)) < "${heuteKey}" && STR(?vkStart) >= "${vonKey}")`;
-  const ordnung = zukunft ? "ORDER BY ?vkStart" : "ORDER BY DESC(?vkStart)";
-  const limit = zukunft ? `LIMIT ${VK_LIMIT_ZUKUNFT}` : `LIMIT ${VK_LIMIT_ARCHIV}`;
+  const terminPattern = `OPTIONAL { ?s schema:startDate ?d }
+      OPTIONAL { ?s schema:endDate ?e }
+      OPTIONAL {
+        ?s schema:eventSchedule ?vkS .
+        OPTIONAL { ?vkS schema:startDate ?vkSd }
+        OPTIONAL { ?vkS schema:endDate ?vkSe }
+        OPTIONAL { ?vkS schema:startTime ?vkZeit }
+      }
+      BIND(COALESCE(?d, ?vkSd) AS ?vkStart)
+      BIND(COALESCE(?e, ?vkSe, ?vkStart) AS ?vkEnde)
+      FILTER(BOUND(?vkStart))
+      ${fenster}`;
+  const ordnung = zukunft ? "ORDER BY ?vkStartWahl ?s" : "ORDER BY DESC(?vkStartWahl) ?s";
+  const limit = zukunft ? VK_LIMIT_ZUKUNFT : VK_LIMIT_ARCHIV;
 
   return `PREFIX inst: <http://www.ontotext.com/connectors/elasticsearch/instance#>
 PREFIX con: <http://www.ontotext.com/connectors/elasticsearch#>
@@ -1750,31 +1808,24 @@ SELECT ?s
   (GROUP_CONCAT(DISTINCT ?typIri; separator=",") AS ?typ)
 WHERE {
   {
-    SELECT ?s ?vkStart ?vkEnde ?vkZeit WHERE {
-      ?search a inst:dzt-geo-shapes ;
-        con:query ${JSON.stringify(geoShapeJson)} ;
-        con:entities ?loc .
+    SELECT ?s (${zukunft ? "MIN" : "MAX"}(STR(?vkStart)) AS ?vkStartWahl)
+      (MIN(STR(?loc)) AS ?vkOrtIri) WHERE {
+      { ${geoPattern} }
       ?s schema:location ?loc .
       VALUES ?t { ${typListe} }
       ?s a ?t .
-      OPTIONAL { ?s schema:startDate ?d }
-      OPTIONAL { ?s schema:endDate ?e }
-      OPTIONAL {
-        ?s schema:eventSchedule ?vkS .
-        OPTIONAL { ?vkS schema:startDate ?vkSd }
-        OPTIONAL { ?vkS schema:endDate ?vkSe }
-      }
-      BIND(COALESCE(?d, ?vkSd) AS ?vkStart)
-      BIND(COALESCE(?e, ?vkSe, ?vkStart) AS ?vkEnde)
-      OPTIONAL { ?s schema:eventSchedule ?vkSz . OPTIONAL { ?vkSz schema:startTime ?vkSt } }
-      BIND(COALESCE(?vkSt) AS ?vkZeit)
-      FILTER(BOUND(?vkStart))
-      ${fenster}
-      FILTER NOT EXISTS { ?s schema:eventStatus <https://schema.org/EventCancelled> }
+      FILTER NOT EXISTS { ?s schema:eventStatus schema:EventCancelled }
+      ${terminPattern}
+      FILTER EXISTS { ?s schema:name ?vkName . FILTER(lang(?vkName) = "de" || lang(?vkName) = "") }
+      FILTER EXISTS { ?loc schema:name ?vkOrtName . FILTER(lang(?vkOrtName) = "de" || lang(?vkOrtName) = "") }
     }
+    GROUP BY ?s
     ${ordnung}
-    ${limit}
+    LIMIT ${limit}
   }
+  BIND(IRI(?vkOrtIri) AS ?vkOrt)
+  ${terminPattern}
+  FILTER(STR(?vkStart) = ?vkStartWahl)
   ?s schema:name ?nameDe .
   FILTER(lang(?nameDe) = "de" || lang(?nameDe) = "")
   OPTIONAL { ?s schema:description ?descDe . FILTER(lang(?descDe) = "de" || lang(?descDe) = "") }
@@ -1795,16 +1846,15 @@ WHERE {
       ENCODE_FOR_URI(COALESCE(STR(?imgUrheber), ""))
     ) AS ?imgNachweis)
   }
-  ?s schema:location ?loc2 .
-  ?loc2 schema:name ?ortNameDe .
+  ?vkOrt schema:name ?ortNameDe .
   FILTER(lang(?ortNameDe) = "de" || lang(?ortNameDe) = "")
   OPTIONAL {
-    ?loc2 schema:geo ?geo .
+    ?vkOrt schema:geo ?geo .
     ?geo schema:latitude ?latVal .
     ?geo schema:longitude ?lngVal .
   }
   OPTIONAL {
-    ?loc2 schema:address ?addr .
+    ?vkOrt schema:address ?addr .
     OPTIONAL { ?addr schema:streetAddress ?streetVal }
     OPTIONAL { ?addr schema:postalCode ?postalVal }
     OPTIONAL { ?addr schema:addressLocality ?cityVal }
@@ -2455,7 +2505,7 @@ async function fetchKgJson(path, extraHeaders = {}, signal) {
 
   let response;
   try {
-    response = await vkZeitlimitFetch(url, { headers }, signal, 20000);
+    response = await vkZeitlimitFetch(url, { headers }, signal, 75000);
   } catch (error) {
     if (error && error.name === "AbortError") throw error;
     throw new Error("Die Verbindung zum DZT-Relay ist fehlgeschlagen. Steht die App innerhalb einer ODAS-Instanz bereit?");
@@ -2506,8 +2556,8 @@ function heutigerTagKey() {
  *
  * null = keine Datenquelle konfiguriert (Guard gegen fetch("")).
  * Wirft Klartext-Fehler bei ungueltigem Ort oder nicht ableitbarem Endpunkt.
- * Zwei parallele SPARQL-Requests (Zukunft LIMIT 600 / Archiv LIMIT 400,
- * Archiv absteigend), Parsing und Zukunft/Archiv-Split inklusive.
+ * Geo-Trefferpruefung, dann Teilabfragen fuer beide Zeitfenster parallel.
+ * Globale Grenzen: 600 kommende / 400 vergangene IDs, Archiv absteigend.
  * optionen.heuteKey ist Test-Hook (Standard: lokales Heute).
  */
 async function ladeEvents(configdata, signal, optionen) {
@@ -2531,24 +2581,51 @@ async function ladeEvents(configdata, signal, optionen) {
 
   const heuteKey = (optionen && optionen.heuteKey) || heutigerTagKey();
   const radiusKm = String((configdata && configdata.radiusKm) || "25");
+  const geoQueries = await vkPlaneGeoAbfragen(base, geo.lat, geo.lon, radiusKm, signal);
+  if (!geoQueries.length) return { zukunft: [], archiv: [], geo, heuteKey };
 
-  const sparqlRequest = (modus) => {
-    const query = buildSparqlQuery({ modus, lat: geo.lat, lon: geo.lon, radiusKm, heuteKey });
+  const sparqlRequest = (modus, geoQuery) => {
+    // Relay-GET kodiert doppelt: Layout kuerzen, Literale/IRIs unveraendert lassen.
+    const query = buildSparqlQuery({ modus, lat: geo.lat, lon: geo.lon, radiusKm, heuteKey, geoQuery })
+      .split("\n").map((line) => line.trim()).join(" ")
+      .replace(/"(?:\\.|[^"\\])*"|<[^<>\s]*>|\s*([{}();,=])\s*/g, (text, zeichen) => zeichen || text);
     const path = `${base}?${new URLSearchParams({ query }).toString()}`;
     return fetchKgJson(path, { accept: "application/sparql-results+json" }, signal);
   };
 
-  const [zukunftJson, archivJson] = await Promise.all([sparqlRequest("zukunft"), sparqlRequest("archiv")]);
-  /* v1.2.4 (D-6): Ein Relay ohne gueltiges results.bindings ist ein Fehlerzustand,
-   * kein "leeres Programm" – sonst waere ein defektes Relay unsichtbar. */
+  /* Ein Relay ohne gueltiges results.bindings ist ein Fehlerzustand,
+   * kein "leeres Programm" – auch bei einer einzelnen Teilabfrage. */
   const leseBindings = (json, bereich) => {
     if (!json || !json.results || !Array.isArray(json.results.bindings)) {
       throw new Error(`Unerwartetes Antwortformat des DZT-Relays (${bereich}). Bitte die Instanz-Konfiguration und den Datenstand prüfen.`);
     }
     return json.results.bindings;
   };
-  const zukunft = parseEvents(leseBindings(zukunftJson, "kommende Veranstaltungen"), geo.lat, geo.lon);
-  const archiv = parseEvents(leseBindings(archivJson, "Archiv"), geo.lat, geo.lon).reverse();
+  /* Ein Geo-Literal je GET verhindert HTTP 414. Je Zeitfenster laufen die
+   * Teile nacheinander, beide Zeitfenster parallel (max. zwei Anfragen).
+   * Die ersten N IDs jeder Teilmenge enthalten auch die global ersten N. */
+  const ladeBereich = async (modus) => {
+    const rows = [];
+    const bereich = modus === "zukunft" ? "kommende Veranstaltungen" : "Archiv";
+    for (const geoQuery of geoQueries) {
+      rows.push(...leseBindings(await sparqlRequest(modus, geoQuery), bereich));
+    }
+    rows.sort((a, b) => {
+      const datum = String(a.startDatum && a.startDatum.value || "").localeCompare(String(b.startDatum && b.startDatum.value || ""));
+      return (modus === "zukunft" ? datum : -datum) || String(a.s && a.s.value || "").localeCompare(String(b.s && b.s.value || ""));
+    });
+    const unique = new Map();
+    const limit = modus === "zukunft" ? VK_LIMIT_ZUKUNFT : VK_LIMIT_ARCHIV;
+    for (const row of rows) {
+      const id = row.s && row.s.value;
+      if (id && !unique.has(id)) unique.set(id, row);
+      if (unique.size === limit) break;
+    }
+    return Array.from(unique.values());
+  };
+  const [zukunftRows, archivRows] = await Promise.all([ladeBereich("zukunft"), ladeBereich("archiv")]);
+  const zukunft = parseEvents(zukunftRows, geo.lat, geo.lon);
+  const archiv = parseEvents(archivRows, geo.lat, geo.lon).reverse();
 
   return { zukunft, archiv, geo, heuteKey };
 }

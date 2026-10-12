@@ -94,7 +94,7 @@ async function runTests() {
   assert.strictEqual(fetchAufrufe, 0, "kein fetch ohne Quelle (Guard gegen fetch(\"\"))");
   console.log("  [5] ladeEvents-Guard: keine Quelle -> null, kein fetch");
 
-  // (5) ladeEvents: voller Durchlauf mit Nominatim + 2 SPARQL-Requests
+  // (5) ladeEvents: Geocoding, Geo-Vollstaendigkeit, dann 2 parallele Event-Abfragen
   const sparqlAntworten = { zukunft: { results: { bindings: [
     { s: { value: "urn:z1" }, name: { value: "Zukunfts-Konzert" }, startDatum: { value: "2026-10-01T19:30:00+02:00" }, typ: { value: "https://schema.org/MusicEvent" }, ortName: { value: "Halle" } }
   ]}}, archiv: { results: { bindings: [
@@ -106,8 +106,12 @@ async function runTests() {
     const u = String(url);
     gefetchteUrls.push(u);
     if (u.includes("nominatim")) return { ok: true, status: 200, text: async () => JSON.stringify([{ lat: "48.6813", lon: "9.0086" }]) };
-    // Unterscheidung nach Query-Merkmal im (doppelt encodierten) Relay-Pfad
-    const text = async () => JSON.stringify(u.includes("LIMIT%2B400") ? sparqlAntworten.archiv : sparqlAntworten.zukunft);
+    const relayPath = new URL(u, "http://localhost").searchParams.get("path");
+    const query = new URL(relayPath, "https://dzt.invalid/").searchParams.get("query");
+    const payload = query.includes("con:totalHits")
+      ? { head: { vars: ["vkGeoTotal"] }, results: { bindings: [{ vkGeoTotal: { type: "literal", datatype: "http://www.w3.org/2001/XMLSchema#long", value: "2" } }] } }
+      : query.includes("LIMIT 400") ? sparqlAntworten.archiv : sparqlAntworten.zukunft;
+    const text = async () => JSON.stringify(payload);
     return { ok: true, status: 200, text };
   };
   const h7 = appSandbox({ fetch: fetchVoll });
@@ -123,9 +127,9 @@ async function runTests() {
   assert.strictEqual(ergebnis.archiv[1].name, "Konzert im Mai", "archiv aeltestes hinten");
   assert.ok(Math.abs(ergebnis.geo.lat - 48.6813) < 1e-9, "geo im Ergebnis");
   const relayAnfragen = gefetchteUrls.filter((u) => u.includes("/dzt?path="));
-  assert.strictEqual(relayAnfragen.length, 2, "zwei Relay-Requests (zukunft+archiv)");
+  assert.strictEqual(relayAnfragen.length, 3, "Geo-Trefferzahl und zwei Event-Abfragen");
   assert.ok(gefetchteUrls.some((u) => u.includes("nominatim")), "ein Nominatim-Request");
-  console.log("  [6] ladeEvents: Geocoding + 2 parallele SPARQL-Requests + Parse/Split");
+  console.log("  [6] ladeEvents: Geocoding + Geo-Pruefung + 2 parallele Event-Abfragen + Parse/Split");
 
   // (6) ladeEvents: Geocoding-Fehler -> Klartext-Fehler
   const h8 = appSandbox({ fetch: fetchNominatimLeer });

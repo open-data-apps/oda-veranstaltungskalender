@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.4.8 - 2026-10-12
+
+- **Screenshots nach dem Geo-Fix:** Sechs neue Dev-Aufnahmen von Programm, Karte und Katalog für Desktop/Mobile zeigen Hamburg · 25 km mit 600 geladenen Veranstaltungen und sichtbarem 90-Tage-Filter. Die Dateinamen `*_1.4.7.png` benennen die aufgenommene Runtime; der Screenshot-Lieferstand ist 1.4.8.
+- **Nachweise und Paket:** README und Screenshot-Verweise aktualisiert, Aufnahmebeleg mit PNG-Prüfsummen und Nachweise zu zwölf sichtbaren Foto-URLs ergänzt. Alle Fotos deklarieren bildbezogen CC BY 4.0; Kartenattribution ist sichtbar. Historische Hamburg-/Böblingen-Aufnahmen bleiben unverändert.
+- **Keine Runtime-Änderung:** Geo-Abfrage, UI und individuelle Instanztexte unverändert.
+
+## 1.4.7 - 2026-10-12
+
+- **Geo-Abfrage repariert:** Der DZT-Geo-Connector begrenzt Orte vor dem Event-Join auf 10.000. Die App prüft jetzt `totalHits` und teilt überlaufende Kreise rekursiv räumlich auf; der konfigurierte Kreis bleibt erhalten. Nicht auflösbare Überläufe sind sichtbare Fehler statt stiller Trefferverluste.
+- **Begrenzung nach Event-ID:** Auswahl des frühesten Zukunfts-/jüngsten Archivbeginns vor der Anreicherung; globales Zusammenführen und Deduplizieren der Teilantworten auf maximal 600/400 eindeutige Veranstaltungen. Der angezeigte Ort gehört zur Geo-Treffermenge.
+- **Relay-taugliche Requests:** Eine Teilfläche je kompakter GET-Abfrage vermeidet HTTP 414 auch bei doppelt kodierten Relay-URLs. Höchstens zwei Event-Requests parallel; 75 Sekunden Zeitlimit je Request, da echte Dev-Teilabfragen mehr als 45 Sekunden benötigen können.
+- **Regression und echte Daten:** Tests für Fenstergrenzen, rekursive Aufteilung, ungültige Antworten, globale Limits, Duplikate und Relay-URL-Länge; echte Hamburg-Vergleiche und Dev-Relay-Test dokumentiert in `docs/geo-fix-2026-10-12.md`. Keine Template-/Instanztextänderungen; vorhandene versionierte Screenshots bleiben unverändert.
+
+## 1.4.6 - 2026-10-09
+
+- **Hamburg als Demo und Standardort:** Der Paket-Default für `ort` und die lokale Demo-Konfiguration verwenden Hamburg. Der Standardradius bleibt bei 25 km; Hilfetext und README sind angepasst.
+- **Neue Hamburg-Screenshots:** Sechs Desktop-/Mobile-Aufnahmen von Programm, Karte und Katalog zeigen echte DZT-Daten auf Dev am 12.10.2026 mit dem sichtbaren 90-Tage-Filter. Paket und README verweisen auf den neuen Satz; Bildnachweise und ein maschinenlesbarer Aufnahmebeleg sind ergänzt. Die sechs historischen Böblingen-Aufnahmen bleiben unverändert.
+- **Beschreibung und Lieferung:** Store-/App-Beschreibung und lokale Darstellung nennen die Hamburg-Vorbelegung. README-Versionsstand und Konfigurationshinweise sind synchronisiert; das ZIP enthält die neuen Screenshots und Nachweise.
+- **Dev-Umstellung:** Version 1.4.6 ist auf Dev eingespielt; die Demo verwendet Hamburg und 25 km. Die individuell gespeicherten Titel und sonstigen Instanztexte bleiben erhalten.
+- **Unveränderte Laufzeit:** Keine Änderung an Datenabfragen, Filtern oder Template-Dateien. Die Aufnahmen dokumentieren den tatsächlich geladenen Ausschnitt, nicht die Gesamtzahl der DZT-Veranstaltungen; die Grenze der Geo-Abfrage bleibt offen.
+
 ## 1.4.5 - 2026-10-08
 
 - **Bildnachweise erst im Detail:** Programm, Katalog und Archiv zeigen keine Bildtitel-, Rechte-, Quellen- oder Lizenzzeile mehr unter den Veranstaltungskarten. Die vollständigen gelieferten Angaben bleiben in der Detailansicht und deren Bildvergrößerung erreichbar.

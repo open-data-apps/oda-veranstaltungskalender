@@ -60,7 +60,14 @@
       if (url.indexOf("/dzt?path=") !== -1) {
         if (aktiverModus === "error") return vkResponse("{}", 500, "application/json");
         if (aktiverModus === "html-200") return vkResponse("<html><body>Login-Fehlerseite</body></html>", 200, "text/html");
-        const welche = url.indexOf("LIMIT%2B400") !== -1 ? "archiv" : "zukunft";
+        const relayPath = new URL(url, window.location.href).searchParams.get("path");
+        const query = new URL(relayPath, "https://dzt.invalid/").searchParams.get("query") || "";
+        if (query.includes("con:totalHits")) {
+          return vkResponse(JSON.stringify({ head: { vars: ["vkGeoTotal"] }, results: { bindings: [{
+            vkGeoTotal: { type: "literal", datatype: "http://www.w3.org/2001/XMLSchema#long", value: aktiverModus === "empty" ? "0" : "42" }
+          }] } }), 200, "application/sparql-results+json");
+        }
+        const welche = query.includes("LIMIT 400") ? "archiv" : "zukunft";
         return vkResponse(JSON.stringify(vkSparqlAntwort(welche, aktiverModus)), 200, "application/sparql-results+json");
       }
 

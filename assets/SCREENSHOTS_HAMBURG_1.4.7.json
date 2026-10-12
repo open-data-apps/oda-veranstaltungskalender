@@ -1,0 +1,1126 @@
+{
+  "date": "2026-10-12T10:10:55.170Z",
+  "appVersion": "1.4.7",
+  "runtimeSha256": "0a737d70ce7b3ff1ea23046046d52554e768b9a42e4a3811133f58cce7629c74",
+  "source": "single real Dev ODAS DZT relay session; no injected event data; viewport captures",
+  "url": "http://100.66.238.123:3000/view/audit-test/oda-veranstaltungskalender/cmuo0ajoh0001t12n0bqdkd2a/",
+  "locality": "Hamburg",
+  "radiusKm": 25,
+  "filterDays": 90,
+  "loadedUpcoming": 600,
+  "loadedArchive": 0,
+  "relayRequests": [
+    {
+      "status": 200,
+      "urlLength": 1034
+    },
+    {
+      "status": 200,
+      "urlLength": 1539
+    },
+    {
+      "status": 200,
+      "urlLength": 1540
+    },
+    {
+      "status": 200,
+      "urlLength": 7684
+    },
+    {
+      "status": 200,
+      "urlLength": 7695
+    },
+    {
+      "status": 200,
+      "urlLength": 7696
+    },
+    {
+      "status": 200,
+      "urlLength": 7685
+    }
+  ],
+  "captures": [
+    {
+      "file": "Desktop_Hamburg_Programm_1.4.7.png",
+      "sha256": "0978ade97fa6c3f50f9d2f85d6910a93e5b345c0539ba2601ff123bc929271ba",
+      "mode": "programm",
+      "filterDays": "90",
+      "loadedUpcoming": 600,
+      "loadedArchive": 0,
+      "filtered": 600,
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "noHorizontalOverflow": true,
+      "mapAttribution": null,
+      "visibleImages": [
+        {
+          "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718827/c78b6d507e7adeeae116428a9a7f38bfb8bec49c24a4b72fb9d3700fa33bd48e/babycaf-obsthof-matthies.jpg",
+          "alt": "Baby-Café",
+          "width": 1920,
+          "height": 1440
+        },
+        {
+          "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720107/cea8bde0f0aa24cc6cf4852c6a06b33ae0d55a5291ea75b62326bdee9d927918/herzapfelhof.jpg",
+          "alt": "Winter-Hofführungen auf dem Herzapfelhof",
+          "width": 1920,
+          "height": 1081
+        },
+        {
+          "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3739583/20baeacfd994bc32a30683f4c2b8ef8daf6bf77141943a23c7e0c89b27e53e2f/the-jork.jpg",
+          "alt": "Yoga bei THE JORK – Deine Barfußoase der Achtsamkeit -Yoga Flow mit Manuela",
+          "width": 1440,
+          "height": 1920
+        },
+        {
+          "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3739584/20baeacfd994bc32a30683f4c2b8ef8daf6bf77141943a23c7e0c89b27e53e2f/the-jork.jpg",
+          "alt": "Yoga bei THE JORK – Deine Barfußoase der Achtsamkeit - Yin Yoga mit Ulrike",
+          "width": 1440,
+          "height": 1920
+        },
+        {
+          "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3722601/21ca963d7e2c7379c5040ac857d6ab40fade08a83aab03513035e0a2a8bc2d89/familie-l-hs.jpg",
+          "alt": "Öffentliche Apfelexpressfahrt mit Hofführung",
+          "width": 1667,
+          "height": 1113
+        },
+        {
+          "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720075/21ca963d7e2c7379c5040ac857d6ab40fade08a83aab03513035e0a2a8bc2d89/familie-l-hs.jpg",
+          "alt": "Öffentliche Freitags-Führung",
+          "width": 1667,
+          "height": 1113
+        },
+        {
+          "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3733747/3750f98ccef2993a3bf3aecf43cf1a2fd49eb04b58eb87a00c94f482ad2de492/bingo-umb-deln.jpg",
+          "alt": "Bingo / Umbüdeln",
+          "width": 1024,
+          "height": 838
+        },
+        {
+          "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720065/7872d3c0caaf6f17525865b82b935ae9205f350b260377d8138dc1c0b754fc75/museum-altes-land.jpg",
+          "alt": "Expedition Este #1: Der Aufbruch",
+          "width": 1920,
+          "height": 1280
+        }
+      ],
+      "events": [
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101193875",
+          "name": "Eicheln- & Kastanien-Annahme am  Wildpark Schwarze Berge",
+          "date": "2020-10-17",
+          "images": [],
+          "credits": []
+        },
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101227965",
+          "name": "Baby-Café",
+          "date": "2026-03-11",
+          "images": [
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718827/c78b6d507e7adeeae116428a9a7f38bfb8bec49c24a4b72fb9d3700fa33bd48e/babycaf-obsthof-matthies.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718827/c78b6d507e7adeeae116428a9a7f38bfb8bec49c24a4b72fb9d3700fa33bd48e/babycaf-obsthof-matthies.jpg",
+              "titel": "Babycafé Obsthof Matthies",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Obsthof Matthies",
+              "urheber": "Obsthof Matthies"
+            }
+          ]
+        },
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101228831",
+          "name": "Winter-Hofführungen auf dem Herzapfelhof",
+          "date": "2026-03-14",
+          "images": [
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720107/cea8bde0f0aa24cc6cf4852c6a06b33ae0d55a5291ea75b62326bdee9d927918/herzapfelhof.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720107/cea8bde0f0aa24cc6cf4852c6a06b33ae0d55a5291ea75b62326bdee9d927918/herzapfelhof.jpg",
+              "titel": "Herzapfelhof",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Herzapfelhof Lühs",
+              "urheber": "Herzapfelhof Lühs"
+            }
+          ]
+        },
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101237755",
+          "name": "Yoga bei THE JORK – Deine Barfußoase der Achtsamkeit -Yoga Flow mit Manuela",
+          "date": "2026-03-23",
+          "images": [
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3739583/20baeacfd994bc32a30683f4c2b8ef8daf6bf77141943a23c7e0c89b27e53e2f/the-jork.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3739583/20baeacfd994bc32a30683f4c2b8ef8daf6bf77141943a23c7e0c89b27e53e2f/the-jork.jpg",
+              "titel": "The Jork",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "The Jork",
+              "urheber": "The Jork"
+            }
+          ]
+        },
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101237756",
+          "name": "Yoga bei THE JORK – Deine Barfußoase der Achtsamkeit - Yin Yoga mit Ulrike",
+          "date": "2026-03-23",
+          "images": [
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3739584/20baeacfd994bc32a30683f4c2b8ef8daf6bf77141943a23c7e0c89b27e53e2f/the-jork.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3739584/20baeacfd994bc32a30683f4c2b8ef8daf6bf77141943a23c7e0c89b27e53e2f/the-jork.jpg",
+              "titel": "The Jork",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "The Jork",
+              "urheber": "The Jork"
+            }
+          ]
+        },
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101230110",
+          "name": "Öffentliche Apfelexpressfahrt mit Hofführung",
+          "date": "2026-04-01",
+          "images": [
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3722601/21ca963d7e2c7379c5040ac857d6ab40fade08a83aab03513035e0a2a8bc2d89/familie-l-hs.jpg",
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3722600/08168919cfd9ff5b34c170181276e540e16e7906c56ef69428f854a79cc7f4e7/jonagold-apfelernte.jpg",
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3722597/ec82a39d1af0f9ee7d647a6cf80c7c0fd42d90c6832dde7e61f8fdbdcb45b0e6/apfelexpress-im-herzapfelhof.jpg",
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3722599/d9dbd35a7d1ddd19c3e0c0353fbd86af572ca991eb4d1e1ea9284e91a36a61a8/hofladen-frischeraum.jpg",
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3722598/6c3bdda3923c5840ad3da6771fbc2203ddf9a9f9f2574823fb1395b9682d289b/hofladen-herzapfelhof.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3722601/21ca963d7e2c7379c5040ac857d6ab40fade08a83aab03513035e0a2a8bc2d89/familie-l-hs.jpg",
+              "titel": "Familie Lühs",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Herzapfelhof",
+              "urheber": "Herzapfelhof"
+            },
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3722600/08168919cfd9ff5b34c170181276e540e16e7906c56ef69428f854a79cc7f4e7/jonagold-apfelernte.jpg",
+              "titel": "Jonagold Apfelernte",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Herzapfelhof",
+              "urheber": "Herzapfelhof"
+            },
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3722597/ec82a39d1af0f9ee7d647a6cf80c7c0fd42d90c6832dde7e61f8fdbdcb45b0e6/apfelexpress-im-herzapfelhof.jpg",
+              "titel": "Apfelexpress im Herzapfelhof",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Herzapfelhof",
+              "urheber": "Herzapfelhof"
+            },
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3722599/d9dbd35a7d1ddd19c3e0c0353fbd86af572ca991eb4d1e1ea9284e91a36a61a8/hofladen-frischeraum.jpg",
+              "titel": "Hofladen Frischeraum",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Herzapfelhof",
+              "urheber": "Herzapfelhof"
+            },
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3722598/6c3bdda3923c5840ad3da6771fbc2203ddf9a9f9f2574823fb1395b9682d289b/hofladen-herzapfelhof.jpg",
+              "titel": "Hofladen Herzapfelhof",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Herzapfelhof",
+              "urheber": "Herzapfelhof"
+            }
+          ]
+        },
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101228805",
+          "name": "Öffentliche Freitags-Führung",
+          "date": "2026-04-01",
+          "images": [
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720075/21ca963d7e2c7379c5040ac857d6ab40fade08a83aab03513035e0a2a8bc2d89/familie-l-hs.jpg",
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720071/cea8bde0f0aa24cc6cf4852c6a06b33ae0d55a5291ea75b62326bdee9d927918/freitags-f-hrung-mit-obstbauer-hein.jpg",
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720073/d9dbd35a7d1ddd19c3e0c0353fbd86af572ca991eb4d1e1ea9284e91a36a61a8/hofladen-frischeraum.jpg",
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720074/d892ec086c8933b2743862500881d6a4ecab7bc1e503e2b056f4581cfa06a340/apfelbl-te.jpg",
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720072/6c3bdda3923c5840ad3da6771fbc2203ddf9a9f9f2574823fb1395b9682d289b/hofladen-herzapfelhof.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720075/21ca963d7e2c7379c5040ac857d6ab40fade08a83aab03513035e0a2a8bc2d89/familie-l-hs.jpg",
+              "titel": "Familie Lühs",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Herzapfelhof Lühs",
+              "urheber": "Herzapfelhof Lühs"
+            },
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720071/cea8bde0f0aa24cc6cf4852c6a06b33ae0d55a5291ea75b62326bdee9d927918/freitags-f-hrung-mit-obstbauer-hein.jpg",
+              "titel": "Freitags Führung mit Obstbauer Hein",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Herzapfelhof Lühs",
+              "urheber": "Herzapfelhof Lühs"
+            },
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720073/d9dbd35a7d1ddd19c3e0c0353fbd86af572ca991eb4d1e1ea9284e91a36a61a8/hofladen-frischeraum.jpg",
+              "titel": "Hofladen Frischeraum",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Herzapfelhof Lühs",
+              "urheber": "Herzapfelhof Lühs"
+            },
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720074/d892ec086c8933b2743862500881d6a4ecab7bc1e503e2b056f4581cfa06a340/apfelbl-te.jpg",
+              "titel": "Apfelblüte",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Herzapfelhof Lühs",
+              "urheber": "Herzapfelhof Lühs"
+            },
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720072/6c3bdda3923c5840ad3da6771fbc2203ddf9a9f9f2574823fb1395b9682d289b/hofladen-herzapfelhof.jpg",
+              "titel": "Hofladen Herzapfelhof",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Herzapfelhof Lühs",
+              "urheber": "Herzapfelhof Lühs"
+            }
+          ]
+        },
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101235512",
+          "name": "Bingo / Umbüdeln",
+          "date": "2026-04-10",
+          "images": [
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3733747/3750f98ccef2993a3bf3aecf43cf1a2fd49eb04b58eb87a00c94f482ad2de492/bingo-umb-deln.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3733747/3750f98ccef2993a3bf3aecf43cf1a2fd49eb04b58eb87a00c94f482ad2de492/bingo-umb-deln.jpg",
+              "titel": "Bingo / Umbüdeln",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Stubbes Gasthaus",
+              "urheber": "Stubbes Gasthaus"
+            }
+          ]
+        },
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101228802",
+          "name": "Expedition Este #1: Der Aufbruch",
+          "date": "2026-04-12",
+          "images": [
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720065/7872d3c0caaf6f17525865b82b935ae9205f350b260377d8138dc1c0b754fc75/museum-altes-land.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720065/7872d3c0caaf6f17525865b82b935ae9205f350b260377d8138dc1c0b754fc75/museum-altes-land.jpg",
+              "titel": "Museum Altes Land",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Museum Altes Land",
+              "urheber": "Museum Altes Land"
+            }
+          ]
+        }
+      ],
+      "requestCount": 7
+    },
+    {
+      "file": "Desktop_Hamburg_Karte_1.4.7.png",
+      "sha256": "75f4ed70a599984db2007073fe33e4ceaf6b87ecfd8d7b5e09555c46186713ca",
+      "mode": "karte",
+      "filterDays": "90",
+      "loadedUpcoming": 600,
+      "loadedArchive": 0,
+      "filtered": 600,
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "noHorizontalOverflow": true,
+      "mapAttribution": " Leaflet | © OpenStreetMap",
+      "visibleImages": [
+        {
+          "url": "https://b.tile.openstreetmap.org/11/1080/661.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://c.tile.openstreetmap.org/11/1081/661.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://c.tile.openstreetmap.org/11/1080/662.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://a.tile.openstreetmap.org/11/1081/662.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://a.tile.openstreetmap.org/11/1080/660.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://b.tile.openstreetmap.org/11/1081/660.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://a.tile.openstreetmap.org/11/1079/661.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://a.tile.openstreetmap.org/11/1082/661.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://b.tile.openstreetmap.org/11/1079/662.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://b.tile.openstreetmap.org/11/1082/662.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://a.tile.openstreetmap.org/11/1080/663.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://b.tile.openstreetmap.org/11/1081/663.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://c.tile.openstreetmap.org/11/1079/660.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://c.tile.openstreetmap.org/11/1082/660.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://c.tile.openstreetmap.org/11/1079/663.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://c.tile.openstreetmap.org/11/1082/663.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://c.tile.openstreetmap.org/11/1078/661.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://b.tile.openstreetmap.org/11/1083/661.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://a.tile.openstreetmap.org/11/1078/662.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://c.tile.openstreetmap.org/11/1083/662.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://b.tile.openstreetmap.org/11/1078/660.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://a.tile.openstreetmap.org/11/1083/660.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://b.tile.openstreetmap.org/11/1078/663.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://a.tile.openstreetmap.org/11/1083/663.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        }
+      ],
+      "events": [],
+      "requestCount": 7
+    },
+    {
+      "file": "Desktop_Hamburg_Katalog_1.4.7.png",
+      "sha256": "bd5cb615d4451a08fff65639911cc83b2889ceb09c6955de29458bfbdf3a8e61",
+      "mode": "katalog",
+      "filterDays": "90",
+      "loadedUpcoming": 600,
+      "loadedArchive": 0,
+      "filtered": 600,
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "noHorizontalOverflow": true,
+      "mapAttribution": null,
+      "visibleImages": [
+        {
+          "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718827/c78b6d507e7adeeae116428a9a7f38bfb8bec49c24a4b72fb9d3700fa33bd48e/babycaf-obsthof-matthies.jpg",
+          "alt": "Baby-Café",
+          "width": 1920,
+          "height": 1440
+        },
+        {
+          "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720107/cea8bde0f0aa24cc6cf4852c6a06b33ae0d55a5291ea75b62326bdee9d927918/herzapfelhof.jpg",
+          "alt": "Winter-Hofführungen auf dem Herzapfelhof",
+          "width": 1920,
+          "height": 1081
+        },
+        {
+          "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3739583/20baeacfd994bc32a30683f4c2b8ef8daf6bf77141943a23c7e0c89b27e53e2f/the-jork.jpg",
+          "alt": "Yoga bei THE JORK – Deine Barfußoase der Achtsamkeit -Yoga Flow mit Manuela",
+          "width": 1440,
+          "height": 1920
+        },
+        {
+          "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3739584/20baeacfd994bc32a30683f4c2b8ef8daf6bf77141943a23c7e0c89b27e53e2f/the-jork.jpg",
+          "alt": "Yoga bei THE JORK – Deine Barfußoase der Achtsamkeit - Yin Yoga mit Ulrike",
+          "width": 1440,
+          "height": 1920
+        },
+        {
+          "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3722601/21ca963d7e2c7379c5040ac857d6ab40fade08a83aab03513035e0a2a8bc2d89/familie-l-hs.jpg",
+          "alt": "Öffentliche Apfelexpressfahrt mit Hofführung",
+          "width": 1667,
+          "height": 1113
+        },
+        {
+          "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720075/21ca963d7e2c7379c5040ac857d6ab40fade08a83aab03513035e0a2a8bc2d89/familie-l-hs.jpg",
+          "alt": "Öffentliche Freitags-Führung",
+          "width": 1667,
+          "height": 1113
+        },
+        {
+          "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3733747/3750f98ccef2993a3bf3aecf43cf1a2fd49eb04b58eb87a00c94f482ad2de492/bingo-umb-deln.jpg",
+          "alt": "Bingo / Umbüdeln",
+          "width": 1024,
+          "height": 838
+        },
+        {
+          "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720065/7872d3c0caaf6f17525865b82b935ae9205f350b260377d8138dc1c0b754fc75/museum-altes-land.jpg",
+          "alt": "Expedition Este #1: Der Aufbruch",
+          "width": 1920,
+          "height": 1280
+        },
+        {
+          "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720084/eabed15eb0f6b7b1e3d0adf3d3c507e98efeca281a8cfacf11b7921412f68b67/rathaus-in-jork-quer.jpg",
+          "alt": "Jork zu Fuß",
+          "width": 1920,
+          "height": 1035
+        },
+        {
+          "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718825/78f5eb1b4e34f6d5261ef10b4209cd5c51f57f8223c444f6e8fadca01108fea5/hofansicht.jpg",
+          "alt": "Hofführung zu Fuß mit Vitamine naschen",
+          "width": 1920,
+          "height": 1310
+        },
+        {
+          "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3787901/202b229dff3b5e19ffb7eaeb0248c19929c2cf80666948c159e443c1e94e157e/the-jork.jpg",
+          "alt": "YIN YOGA bei THE JORK – Deine Barfußoase der Achtsamkeit - Yin Yoga mit Tiziana",
+          "width": 889,
+          "height": 655
+        },
+        {
+          "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/4190374/b46250b151579f18213982ff131516a46aa0fc355d1cf9d2007531f5db51b999/download-jpg.jpg",
+          "alt": "\"Elbe Gefühle\" Bilder einer Flusslandschaft",
+          "width": 175,
+          "height": 116
+        }
+      ],
+      "events": [
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101227965",
+          "name": "Baby-Café",
+          "date": "2026-03-11",
+          "images": [
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718827/c78b6d507e7adeeae116428a9a7f38bfb8bec49c24a4b72fb9d3700fa33bd48e/babycaf-obsthof-matthies.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718827/c78b6d507e7adeeae116428a9a7f38bfb8bec49c24a4b72fb9d3700fa33bd48e/babycaf-obsthof-matthies.jpg",
+              "titel": "Babycafé Obsthof Matthies",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Obsthof Matthies",
+              "urheber": "Obsthof Matthies"
+            }
+          ]
+        },
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101228831",
+          "name": "Winter-Hofführungen auf dem Herzapfelhof",
+          "date": "2026-03-14",
+          "images": [
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720107/cea8bde0f0aa24cc6cf4852c6a06b33ae0d55a5291ea75b62326bdee9d927918/herzapfelhof.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720107/cea8bde0f0aa24cc6cf4852c6a06b33ae0d55a5291ea75b62326bdee9d927918/herzapfelhof.jpg",
+              "titel": "Herzapfelhof",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Herzapfelhof Lühs",
+              "urheber": "Herzapfelhof Lühs"
+            }
+          ]
+        },
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101237755",
+          "name": "Yoga bei THE JORK – Deine Barfußoase der Achtsamkeit -Yoga Flow mit Manuela",
+          "date": "2026-03-23",
+          "images": [
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3739583/20baeacfd994bc32a30683f4c2b8ef8daf6bf77141943a23c7e0c89b27e53e2f/the-jork.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3739583/20baeacfd994bc32a30683f4c2b8ef8daf6bf77141943a23c7e0c89b27e53e2f/the-jork.jpg",
+              "titel": "The Jork",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "The Jork",
+              "urheber": "The Jork"
+            }
+          ]
+        },
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101237756",
+          "name": "Yoga bei THE JORK – Deine Barfußoase der Achtsamkeit - Yin Yoga mit Ulrike",
+          "date": "2026-03-23",
+          "images": [
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3739584/20baeacfd994bc32a30683f4c2b8ef8daf6bf77141943a23c7e0c89b27e53e2f/the-jork.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3739584/20baeacfd994bc32a30683f4c2b8ef8daf6bf77141943a23c7e0c89b27e53e2f/the-jork.jpg",
+              "titel": "The Jork",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "The Jork",
+              "urheber": "The Jork"
+            }
+          ]
+        },
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101230110",
+          "name": "Öffentliche Apfelexpressfahrt mit Hofführung",
+          "date": "2026-04-01",
+          "images": [
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3722601/21ca963d7e2c7379c5040ac857d6ab40fade08a83aab03513035e0a2a8bc2d89/familie-l-hs.jpg",
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3722600/08168919cfd9ff5b34c170181276e540e16e7906c56ef69428f854a79cc7f4e7/jonagold-apfelernte.jpg",
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3722597/ec82a39d1af0f9ee7d647a6cf80c7c0fd42d90c6832dde7e61f8fdbdcb45b0e6/apfelexpress-im-herzapfelhof.jpg",
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3722599/d9dbd35a7d1ddd19c3e0c0353fbd86af572ca991eb4d1e1ea9284e91a36a61a8/hofladen-frischeraum.jpg",
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3722598/6c3bdda3923c5840ad3da6771fbc2203ddf9a9f9f2574823fb1395b9682d289b/hofladen-herzapfelhof.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3722601/21ca963d7e2c7379c5040ac857d6ab40fade08a83aab03513035e0a2a8bc2d89/familie-l-hs.jpg",
+              "titel": "Familie Lühs",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Herzapfelhof",
+              "urheber": "Herzapfelhof"
+            },
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3722600/08168919cfd9ff5b34c170181276e540e16e7906c56ef69428f854a79cc7f4e7/jonagold-apfelernte.jpg",
+              "titel": "Jonagold Apfelernte",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Herzapfelhof",
+              "urheber": "Herzapfelhof"
+            },
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3722597/ec82a39d1af0f9ee7d647a6cf80c7c0fd42d90c6832dde7e61f8fdbdcb45b0e6/apfelexpress-im-herzapfelhof.jpg",
+              "titel": "Apfelexpress im Herzapfelhof",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Herzapfelhof",
+              "urheber": "Herzapfelhof"
+            },
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3722599/d9dbd35a7d1ddd19c3e0c0353fbd86af572ca991eb4d1e1ea9284e91a36a61a8/hofladen-frischeraum.jpg",
+              "titel": "Hofladen Frischeraum",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Herzapfelhof",
+              "urheber": "Herzapfelhof"
+            },
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3722598/6c3bdda3923c5840ad3da6771fbc2203ddf9a9f9f2574823fb1395b9682d289b/hofladen-herzapfelhof.jpg",
+              "titel": "Hofladen Herzapfelhof",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Herzapfelhof",
+              "urheber": "Herzapfelhof"
+            }
+          ]
+        },
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101228805",
+          "name": "Öffentliche Freitags-Führung",
+          "date": "2026-04-01",
+          "images": [
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720075/21ca963d7e2c7379c5040ac857d6ab40fade08a83aab03513035e0a2a8bc2d89/familie-l-hs.jpg",
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720071/cea8bde0f0aa24cc6cf4852c6a06b33ae0d55a5291ea75b62326bdee9d927918/freitags-f-hrung-mit-obstbauer-hein.jpg",
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720073/d9dbd35a7d1ddd19c3e0c0353fbd86af572ca991eb4d1e1ea9284e91a36a61a8/hofladen-frischeraum.jpg",
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720074/d892ec086c8933b2743862500881d6a4ecab7bc1e503e2b056f4581cfa06a340/apfelbl-te.jpg",
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720072/6c3bdda3923c5840ad3da6771fbc2203ddf9a9f9f2574823fb1395b9682d289b/hofladen-herzapfelhof.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720075/21ca963d7e2c7379c5040ac857d6ab40fade08a83aab03513035e0a2a8bc2d89/familie-l-hs.jpg",
+              "titel": "Familie Lühs",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Herzapfelhof Lühs",
+              "urheber": "Herzapfelhof Lühs"
+            },
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720071/cea8bde0f0aa24cc6cf4852c6a06b33ae0d55a5291ea75b62326bdee9d927918/freitags-f-hrung-mit-obstbauer-hein.jpg",
+              "titel": "Freitags Führung mit Obstbauer Hein",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Herzapfelhof Lühs",
+              "urheber": "Herzapfelhof Lühs"
+            },
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720073/d9dbd35a7d1ddd19c3e0c0353fbd86af572ca991eb4d1e1ea9284e91a36a61a8/hofladen-frischeraum.jpg",
+              "titel": "Hofladen Frischeraum",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Herzapfelhof Lühs",
+              "urheber": "Herzapfelhof Lühs"
+            },
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720074/d892ec086c8933b2743862500881d6a4ecab7bc1e503e2b056f4581cfa06a340/apfelbl-te.jpg",
+              "titel": "Apfelblüte",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Herzapfelhof Lühs",
+              "urheber": "Herzapfelhof Lühs"
+            },
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720072/6c3bdda3923c5840ad3da6771fbc2203ddf9a9f9f2574823fb1395b9682d289b/hofladen-herzapfelhof.jpg",
+              "titel": "Hofladen Herzapfelhof",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Herzapfelhof Lühs",
+              "urheber": "Herzapfelhof Lühs"
+            }
+          ]
+        },
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101235512",
+          "name": "Bingo / Umbüdeln",
+          "date": "2026-04-10",
+          "images": [
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3733747/3750f98ccef2993a3bf3aecf43cf1a2fd49eb04b58eb87a00c94f482ad2de492/bingo-umb-deln.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3733747/3750f98ccef2993a3bf3aecf43cf1a2fd49eb04b58eb87a00c94f482ad2de492/bingo-umb-deln.jpg",
+              "titel": "Bingo / Umbüdeln",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Stubbes Gasthaus",
+              "urheber": "Stubbes Gasthaus"
+            }
+          ]
+        },
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101228802",
+          "name": "Expedition Este #1: Der Aufbruch",
+          "date": "2026-04-12",
+          "images": [
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720065/7872d3c0caaf6f17525865b82b935ae9205f350b260377d8138dc1c0b754fc75/museum-altes-land.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720065/7872d3c0caaf6f17525865b82b935ae9205f350b260377d8138dc1c0b754fc75/museum-altes-land.jpg",
+              "titel": "Museum Altes Land",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Museum Altes Land",
+              "urheber": "Museum Altes Land"
+            }
+          ]
+        },
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101228815",
+          "name": "Jork zu Fuß",
+          "date": "2026-05-02",
+          "images": [
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720084/eabed15eb0f6b7b1e3d0adf3d3c507e98efeca281a8cfacf11b7921412f68b67/rathaus-in-jork-quer.jpg",
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720085/ee090238999cdaf349fa8cc185aca20fe02f25a9e14bedf957cf6529c7efa4c0/rathaus-in-jork.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720084/eabed15eb0f6b7b1e3d0adf3d3c507e98efeca281a8cfacf11b7921412f68b67/rathaus-in-jork-quer.jpg",
+              "titel": "Rathaus in Jork quer",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Anette Stranghöner",
+              "urheber": "Anette Stranghöner"
+            },
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720085/ee090238999cdaf349fa8cc185aca20fe02f25a9e14bedf957cf6529c7efa4c0/rathaus-in-jork.jpg",
+              "titel": "Rathaus in Jork",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "IG Gästeführer, Altländer Gästerführer",
+              "urheber": "IG Gästeführer, Altländer Gästerführer"
+            }
+          ]
+        },
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101227963",
+          "name": "Hofführung zu Fuß mit Vitamine naschen",
+          "date": "2026-05-14",
+          "images": [
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718825/78f5eb1b4e34f6d5261ef10b4209cd5c51f57f8223c444f6e8fadca01108fea5/hofansicht.jpg",
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718817/6468c0304ef02b53b171cf216043606892af63cf00a6d50c9c15d91e6901c028/hoff-hrung.jpg",
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718822/be5ef37245a658bca2514ac99f260b62f4dfa1e513ebf48760ef95294cefe4e5/pflaumenernte-carola-matthies.jpg",
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718821/4b3f813b304131f0d681725e464c1897353a84f347feca2e4aecd80f625ff874/pflaumen.jpg",
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718819/adabf4018642b734f9144bcbfe12c4a1cde5d34b7785d682eaa341a2213e7563/edbeeren.jpg",
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718824/d7baad7104f82c49e5762f29b606e4f3543b4f582bd4e481873fdb4b09624266/hofladen.jpg",
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718820/0be33a0142e481cff338e42f0da390d0c3c747407430461f98b80b228ab8f11b/kirschen.jpg",
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718818/787c20be8a8a99dd7d249b589070f77bc525d2ca5584ca3bcb7b6ee50742a641/herr-matthies-am-baum.jpg",
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718823/2ca8db88246201ddc64647c00e904b4f0eb6924487d02722345cf4fde311cee4/torten-rot.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718825/78f5eb1b4e34f6d5261ef10b4209cd5c51f57f8223c444f6e8fadca01108fea5/hofansicht.jpg",
+              "titel": "Hofansicht",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Obsthof Matthies",
+              "urheber": "Obsthof Matthies"
+            },
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718817/6468c0304ef02b53b171cf216043606892af63cf00a6d50c9c15d91e6901c028/hoff-hrung.jpg",
+              "titel": "Hofführung",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Obsthof Matthies",
+              "urheber": "Obsthof Matthies"
+            },
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718822/be5ef37245a658bca2514ac99f260b62f4dfa1e513ebf48760ef95294cefe4e5/pflaumenernte-carola-matthies.jpg",
+              "titel": "Pflaumenernte Carola Matthies",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Obsthof Matthies",
+              "urheber": "Obsthof Matthies"
+            },
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718821/4b3f813b304131f0d681725e464c1897353a84f347feca2e4aecd80f625ff874/pflaumen.jpg",
+              "titel": "Pflaumen",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Obsthof Matthies",
+              "urheber": "Obsthof Matthies"
+            },
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718819/adabf4018642b734f9144bcbfe12c4a1cde5d34b7785d682eaa341a2213e7563/edbeeren.jpg",
+              "titel": "Edbeeren",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Obsthof Matthies",
+              "urheber": "Obsthof Matthies"
+            },
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718824/d7baad7104f82c49e5762f29b606e4f3543b4f582bd4e481873fdb4b09624266/hofladen.jpg",
+              "titel": "Hofladen",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Obsthof Matthies",
+              "urheber": "Obsthof Matthies"
+            },
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718820/0be33a0142e481cff338e42f0da390d0c3c747407430461f98b80b228ab8f11b/kirschen.jpg",
+              "titel": "Kirschen",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Obsthof Matthies",
+              "urheber": "Obsthof Matthies"
+            },
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718818/787c20be8a8a99dd7d249b589070f77bc525d2ca5584ca3bcb7b6ee50742a641/herr-matthies-am-baum.jpg",
+              "titel": "Herr Matthies am Baum",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Obsthof Matthies",
+              "urheber": "Obsthof Matthies"
+            },
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718823/2ca8db88246201ddc64647c00e904b4f0eb6924487d02722345cf4fde311cee4/torten-rot.jpg",
+              "titel": "Torten rot",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Obsthof Matthies",
+              "urheber": "Obsthof Matthies"
+            }
+          ]
+        },
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101263932",
+          "name": "YIN YOGA bei THE JORK – Deine Barfußoase der Achtsamkeit - Yin Yoga mit Tiziana",
+          "date": "2026-05-25",
+          "images": [
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3787901/202b229dff3b5e19ffb7eaeb0248c19929c2cf80666948c159e443c1e94e157e/the-jork.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3787901/202b229dff3b5e19ffb7eaeb0248c19929c2cf80666948c159e443c1e94e157e/the-jork.jpg",
+              "titel": "The Jork",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "The Jork",
+              "urheber": "The Jork"
+            }
+          ]
+        },
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101343990",
+          "name": "\"Elbe Gefühle\" Bilder einer Flusslandschaft",
+          "date": "2026-06-03",
+          "images": [
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/4190374/b46250b151579f18213982ff131516a46aa0fc355d1cf9d2007531f5db51b999/download-jpg.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/4190374/b46250b151579f18213982ff131516a46aa0fc355d1cf9d2007531f5db51b999/download-jpg.jpg",
+              "titel": "download.jpg",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Markus Tiemann",
+              "urheber": "Markus Tiemann"
+            }
+          ]
+        }
+      ],
+      "requestCount": 7
+    },
+    {
+      "file": "Mobile_Hamburg_Programm_1.4.7.png",
+      "sha256": "a78bf5f38fa2ea2bba5500fcc7408482676b955062d6fc9349ec5bd78a703a65",
+      "mode": "programm",
+      "filterDays": "90",
+      "loadedUpcoming": 600,
+      "loadedArchive": 0,
+      "filtered": 600,
+      "viewport": {
+        "width": 375,
+        "height": 812,
+        "dpr": 2
+      },
+      "noHorizontalOverflow": true,
+      "mapAttribution": null,
+      "visibleImages": [
+        {
+          "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718827/c78b6d507e7adeeae116428a9a7f38bfb8bec49c24a4b72fb9d3700fa33bd48e/babycaf-obsthof-matthies.jpg",
+          "alt": "Baby-Café",
+          "width": 1920,
+          "height": 1440
+        }
+      ],
+      "events": [
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101193875",
+          "name": "Eicheln- & Kastanien-Annahme am  Wildpark Schwarze Berge",
+          "date": "2020-10-17",
+          "images": [],
+          "credits": []
+        },
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101227965",
+          "name": "Baby-Café",
+          "date": "2026-03-11",
+          "images": [
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718827/c78b6d507e7adeeae116428a9a7f38bfb8bec49c24a4b72fb9d3700fa33bd48e/babycaf-obsthof-matthies.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718827/c78b6d507e7adeeae116428a9a7f38bfb8bec49c24a4b72fb9d3700fa33bd48e/babycaf-obsthof-matthies.jpg",
+              "titel": "Babycafé Obsthof Matthies",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Obsthof Matthies",
+              "urheber": "Obsthof Matthies"
+            }
+          ]
+        }
+      ],
+      "requestCount": 7
+    },
+    {
+      "file": "Mobile_Hamburg_Karte_1.4.7.png",
+      "sha256": "94efc6cfa660727e6d73488be7c2a5f966eedd697920f5115e6dcdf2c57a96c0",
+      "mode": "karte",
+      "filterDays": "90",
+      "loadedUpcoming": 600,
+      "loadedArchive": 0,
+      "filtered": 600,
+      "viewport": {
+        "width": 375,
+        "height": 812,
+        "dpr": 2
+      },
+      "noHorizontalOverflow": true,
+      "mapAttribution": " Leaflet | © OpenStreetMap",
+      "visibleImages": [
+        {
+          "url": "https://b.tile.openstreetmap.org/11/1080/661.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://c.tile.openstreetmap.org/11/1081/661.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://c.tile.openstreetmap.org/11/1080/662.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://a.tile.openstreetmap.org/11/1081/662.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://a.tile.openstreetmap.org/11/1080/660.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://b.tile.openstreetmap.org/11/1081/660.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://a.tile.openstreetmap.org/11/1080/663.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "url": "https://b.tile.openstreetmap.org/11/1081/663.png",
+          "alt": "",
+          "width": 256,
+          "height": 256
+        }
+      ],
+      "events": [],
+      "requestCount": 7
+    },
+    {
+      "file": "Mobile_Hamburg_Katalog_1.4.7.png",
+      "sha256": "7ed0e2cfd5753446e1d2e4601492462deed3beb4768b62d2681c57f70b1065d9",
+      "mode": "katalog",
+      "filterDays": "90",
+      "loadedUpcoming": 600,
+      "loadedArchive": 0,
+      "filtered": 600,
+      "viewport": {
+        "width": 375,
+        "height": 812,
+        "dpr": 2
+      },
+      "noHorizontalOverflow": true,
+      "mapAttribution": null,
+      "visibleImages": [
+        {
+          "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718827/c78b6d507e7adeeae116428a9a7f38bfb8bec49c24a4b72fb9d3700fa33bd48e/babycaf-obsthof-matthies.jpg",
+          "alt": "Baby-Café",
+          "width": 1920,
+          "height": 1440
+        },
+        {
+          "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720107/cea8bde0f0aa24cc6cf4852c6a06b33ae0d55a5291ea75b62326bdee9d927918/herzapfelhof.jpg",
+          "alt": "Winter-Hofführungen auf dem Herzapfelhof",
+          "width": 1920,
+          "height": 1081
+        },
+        {
+          "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3739583/20baeacfd994bc32a30683f4c2b8ef8daf6bf77141943a23c7e0c89b27e53e2f/the-jork.jpg",
+          "alt": "Yoga bei THE JORK – Deine Barfußoase der Achtsamkeit -Yoga Flow mit Manuela",
+          "width": 1440,
+          "height": 1920
+        }
+      ],
+      "events": [
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101227965",
+          "name": "Baby-Café",
+          "date": "2026-03-11",
+          "images": [
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718827/c78b6d507e7adeeae116428a9a7f38bfb8bec49c24a4b72fb9d3700fa33bd48e/babycaf-obsthof-matthies.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3718827/c78b6d507e7adeeae116428a9a7f38bfb8bec49c24a4b72fb9d3700fa33bd48e/babycaf-obsthof-matthies.jpg",
+              "titel": "Babycafé Obsthof Matthies",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Obsthof Matthies",
+              "urheber": "Obsthof Matthies"
+            }
+          ]
+        },
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101228831",
+          "name": "Winter-Hofführungen auf dem Herzapfelhof",
+          "date": "2026-03-14",
+          "images": [
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720107/cea8bde0f0aa24cc6cf4852c6a06b33ae0d55a5291ea75b62326bdee9d927918/herzapfelhof.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3720107/cea8bde0f0aa24cc6cf4852c6a06b33ae0d55a5291ea75b62326bdee9d927918/herzapfelhof.jpg",
+              "titel": "Herzapfelhof",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "Herzapfelhof Lühs",
+              "urheber": "Herzapfelhof Lühs"
+            }
+          ]
+        },
+        {
+          "id": "https://dztkg.destination.one/item/open-data-niedersachsen-tourismus/Event/e_101237755",
+          "name": "Yoga bei THE JORK – Deine Barfußoase der Achtsamkeit -Yoga Flow mit Manuela",
+          "date": "2026-03-23",
+          "images": [
+            "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3739583/20baeacfd994bc32a30683f4c2b8ef8daf6bf77141943a23c7e0c89b27e53e2f/the-jork.jpg"
+          ],
+          "credits": [
+            {
+              "url": "https://img.ecmaps.de/remote/.jpg?project=dzt&mode=max&width=1920&height=1920&url=https://dam.destination.one/3739583/20baeacfd994bc32a30683f4c2b8ef8daf6bf77141943a23c7e0c89b27e53e2f/the-jork.jpg",
+              "titel": "The Jork",
+              "lizenz": "https://creativecommons.org/licenses/by/4.0/",
+              "copyright": "The Jork",
+              "urheber": "The Jork"
+            }
+          ]
+        }
+      ],
+      "requestCount": 7
+    }
+  ]
+}

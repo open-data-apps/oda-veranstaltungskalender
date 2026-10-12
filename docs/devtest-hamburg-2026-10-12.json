@@ -1,0 +1,471 @@
+{
+  "date": "2026-10-12",
+  "url": "http://100.66.238.123:3000/view/audit-test/oda-veranstaltungskalender/cmuo0ajoh0001t12n0bqdkd2a/",
+  "method": "read-only real Dev ODAS DZT relay; native UI interactions and actual ICS downloads; no synthetic events, no server mutations",
+  "checks": [
+    {
+      "id": "Dev-Version",
+      "pass": true,
+      "details": {
+        "version": "1.4.6"
+      }
+    },
+    {
+      "id": "Dev-Paketdefault",
+      "pass": true,
+      "details": {
+        "ort": "Hamburg",
+        "radius": "25"
+      }
+    },
+    {
+      "id": "Dev-Beschreibung-aktuell",
+      "pass": false,
+      "details": {
+        "demoNotePresent": false
+      }
+    },
+    {
+      "id": "Dev-Screenshot-Verweise-aktuell",
+      "pass": false,
+      "details": {
+        "actual": [
+          "assets/Desktop_Screenshot_1.png",
+          "assets/Desktop_Screenshot_2.png",
+          "assets/Desktop_Screenshot_3.png",
+          "assets/Mobile_Screenshot_1.png",
+          "assets/Mobile_Screenshot_2.png",
+          "assets/Mobile_Screenshot_3.png"
+        ],
+        "expected": [
+          "assets/Desktop_Hamburg_Programm_1.4.6.png",
+          "assets/Desktop_Hamburg_Karte_1.4.6.png",
+          "assets/Desktop_Hamburg_Katalog_1.4.6.png",
+          "assets/Mobile_Hamburg_Programm_1.4.6.png",
+          "assets/Mobile_Hamburg_Karte_1.4.6.png",
+          "assets/Mobile_Hamburg_Katalog_1.4.6.png"
+        ]
+      }
+    },
+    {
+      "id": "Dev-Datei:assets/Desktop_Hamburg_Programm_1.4.6.png",
+      "pass": false,
+      "details": {
+        "status": 404,
+        "sourceMatches": false
+      }
+    },
+    {
+      "id": "Dev-Datei:assets/Desktop_Hamburg_Karte_1.4.6.png",
+      "pass": false,
+      "details": {
+        "status": 404,
+        "sourceMatches": false
+      }
+    },
+    {
+      "id": "Dev-Datei:assets/Desktop_Hamburg_Katalog_1.4.6.png",
+      "pass": false,
+      "details": {
+        "status": 404,
+        "sourceMatches": false
+      }
+    },
+    {
+      "id": "Dev-Datei:assets/Mobile_Hamburg_Programm_1.4.6.png",
+      "pass": false,
+      "details": {
+        "status": 404,
+        "sourceMatches": false
+      }
+    },
+    {
+      "id": "Dev-Datei:assets/Mobile_Hamburg_Karte_1.4.6.png",
+      "pass": false,
+      "details": {
+        "status": 404,
+        "sourceMatches": false
+      }
+    },
+    {
+      "id": "Dev-Datei:assets/Mobile_Hamburg_Katalog_1.4.6.png",
+      "pass": false,
+      "details": {
+        "status": 404,
+        "sourceMatches": false
+      }
+    },
+    {
+      "id": "Dev-Datei:assets/SCREENSHOTS_HAMBURG_1.4.6.json",
+      "pass": false,
+      "details": {
+        "status": 404,
+        "sourceMatches": false
+      }
+    },
+    {
+      "id": "Dev-Runtime-quellgleich",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "1440x900:Konfiguration",
+      "pass": true,
+      "details": {
+        "ort": "Hamburg",
+        "radius": "25",
+        "status": "bereit",
+        "day": "2026-10-12",
+        "future": 11,
+        "archive": 0,
+        "filtered": 2,
+        "window": "7",
+        "fixture": false,
+        "relay": [
+          {
+            "status": 200,
+            "duration": 10590.899999999907
+          },
+          {
+            "status": 200,
+            "duration": 10145.799999999814
+          }
+        ],
+        "viewport": {
+          "width": 1440,
+          "height": 900,
+          "dpr": 1
+        },
+        "horizontalOverflow": false
+      }
+    },
+    {
+      "id": "1440x900:Echter-Relay",
+      "pass": true,
+      "details": {
+        "relay": [
+          {
+            "status": 200,
+            "duration": 10590.899999999907
+          },
+          {
+            "status": 200,
+            "duration": 10145.799999999814
+          }
+        ]
+      }
+    },
+    {
+      "id": "1440x900:Viewport",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "1440x900:Kein-horizontaler-Overflow",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "1440x900:Startfilter",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "1440x900:90-Tage-Filter",
+      "pass": true,
+      "details": {
+        "actual": 6,
+        "expected": 6,
+        "pressed": "true"
+      }
+    },
+    {
+      "id": "1440x900:Suche-Treffer",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "1440x900:Suche-Leerhinweis",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "1440x900:Suche-Zurücksetzen",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "1440x900:Art-Filter",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "1440x900:Art-Zurücksetzen",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "1440x900:Kostenlos-Filter",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "1440x900:Detail-öffnet",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "1440x900:Detail-Dialogname",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "1440x900:ICS-Download",
+      "pass": true,
+      "details": {
+        "file": "veranstaltung-ps-hht-imxplatform-de-imxplatform-eventdate-1504475-30554737.ics"
+      }
+    },
+    {
+      "id": "1440x900:ICS-Echter-Termin",
+      "pass": true,
+      "details": {
+        "event": "Ferienprogramm | Abenteuer in den Boberger Dünen",
+        "date": "2026-10-17"
+      }
+    },
+    {
+      "id": "1440x900:Detail-schließt",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "1440x900:Karte",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "1440x900:Kartenansicht-aktiv",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "1440x900:Katalog-Bildfilter",
+      "pass": true,
+      "details": {
+        "expectedPhotos": 1
+      }
+    },
+    {
+      "id": "1440x900:Archiv",
+      "pass": true,
+      "details": {
+        "loadedArchive": 0
+      }
+    },
+    {
+      "id": "1440x900:Menü-öffnet",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "1440x900:Beschreibung",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "1440x900:Rückkehr-aus-Beschreibung",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "1440x900:Cache-ohne-neue-DZT-Abfrage",
+      "pass": true,
+      "details": {
+        "before": 2,
+        "after": 2
+      }
+    },
+    {
+      "id": "375x812:Konfiguration",
+      "pass": true,
+      "details": {
+        "ort": "Hamburg",
+        "radius": "25",
+        "status": "bereit",
+        "day": "2026-10-12",
+        "future": 11,
+        "archive": 0,
+        "filtered": 2,
+        "window": "7",
+        "fixture": false,
+        "relay": [
+          {
+            "status": 200,
+            "duration": 10433.200000000186
+          },
+          {
+            "status": 200,
+            "duration": 10238
+          }
+        ],
+        "viewport": {
+          "width": 375,
+          "height": 812,
+          "dpr": 2
+        },
+        "horizontalOverflow": false
+      }
+    },
+    {
+      "id": "375x812:Echter-Relay",
+      "pass": true,
+      "details": {
+        "relay": [
+          {
+            "status": 200,
+            "duration": 10433.200000000186
+          },
+          {
+            "status": 200,
+            "duration": 10238
+          }
+        ]
+      }
+    },
+    {
+      "id": "375x812:Viewport",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "375x812:Kein-horizontaler-Overflow",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "375x812:Startfilter",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "375x812:90-Tage-Filter",
+      "pass": true,
+      "details": {
+        "actual": 6,
+        "expected": 6,
+        "pressed": "true"
+      }
+    },
+    {
+      "id": "375x812:Suche-Treffer",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "375x812:Suche-Leerhinweis",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "375x812:Suche-Zurücksetzen",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "375x812:Art-Filter",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "375x812:Art-Zurücksetzen",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "375x812:Kostenlos-Filter",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "375x812:Detail-öffnet",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "375x812:Detail-Dialogname",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "375x812:ICS-Download",
+      "pass": true,
+      "details": {
+        "file": "veranstaltung-ps-hht-imxplatform-de-imxplatform-eventdate-1504475-30554737.ics"
+      }
+    },
+    {
+      "id": "375x812:ICS-Echter-Termin",
+      "pass": true,
+      "details": {
+        "event": "Ferienprogramm | Abenteuer in den Boberger Dünen",
+        "date": "2026-10-17"
+      }
+    },
+    {
+      "id": "375x812:Detail-schließt",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "375x812:Karte",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "375x812:Kartenansicht-aktiv",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "375x812:Katalog-Bildfilter",
+      "pass": true,
+      "details": {
+        "expectedPhotos": 1
+      }
+    },
+    {
+      "id": "375x812:Archiv",
+      "pass": true,
+      "details": {
+        "loadedArchive": 0
+      }
+    },
+    {
+      "id": "375x812:Menü-öffnet",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "375x812:Beschreibung",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "375x812:Rückkehr-aus-Beschreibung",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "375x812:Cache-ohne-neue-DZT-Abfrage",
+      "pass": true,
+      "details": {
+        "before": 2,
+        "after": 2
+      }
+    }
+  ],
+  "warnings": [],
+  "passed": 53,
+  "failed": 9
+}

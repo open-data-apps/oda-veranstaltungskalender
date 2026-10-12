@@ -6,8 +6,9 @@ Die App ist für die Verwendung im [Open Data App Store](https://open-data-app-s
 
 Mehr zu Open Data Apps: <https://github.com/open-data-apps>
 
-**Aktueller App-Stand:** 1.4.5 · [Änderungsverlauf](CHANGELOG.md)  
-**Technischer Name:** `oda-veranstaltungskalender` · **Lieferpaket:** `oda-veranstaltungskalender.zip`
+**Aktueller App-Stand:** 1.4.8 · [Änderungsverlauf](CHANGELOG.md)\
+**Technischer Name:** `oda-veranstaltungskalender` · **Lieferpaket:** `oda-veranstaltungskalender.zip`\
+**Demo-Vorbelegung:** Hamburg · 25 km; Ort und Umkreis bleiben konfigurierbar.
 
 ---
 
@@ -48,23 +49,24 @@ Die App richtet sich an Bürgerinnen und Bürger, Gäste sowie kommunale Portalb
 
 Die App verarbeitet **SPARQL-Ergebnisse im JSON-Format** (`application/sparql-results+json`) aus dem DZT Knowledge Graph. Sie erwartet `results.bindings`; eine beliebige JSON-Datei, CSV-Datei oder ICS-Quelle kann nicht als Datenquelle eingesetzt werden.
 
-Beim ersten Laden werden zwei Abfragen ausgeführt:
+Beim ersten Laden wird die Geo-Trefferzahl geprüft. Ab 10.000 Orten wird der Suchkreis rekursiv in überlappende Teilflächen aufgeteilt, bis jede Teilabfrage unter dem nativen DZT-Ergebnisfenster bleibt. Der ursprüngliche Kreis bleibt immer als Filter erhalten. Anschließend werden zwei Zeitbereiche geladen:
 
-| Bereich | Zeitfenster | Begrenzung der inneren Abfrage |
+| Bereich | Zeitfenster | Globale Begrenzung eindeutiger Veranstaltungen |
 | --- | --- | --- |
 | Zukunft einschließlich laufender Veranstaltungen | bis zu 365 Tage im Voraus | `LIMIT 600`, nach Beginn aufsteigend |
 | Archiv | vergangene 365 Tage | `LIMIT 400`, nach Beginn absteigend |
 
-Die Antwort wird mit `GROUP BY ?s`, `SAMPLE` und `GROUP_CONCAT` auf eine Ergebniszeile je Veranstaltung verdichtet. Das interne Datenmodell ist in [`assets/schema.json`](assets/schema.json) beschrieben.
+Pro Teilfläche werden eindeutige Event-IDs vor der Detailanreicherung begrenzt; anschließend werden alle Teilantworten nach Termin und ID zusammengeführt, dedupliziert und global auf 600/400 begrenzt. Pro Event wird der früheste passende Zukunfts- bzw. jüngste Archivbeginn ausgewählt. `SAMPLE` und `GROUP_CONCAT` verdichten die Detailfelder. Das interne Datenmodell ist in [`assets/schema.json`](assets/schema.json) beschrieben.
 
 ### Aufbereitung und Grenzen
 
 - Der konfigurierte Ortsname wird über Nominatim in Koordinaten aufgelöst. Die DZT-Abfrage sucht Veranstaltungsorte im gewählten Umkreis.
 - Die Veranstaltungsarten stammen aus den exakten schema.org-Typen `MusicEvent`, `TheaterEvent`, `ExhibitionEvent`, `Festival`, `SportsEvent`, `ChildrensEvent`, `FoodEvent` und `SocialEvent`.
 - Termine und Kostenfreiheit werden aus Schema-Attributen gelesen; `schema:eventStatus = EventCancelled` wird bereits in der Abfrage ausgeschlossen.
-- Bei Serien-Veranstaltungen werden Beginn und Ende aus `schema:eventSchedule` ergänzend berücksichtigt. Die Serie erscheint als Zeitraum; einzelne Wiederholungstermine werden **nicht** expandiert. Bei mehreren Schedule-/Ortsknoten garantiert die bestehende Verdichtung nicht, dass alle unabhängig ausgewählten Werte vom selben Knoten stammen; eine umfassende Neuordnung dieses Datenmodells steht aus.
+- Bei Serien-Veranstaltungen werden Beginn und Ende aus `schema:eventSchedule` ergänzend berücksichtigt. Die Serie erscheint als Zeitraum; einzelne Wiederholungstermine werden **nicht** expandiert. Der ausgewählte Beginn wird bei der Detailanreicherung erneut gefiltert; der ausgegebene Ort stammt aus der Geo-Treffermenge. Bei mehreren Schedules mit identischem Beginn können unabhängig aggregierte Detailwerte weiterhin mehrdeutig bleiben; Wiederholungen werden nicht vollständig modelliert.
 - Das Zukunftsfenster schließt den letzten Tag vollständig ein. Die Wochenendkennzahl zählt auch Veranstaltungen, die früher beginnen und bis ins Wochenende laufen. Der ICS-Export behandelt eine Startzeit `00:00` weiterhin wie eine fehlende Uhrzeit als ganztägig; diese bestehende Datenkonvention ist nicht neu definiert worden.
-- Die Limits 600/400 gelten für **Termin-/Trefferzeilen, nicht für ebenso viele eindeutige Veranstaltungen**. Mehrfachzeilen werden erst danach zusammengefasst. Bei gleichen Startdaten ist die Reihenfolge nicht eindeutig; wiederholte Abfragen können unterschiedliche Ereignismengen liefern. Die App liefert keine vollständige Bestandszählung.
+- Die Limits 600/400 gelten für **eindeutige Event-IDs im gesamten Suchkreis**. Gleiche Beginnwerte werden nach ID sortiert. Die App liefert weiterhin einen begrenzten Ausschnitt, keine vollständige Bestandszählung; größere Radien müssen bei erreichtem Limit keine Obermenge der angezeigten IDs ergeben.
+- Jede Teilfläche wird einzeln über den Store-Relay geladen; kompakte SPARQL-GETs vermeiden dessen doppelt kodiertes URL-Limit. Maximal zwei Event-Abfragen laufen gleichzeitig. Große/dichte Umkreise benötigen mehr Zeit (Hamburg/25 km über Dev im Test rund 70 Sekunden). Das Zeitlimit beträgt 75 Sekunden je DZT-Request, nicht je Gesamtabruf. Nicht ausreichend teilbare Geo-Ergebnisse werden als Fehler angezeigt, nicht still gekappt. Die Bounding-Box-Aufteilung ist auf touristische Orte in Deutschland ausgelegt, nicht auf Kreise über Polen oder der Datumsgrenze.
 - Umfang, Detailtiefe und Aktualität hängen von den Datenlieferanten ab. `datenStand` ist ein konfigurierter Hinweis, kein aus den Quelldaten ermittelter Aktualisierungszeitpunkt.
 
 ### Bildmetadaten
@@ -107,17 +109,25 @@ Zusätzlich verarbeitet die App `desc` als `beschreibung` für Suche und Detaila
 
 ## Screenshots
 
-Die sechs Aufnahmen zeigen echte Veranstaltungsdaten aus Böblingen und Umgebung auf einer Dev-Instanz am **01.10.2026, App-Version 1.3.3**. Sie sind historische Aufnahmen und bilden nicht den vollständigen aktuellen Funktions- und Detailstand ab.
+Die sechs aktuellen Aufnahmen zeigen **Hamburg · 25 km**, aufgenommen am **12.10.2026 auf Dev mit App-Version 1.4.7**. Programm, Karte und Katalog verwenden den sichtbar ausgewählten **90-Tage-Filter**. Desktop und Mobile stammen aus derselben geladenen Sitzung mit echten Daten über den ODAS-DZT-Relay; es wurden keine Veranstaltungen ergänzt oder Testdaten injiziert. Der initiale App-Filter bleibt unverändert bei sieben Tagen.
 
 Desktop: **1440 × 900 Pixel**. Mobile: **375 × 812 CSS-Pixel**, aufgenommen mit zweifacher Auflösung (**750 × 1624 Pixel**).
 
 | Ansicht | Desktop | Mobile |
 | --- | --- | --- |
-| Programm | ![Programm – Desktop](assets/Desktop_Screenshot_1.png) | ![Programm – Mobile](assets/Mobile_Screenshot_1.png) |
-| Karte | ![Karte – Desktop](assets/Desktop_Screenshot_2.png) | ![Karte – Mobile](assets/Mobile_Screenshot_2.png) |
-| Archiv | ![Archiv – Desktop](assets/Desktop_Screenshot_3.png) | ![Archiv – Mobile](assets/Mobile_Screenshot_3.png) |
+| Programm | ![Hamburg – Programm – Desktop](assets/Desktop_Hamburg_Programm_1.4.7.png) | ![Hamburg – Programm – Mobile](assets/Mobile_Hamburg_Programm_1.4.7.png) |
+| Karte | ![Hamburg – Karte – Desktop](assets/Desktop_Hamburg_Karte_1.4.7.png) | ![Hamburg – Karte – Mobile](assets/Mobile_Hamburg_Karte_1.4.7.png) |
+| Katalog | ![Hamburg – Katalog – Desktop](assets/Desktop_Hamburg_Katalog_1.4.7.png) | ![Hamburg – Katalog – Mobile](assets/Mobile_Hamburg_Katalog_1.4.7.png) |
 
-Die Originaldateien bleiben unverändert. Quellen, Lizenzangaben, Hinweise zu Ausschnitten und verbleibende Lücken stehen in [`assets/BILDNACHWEISE.md`](assets/BILDNACHWEISE.md). Insbesondere ist der schmale Bildstreifen am unteren Rand von `Mobile_Screenshot_3.png` (etwa Zeilen 1610–1623) keiner konkreten Bildquelle/Lizenz belastbar zugeordnet. Diese Nachweislücke bleibt offen; die Bilder und Karten fallen nicht unter die MIT-Lizenz des App-Codes.
+**Aufnahmegrenze:** Der Abruf dieser Sitzung lieferte 600 kommende Veranstaltungen, alle im 90-Tage-Fenster, und ein leeres Archiv. Die 600 entsprechen der globalen App-Ladegrenze, nicht dem Gesamtbestand Hamburgs. Die Bilder zeigen die Runtime 1.4.7 nach dem Geo-Fix; sie werden mit dem unveränderten Runtime-Code im Screenshot-Paket 1.4.8 ausgeliefert. Bereits begonnene, noch laufende Serien können in den Karten ein älteres Startdatum tragen.
+
+Der [maschinenlesbare Aufnahmebeleg](assets/SCREENSHOTS_HAMBURG_1.4.7.json) dokumentiert Viewports, sichtbare Bildquellen, Veranstaltungen und gelieferte Bildnachweise. Quellen, Lizenzangaben und Kartenhinweise stehen in [`assets/BILDNACHWEISE.md`](assets/BILDNACHWEISE.md). Bilder und Karten fallen nicht automatisch unter die MIT-Lizenz des App-Codes.
+
+### Historische Aufnahmen
+
+Die sechs Hamburg-Aufnahmen der Runtime 1.4.6 vor dem Geo-Fix bleiben mit ihren Dateinamen unverändert erhalten. Ihr [Aufnahmebeleg](assets/SCREENSHOTS_HAMBURG_1.4.6.json) dokumentiert den damaligen Ausschnitt von zwei Veranstaltungen. Sie sind nicht mehr im Screenshot-Feld des Pakets ausgewählt.
+
+Die sechs Böblingen-Aufnahmen vom **01.10.2026, App-Version 1.3.3**, bleiben unverändert erhalten: [Desktop-Programm](assets/Desktop_Screenshot_1.png), [Desktop-Karte](assets/Desktop_Screenshot_2.png), [Desktop-Archiv](assets/Desktop_Screenshot_3.png), [Mobile-Programm](assets/Mobile_Screenshot_1.png), [Mobile-Karte](assets/Mobile_Screenshot_2.png) und [Mobile-Archiv](assets/Mobile_Screenshot_3.png). Sie sind nicht mehr die im App-Paket ausgewählten Screenshots. Ihre historischen Nachweise und offenen Lücken bleiben dokumentiert; insbesondere ist der schmale Bildstreifen am unteren Rand von `Mobile_Screenshot_3.png` (etwa Zeilen 1610–1623) weiterhin keiner konkreten Bildquelle/Lizenz belastbar zugeordnet.
 
 ---
 
@@ -142,7 +152,7 @@ Für echte Veranstaltungsdaten wird die App in einer **ODAS-Instanz** betrieben:
 
 1. Das Liefer-ZIP über die Build-Oberfläche der App hochladen und die App in einem Portal buchen.
 2. Den benötigten Dienst `tourismus-odg` bereitstellen und den SPARQL-Endpunkt als `apiurls`-Eintrag `veranstaltungen` zuordnen.
-3. Ort, Radius sowie die Informations- und Rechtstexte der Instanz konfigurieren.
+3. Ort, Radius sowie die Informations- und Rechtstexte der Instanz konfigurieren. Das Paket schlägt Hamburg und 25 km vor; bereits gebuchte Instanzen separat prüfen und bei Bedarf über die Konfigurationsoberfläche umstellen.
 4. Die gebuchte App-URL öffnen.
 
 Ein Build-Upload ersetzt nicht automatisch individuell gespeicherte Instanztexte. Diese werden bei Bedarf separat in der Konfigurationsoberfläche gepflegt.
@@ -161,7 +171,7 @@ Empfohlene Einstellungen:
 }
 ```
 
-`liveServer.settings.file` ist optional. Der Root bleibt `/`, damit `app/`, `assets/` und `odas-config/` erreichbar sind. Die lokale Konfiguration liegt in [`odas-config/config.json`](odas-config/config.json), vorbelegt mit Böblingen und 25 km. Die Template-Dateien werden für lokale Tests **nicht bearbeitet**: `getConfigUrl()` erkennt localhost und lädt die lokale Konfiguration selbst.
+`liveServer.settings.file` ist optional. Der Root bleibt `/`, damit `app/`, `assets/` und `odas-config/` erreichbar sind. Die lokale Konfiguration liegt in [`odas-config/config.json`](odas-config/config.json), vorbelegt mit Hamburg und 25 km. Die Template-Dateien werden für lokale Tests **nicht bearbeitet**: `getConfigUrl()` erkennt localhost und lädt die lokale Konfiguration selbst.
 
 **Lokale Grenze:** Live Server stellt keinen DZT-Relay bereit. Ohne diesen Dienst zeigt die App den erwarteten Datenladefehler. Die Browsertests speisen stattdessen ausdrücklich synthetische Daten über [`tests/fixtures.js`](tests/fixtures.js) und [`tests/browser-fixtures.js`](tests/browser-fixtures.js) ein. Echte Relay-Tests erfolgen auf einer autorisierten ODAS-Dev-Instanz unter einem Nicht-Loopback-Host, damit nicht versehentlich die lokale Konfigurationsauflösung verwendet wird.
 
@@ -203,7 +213,13 @@ node tests/review_browser.js
 
 Ohne Umgebungsvariablen verwendet der Harness `127.0.0.1:8765` und `google-chrome`. Jeder Lauf verwendet ein eigenes Browserprofil; standardmäßig vergibt das Betriebssystem einen freien Steuerungsport. Optional legt `VK_CDP_PORT` den Startport für Audit-Suites fest. Ungültige Suites, null Prüfungen und ungefangene JavaScript-/Promise-Fehler führen zum Fehlschlag. Der Fixture-Transport wird vor der App installiert; lokale Konfiguration wird normal gelesen, unerwartete Fetch-Ziele werden blockiert. OpenStreetMap-Kacheln bleiben bewusst echte externe Abrufe – das ist kein vollständiger Offline-Test. Die Suite `modal` prüft bewusst **mit aktiven Bootstrap-Animationen und Browserfokus**, damit Fehler beim Öffnen/Schließen nicht durch deaktivierte Übergänge verdeckt werden. Die Suite `flows` benötigt zusätzlich `VK_LIVE_HOST` (Host:Port); ihr Live-Teil erwartet die im Harness hinterlegte Audit-Instanz, keine beliebige ODAS-App.
 
-**Lokaler Prüfstand 1.4.5:** 26 Node-Testdateien und 144 gezielte lokale Browserprüfungen bestanden (Viewport-Sweep, Bildnachweise, Modal-Lifecycle und Reviewregressionen). Geprüft sind insbesondere nachweisfreie Übersichten und weiterhin vollständige Bildnachweise in Detail/Bildvergrößerung ohne Darstellungszusatz. Prüfung mit synthetischen Daten und Chrome-Mobil-Emulation, kein Dev-Upload.
+**Prüfstand 1.4.8 (12.10.2026):** Sechs neue echte Dev-Aufnahmen nach Geo-Fix, visuell geprüft; PNG-Abmessungen, Prüfsummen, geladene Bilder und zwölf bildgenaue Foto-Nachweise geprüft. Paket auf Dev eingespielt: alle sechs PNGs, Aufnahmebeleg, Bildnachweise und unveränderte Runtime per HTTP 200 byte-identisch ausgeliefert; Instanzkonfiguration unverändert. 28 Node-Testdateien und Konfigurations-Linter bestanden. [Liefernachweis](docs/screenshots-postupload-2026-10-12.json). Die Dateinamen 1.4.7 benennen die aufgenommene Runtime, 1.4.8 das aktualisierte Screenshot-Paket.
+
+**Prüfstand 1.4.7 (12.10.2026):** 28 Node-Testdateien, Syntax-/JSON-Prüfungen, Konfigurations-Linter und 39 lokale Browserprüfungen bestanden. Auf Dev hochgeladen und mit 17 echten Browserprüfungen bei Desktop-/Mobile-Viewport bestätigt: 600 eindeutige kommende Veranstaltungen, davon 416 im Sieben-Tage-Fenster; alle sieben Relay-Requests HTTP 200. Individuelle Instanztexte unverändert. Geo-Regressionen, Radiusvergleiche, Ladezeiten und Liefernachweise siehe [Geo-Fix-Prüfbericht](docs/geo-fix-2026-10-12.md).
+
+**Historischer Prüfstand 1.4.6 (12.10.2026):** 26 Node-Testdateien, Syntax-/JSON-Prüfungen und Konfigurations-Linter bestanden. Die Dev-Runtime entspricht dem lokalen `app/app.js` und verwendet Hamburg/25 km. Sechs echte Dev-Screenshots wurden mit geprüften Viewport-Maßen und geladenen sichtbaren Bildern aufgenommen; die Kartenattribution ist sichtbar. Zusätzlich bestanden 50 echte Dev-Browserprüfungen auf Desktop und Mobile-Emulation sowie nach dem abschließenden Upload alle 17 Lieferstand-Prüfungen; die neuen Beschreibungen und Screenshots werden auf Dev ausgeliefert. Details und ursprüngliche Vor-Upload-Befunde stehen im [Dev-Testbericht](docs/devtest-hamburg-2026-10-12.md). Das ist keine vollständige Abnahme aller Daten oder Geräte und kein Nachweis einer vollständigen DZT-Abdeckung.
+
+**Historischer lokaler Prüfstand 1.4.5:** 26 Node-Testdateien und 144 gezielte lokale Browserprüfungen bestanden (Viewport-Sweep, Bildnachweise, Modal-Lifecycle und Reviewregressionen). Geprüft sind insbesondere nachweisfreie Übersichten und weiterhin vollständige Bildnachweise in Detail/Bildvergrößerung ohne Darstellungszusatz. Prüfung mit synthetischen Daten und Chrome-Mobil-Emulation, kein Dev-Upload.
 
 **Historischer lokaler Prüfstand 1.4.4:** 26 Node-Testdateien und 238 lokale Browserprüfungen erfolgreich. Dazu bestanden zwei read-only Navigations-/Cacheprüfungen auf der weiterhin mit **1.4.3** betriebenen Dev-Instanz; sie sind keine Dev-Abnahme von 1.4.4. Die zusätzlichen Regressionen prüfen unter anderem konkrete Archivtermine, tatsächliche Zwischenablage, AX-Dialognamen, native Tastatureingaben, Tageswechsel und absichtlich ausgelöste Fehler als Negativkontrollen. Ein natives Teilen-Menü wurde für die Parameterprüfung ersetzt, nicht als Betriebssystemdialog abgenommen.
 
@@ -262,7 +278,7 @@ Die verfügbaren Felder sind in [`app-package.json`](app-package.json) unter `in
 
 | Parameter | Bedeutung / Vorbelegung | Pflicht |
 | --- | --- | --- |
-| `ort` | Ortsname für die Geokodierung; im Paket leer, lokal Böblingen | ja |
+| `ort` | Ortsname für die Geokodierung; im Paket und lokal Hamburg | ja |
 | `radiusKm` | Umkreis: 5, 10, 25 oder 50 km; Standard `25` | ja |
 | `apiurls` | Benannter Eintrag `veranstaltungen` mit SPARQL-Endpunkt; Laufzeitformat: Array aus `name`, `label`, `url` | Eintrag ja |
 | `urlDaten` | DZT-Zugriffsdokumentation für die Datenquellen-Verlinkung | nein |
@@ -348,6 +364,6 @@ Der **App-Code** steht unter der [MIT-Lizenz](LICENSE). Die vollständigen Lizen
 | Leaflet | 1.9.4 | BSD-2-Clause |
 | Leaflet.markercluster | 1.5.3 | MIT |
 
-**Veranstaltungsbilder und Karten sind nicht automatisch MIT-lizenziert.** Die am 02.10.2026 per DZT-MCP geprüften 20 Bildobjekte aus 15 Veranstaltungen deklarieren 17 × CC BY-SA 4.0 und 3 × CC0 1.0. Dazu gehören auch zusätzliche, nicht als Screenshot-Motive belegte Bilder; daraus folgt keine Aussage über alle DZT-Bilder.
+**Veranstaltungsbilder und Karten sind nicht automatisch MIT-lizenziert.** Die aktuellen Hamburg-Aufnahmen enthalten zwölf unterschiedliche sichtbare Foto-URLs, deren direkt gelieferte Bildnachweise jeweils CC BY 4.0 deklarieren. Titel, Rechtehinweise, Quellen und Vorkommen sind in `assets/BILDNACHWEISE.md` aufgeführt. Das CC0-Foto „KLIMA KALIMA“ gehört zum historischen Hamburg-Satz 1.4.6. Die historischen, am 02.10.2026 per DZT-MCP geprüften 20 Bildobjekte aus 15 Veranstaltungen deklarieren 17 × CC BY-SA 4.0 und 3 × CC0 1.0. Diese ältere Prüfung umfasst auch zusätzliche, nicht als Screenshot-Motive belegte Bilder und wird nicht auf die neuen Aufnahmen oder alle DZT-Bilder übertragen.
 
-Einzelbildangaben, Lizenzlinks, Zuschnitt-Hinweise und separate OSM-Hinweise stehen in [`assets/BILDNACHWEISE.md`](assets/BILDNACHWEISE.md). ShareAlike-Bedingungen für Bildbearbeitungen stellen den unabhängigen App-Code nicht automatisch unter CC BY-SA. Die nicht zugeordnete Bildkante im mobilen Archiv-Screenshot, unvollständige Rechteangaben und die nicht abschließend geprüften Kartenbildbedingungen bleiben **bewusst offen**. Die Dokumentation ist keine unabhängige Bestätigung der Rechteinhaberschaft oder sämtlicher Persönlichkeits- und Datenschutzrechte.
+Einzelbildangaben, Lizenzlinks, Zuschnitt-Hinweise und separate OSM-Hinweise stehen in [`assets/BILDNACHWEISE.md`](assets/BILDNACHWEISE.md). ShareAlike-Bedingungen für Bildbearbeitungen stellen den unabhängigen App-Code nicht automatisch unter CC BY-SA. Die nicht zugeordnete Bildkante in der historischen Datei `Mobile_Screenshot_3.png`, unvollständige historische Rechteangaben und die nicht abschließend geprüften Kartenbildbedingungen bleiben **bewusst offen**. Die Dokumentation ist keine unabhängige Bestätigung der Rechteinhaberschaft oder sämtlicher Persönlichkeits- und Datenschutzrechte.

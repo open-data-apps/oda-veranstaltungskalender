@@ -36,7 +36,12 @@ function fetchMit(sparqlPayload) {
   return async (url) => {
     const u = String(url);
     if (u.includes("nominatim")) return { ok: true, status: 200, text: async () => JSON.stringify([{ lat: "48.6813", lon: "9.0086" }]) };
-    return { ok: true, status: 200, text: async () => JSON.stringify(sparqlPayload) };
+    const relayPath = new URL(u, "http://localhost").searchParams.get("path");
+    const query = new URL(relayPath, "https://dzt.invalid/").searchParams.get("query");
+    const payload = query.includes("con:totalHits")
+      ? { head: { vars: ["vkGeoTotal"] }, results: { bindings: [{ vkGeoTotal: { type: "literal", datatype: "http://www.w3.org/2001/XMLSchema#long", value: "2" } }] } }
+      : sparqlPayload;
+    return { ok: true, status: 200, text: async () => JSON.stringify(payload) };
   };
 }
 

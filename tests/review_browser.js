@@ -104,7 +104,7 @@ async function main() {
       })()`);
       await until(ready);
       const dayState=await run("({day:Array.from(vkInstances.values())[0].heuteKey,aborted:__oldController.signal.aborted,requests:vkFixtureResult.requests.filter(u=>u.includes('/dzt?')).length})");
-      check('R-Tageswechsel-'+width, dayState.day===rollover.tomorrow && dayState.aborted && dayState.requests===rollover.before+2, dayState);
+      check('R-Tageswechsel-'+width, dayState.day===rollover.tomorrow && dayState.aborted && dayState.requests===rollover.before+3, dayState);
       await run('window.Date=__realDate');
 
       await run("installVkFixture('empty')"); await until("Array.from(vkInstances.values())[0]?.status === 'bereit'");

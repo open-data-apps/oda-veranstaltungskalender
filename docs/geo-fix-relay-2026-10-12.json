@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-12",
+  "method": "local new loader against real public Dev ODAS relay; no API key; actual Nominatim/DZT data",
+  "ms": 70453,
+  "future": 600,
+  "archive": 0,
+  "week": 416,
+  "calls": [
+    {
+      "status": 200,
+      "ms": 213,
+      "urlBytes": 1034
+    },
+    {
+      "status": 200,
+      "ms": 159,
+      "urlBytes": 1539
+    },
+    {
+      "status": 200,
+      "ms": 146,
+      "urlBytes": 1540
+    },
+    {
+      "status": 200,
+      "ms": 42211,
+      "urlBytes": 7695
+    },
+    {
+      "status": 200,
+      "ms": 51162,
+      "urlBytes": 7684
+    },
+    {
+      "status": 200,
+      "ms": 17986,
+      "urlBytes": 7696
+    },
+    {
+      "status": 200,
+      "ms": 18617,
+      "urlBytes": 7685
+    }
+  ]
+}

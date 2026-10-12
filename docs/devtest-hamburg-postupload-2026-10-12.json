@@ -1,0 +1,142 @@
+{
+  "date": "2026-10-12",
+  "method": "read-only post-upload verification after browser UI ZIP upload",
+  "checks": [
+    {
+      "id": "Dev-Version",
+      "pass": true,
+      "details": {
+        "version": "1.4.6",
+        "updated": "2026-10-12T07:38:04.702Z"
+      }
+    },
+    {
+      "id": "Dev-Paketdefault",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "Dev-Storebeschreibung",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "Dev-Paketbeschreibungen",
+      "pass": true,
+      "details": {}
+    },
+    {
+      "id": "Dev-Screenshot-Verweise",
+      "pass": true,
+      "details": {
+        "actual": [
+          "assets/Desktop_Hamburg_Programm_1.4.6.png",
+          "assets/Desktop_Hamburg_Karte_1.4.6.png",
+          "assets/Desktop_Hamburg_Katalog_1.4.6.png",
+          "assets/Mobile_Hamburg_Programm_1.4.6.png",
+          "assets/Mobile_Hamburg_Karte_1.4.6.png",
+          "assets/Mobile_Hamburg_Katalog_1.4.6.png"
+        ]
+      }
+    },
+    {
+      "id": "Dev-Datei:assets/Desktop_Hamburg_Programm_1.4.6.png",
+      "pass": true,
+      "details": {
+        "status": 200,
+        "sourceMatches": true
+      }
+    },
+    {
+      "id": "Dev-Datei:assets/Desktop_Hamburg_Karte_1.4.6.png",
+      "pass": true,
+      "details": {
+        "status": 200,
+        "sourceMatches": true
+      }
+    },
+    {
+      "id": "Dev-Datei:assets/Desktop_Hamburg_Katalog_1.4.6.png",
+      "pass": true,
+      "details": {
+        "status": 200,
+        "sourceMatches": true
+      }
+    },
+    {
+      "id": "Dev-Datei:assets/Mobile_Hamburg_Programm_1.4.6.png",
+      "pass": true,
+      "details": {
+        "status": 200,
+        "sourceMatches": true
+      }
+    },
+    {
+      "id": "Dev-Datei:assets/Mobile_Hamburg_Karte_1.4.6.png",
+      "pass": true,
+      "details": {
+        "status": 200,
+        "sourceMatches": true
+      }
+    },
+    {
+      "id": "Dev-Datei:assets/Mobile_Hamburg_Katalog_1.4.6.png",
+      "pass": true,
+      "details": {
+        "status": 200,
+        "sourceMatches": true
+      }
+    },
+    {
+      "id": "Dev-Datei:assets/SCREENSHOTS_HAMBURG_1.4.6.json",
+      "pass": true,
+      "details": {
+        "status": 200,
+        "sourceMatches": true
+      }
+    },
+    {
+      "id": "Dev-Datei:assets/BILDNACHWEISE.md",
+      "pass": true,
+      "details": {
+        "status": 200,
+        "sourceMatches": true
+      }
+    },
+    {
+      "id": "Dev-Datei:app.js",
+      "pass": true,
+      "details": {
+        "status": 200,
+        "sourceMatches": true
+      }
+    },
+    {
+      "id": "Dev-Datei:app-base.js",
+      "pass": true,
+      "details": {
+        "status": 200,
+        "sourceMatches": true
+      }
+    },
+    {
+      "id": "Instanz-Hamburg25",
+      "pass": true,
+      "details": {
+        "ort": "Hamburg",
+        "radius": "25"
+      }
+    },
+    {
+      "id": "Instanztexte-unverändert",
+      "pass": true,
+      "details": {
+        "changedKeys": [],
+        "titel": "Veranstaltungskalender",
+        "seitentitel": "Veranstaltungskalender"
+      }
+    }
+  ],
+  "passed": 17,
+  "failed": 0
+}
