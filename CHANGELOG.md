@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.5.1 - 2026-10-13
+
+- **Fehleranzeige:** Datenquellenfehler zeigen unter dem bisherigen Titel die Portfolio-Standardanzeige (Variante A) mit Hinweis, konfigurierter URL und Details; Ort- und Umkreisfehler bleiben ein Konfigurationshinweis.
+- **Verlauf:** Zurück/Vorwärts wirkt über die Instanz-Registry statt über eine modulglobale Startseite; ein Listener je Seite.
+- **Links:** `safeHttpUrl` gibt gültige URLs unverändert und ungültige als leere Zeichenkette zurück; Lizenzlinks sind direkt gebunden.
+
 ## 1.5.0 - 2026-10-12
 
 - **Schnellerer Start, unveränderte Daten:** Eigene DISTINCT-Geo-Unterabfrage vor dem Event-Join; vollständige Beschreibungen und Bildnachweise bleiben enthalten. Hamburg/25 km über denselben unveränderten Dev-Relay: 38,4 s statt 69,3 s im erneuten Vergleichslauf; 600 identische IDs samt Terminen, Orten, Koordinaten, Bildern und Bildnachweisen. Einzelmessung, keine garantierte Ladezeit.

@@ -6,7 +6,7 @@ Die App ist für die Verwendung im [Open Data App Store](https://open-data-app-s
 
 Mehr zu Open Data Apps: <https://github.com/open-data-apps>
 
-**Aktueller App-Stand:** 1.5.0 · [Änderungsverlauf](CHANGELOG.md)\
+**Aktueller App-Stand:** 1.5.1 · [Änderungsverlauf](CHANGELOG.md)\
 **Technischer Name:** `oda-veranstaltungskalender` · **Lieferpaket:** `oda-veranstaltungskalender.zip`\
 **Demo-Vorbelegung:** Hamburg · 25 km; Ort und Umkreis bleiben konfigurierbar.
 
@@ -221,7 +221,9 @@ node tests/performance_browser.js
 
 Ohne Umgebungsvariablen verwendet der Harness `127.0.0.1:8765` und `google-chrome`. Jeder Lauf verwendet ein eigenes Browserprofil; standardmäßig vergibt das Betriebssystem einen freien Steuerungsport. Optional legt `VK_CDP_PORT` den Startport für Audit-Suites fest. Ungültige Suites, null Prüfungen und ungefangene JavaScript-/Promise-Fehler führen zum Fehlschlag. Der Fixture-Transport wird vor der App installiert; lokale Konfiguration wird normal gelesen, unerwartete Fetch-Ziele werden blockiert. OpenStreetMap-Kacheln bleiben bewusst echte externe Abrufe – das ist kein vollständiger Offline-Test. Die Suite `modal` prüft bewusst **mit aktiven Bootstrap-Animationen und Browserfokus**, damit Fehler beim Öffnen/Schließen nicht durch deaktivierte Übergänge verdeckt werden. Die Suite `flows` benötigt zusätzlich `VK_LIVE_HOST` (Host:Port); ihr Live-Teil erwartet die im Harness hinterlegte Audit-Instanz, keine beliebige ODAS-App.
 
-**Prüfstand 1.5.0 (12.10.2026):** 31 Node-Testdateien und 280 lokale Browserprüfungen bestanden; Syntax/JSON/Linter geprüft. App-only Query-/Archiv-/Cache-Optimierung; Vergleichsmessungen, Testumfang und Grenzen siehe [Performance-Nachweis](docs/performance-app-2026-10-12.md). Kein Store-Umbau und kein Build-Upload; der Betreiber übernimmt den Upload.
+**Prüfstand 1.5.1 (13.10.2026):** 31 Node-Testdateien und die Browser-Audits `fehler`, `verlauf`, `teilen`, `bildnachweise`, `zustaende` (63 Prüfungen) bestanden; Portfolio-Regressionssuite grün. Nur Fehleranzeige, Verlaufs-Listener und URL-Helfer geändert.
+
+**Historischer Prüfstand 1.5.0 (12.10.2026):** 31 Node-Testdateien und 280 lokale Browserprüfungen bestanden; Syntax/JSON/Linter geprüft. App-only Query-/Archiv-/Cache-Optimierung; Vergleichsmessungen, Testumfang und Grenzen siehe [Performance-Nachweis](docs/performance-app-2026-10-12.md). Kein Store-Umbau und kein Build-Upload; der Betreiber übernimmt den Upload.
 
 **Historischer Prüfstand 1.4.9 (12.10.2026):** 29 Node-Testdateien, 22 gezielte lokale Browserprüfungen für den Ladefortschritt und 39 bestehende Browserregressionen bestanden (375/1440 CSS-Pixel, reduzierte Bewegung, zugänglicher Balken, Phasen, parallele Antworten, Ansichtswechsel, Fehler, Cache und Seitenwechsel-Abbruch). Browserprüfungen über Live Server mit kontrollierten Fixture-Antworten, keine echte Dev-Abnahme. Der Upload dieser Version erfolgt durch den Betreiber; die bestehenden Screenshots zeigen weiterhin die unveränderten fertig geladenen Ansichten der Runtime 1.4.7.
 

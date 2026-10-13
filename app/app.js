@@ -71,7 +71,6 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     dom: {}
   };
   vkInstances.set(appUid, state);
-  vkStartseite = state;
   vkVerlaufVerdrahten();
 
   document.body.classList.add("vk-app-aktiv");
@@ -180,8 +179,7 @@ function shellHtml(state) {
  * laufen.
  */
 const VK_VERLAUF_SCHLUESSEL = "vkModus";
-let vkVerlaufVerdrahtet = false;
-let vkStartseite = null;
+let vkVerlaufListener = null;
 
 /* Liest die Ansicht aus einem Verlaufseintrag. Unbekanntes liefert null. */
 function vkModusAusState(zustand) {
@@ -207,16 +205,21 @@ function vkSetzeModus(state, key) {
   wendeFilterAn(state);
 }
 
+/* Ein Listener je Seite (Lazy-Singleton); er wirkt auf die aktuell
+ * gerenderten Startseiten-Instanzen der Registry (nur diese haben modus). */
 function vkVerlaufVerdrahten() {
-  if (vkVerlaufVerdrahtet) return;
-  vkVerlaufVerdrahtet = true;
-  window.addEventListener("popstate", (ereignis) => {
+  if (vkVerlaufListener) return;
+  vkVerlaufListener = (ereignis) => {
     const hash = String((window.location && window.location.hash) || "").replace("#", "").trim();
     /* Seitenwechsel: dafuer ist die Adresssteuerung der Base zustaendig. */
     if (hash && hash !== "startseite") return;
     /* Eintraege ohne Ansicht sind der Ausgangszustand: Programm. */
-    vkSetzeModus(vkStartseite, vkModusAusState(ereignis.state) || "programm");
-  });
+    const modus = vkModusAusState(ereignis.state) || "programm";
+    vkInstances.forEach((state) => {
+      if (state.modus) vkSetzeModus(state, modus);
+    });
+  };
+  window.addEventListener("popstate", vkVerlaufListener);
 }
 
 function verdrahteShell(state) {
@@ -629,6 +632,7 @@ async function ladeDaten(state) {
     if (controller.signal.aborted || controller !== state.controller || (fehler && fehler.name === "AbortError")) return;
     state.status = gecached ? "bereit" : "fehler";
     state.fehlermeldung = (fehler && fehler.message) || "Unbekannter Fehler beim Laden der Veranstaltungen.";
+    state.fehlerKonfig = Boolean(fehler && fehler.konfig);
   }
   state.aktualisiert = false;
   vkPruefeGeteiltenLink(state);
@@ -800,7 +804,7 @@ function vkBildnachweisHtml(event, bildUrl) {
   else if (!lizenzen.length || lizenzen.some((url) => vkBildLizenzText(url) !== "CC0 1.0")) teile.push("Rechteangabe fehlt");
   if (quelle) teile.push(`<a href="${escapeHtml(quelle)}" target="_blank" rel="noopener noreferrer">Bildquelle (DZT)</a>`);
   if (lizenzen.length) {
-    teile.push(lizenzen.map((url) => `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(vkBildLizenzText(url))}</a>`).join(" · "));
+    teile.push(lizenzen.map((url) => `<a href="${escapeHtml(safeHttpUrl(url))}" target="_blank" rel="noopener noreferrer">${escapeHtml(vkBildLizenzText(url))}</a>`).join(" · "));
   } else {
     teile.push("Lizenzangabe fehlt");
   }
@@ -1278,8 +1282,20 @@ function renderModus(state) {
     inhalt.innerHTML = `<div class="vk-status"><div class="vk-status-titel">Es ist keine Datenquelle konfiguriert.</div><p class="vk-status-text">Bitte in der ODAS-Instanz einen SPARQL-Endpunkt (apiurls) hinterlegen.</p></div>`;
     return;
   }
-  if (state.status === "fehler") {
+  if (state.status === "fehler" && state.fehlerKonfig) {
     inhalt.innerHTML = `<div class="vk-status"><div class="vk-status-titel">Veranstaltungen konnten nicht geladen werden</div><p class="vk-status-text">${escapeHtml(state.fehlermeldung)}</p></div>`;
+    return;
+  }
+  if (state.status === "fehler") {
+    /* Eigener Titel bleibt; Datenquellenfehler darunter in der Portfolio-
+     * Standardanzeige (Variante A). Ort-/Umkreisfehler (oben) bleiben ein Konfigurationshinweis. */
+    inhalt.innerHTML = `<div class="vk-status"><div class="vk-status-titel">Veranstaltungen konnten nicht geladen werden</div><div class="vk-status-text"></div></div>`;
+    renderOdasFehler(inhalt.querySelector(".vk-status-text"), new Error(state.fehlermeldung), {
+      url: getOdasApiUrl(state.configdata, "veranstaltungen"),
+      label: "SPARQL-Endpunkt",
+      typLabel: "Wissensdatenbank (SPARQL)",
+      erwarteterTyp: "sparql",
+    });
     return;
   }
 
@@ -1704,7 +1720,6 @@ function zeigeEventDetail(state, event) {
  * ergänzt, sobald die Kartenansicht existiert (Task 8).
  */
 function onPageLeave(page) {
-  vkStartseite = null;
   if (page === "startseite" && typeof document !== "undefined" && document.body && document.body.classList) {
     document.body.classList.remove("vk-sekundaer");
   }
@@ -1753,6 +1768,143 @@ function escapeHtml(value = "") {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+}
+
+function isKeineDatenquelleKonfiguriert(targetUrl) {
+  const quelle = String(targetUrl || "").trim();
+  return !quelle || /^\{\{.*\}\}$/.test(quelle) || /^<.*>$/.test(quelle);
+}
+
+const TYP_BEZEICHNUNG = {
+  "ckan-dkan-ds": "Tabellen-API mit Daten-ID",
+  "ckan-ps": "Datensatz-API",
+  "ckan-dl": "Datei-Download",
+  "ods21": "Open-Data-Suche (API v2.1)",
+  "wfs": "Kartendienst (WFS)",
+  "sparql": "Wissensdatenbank (SPARQL)",
+  "csv-zip": "Statische Datei"
+}
+
+function validateUrlTypErwartung(url, erwarteterTyp) {
+  const u = String(url || "");
+  if (!erwarteterTyp || isKeineDatenquelleKonfiguriert(u)) return null;
+  const checks = {
+    "ckan-dkan-ds": /\/api\/3\/action\/datastore_search\?resource_id=/i,
+    "ckan-ps": /\/api\/3\/action\/package_show\?id=/i,
+    "ckan-dl": /\/dataset\/.*\/resource\/.*\/download\//i,
+    "ods21": /\/api\/explore\/v2\.1\//i,
+    "wfs": /service=WFS/i,
+    "sparql": /\/api\/ts\/v1\/kg\/sparql/i,
+    "csv-zip": /\.(csv|json|zip)(\?|$)/i
+  };
+  const re = checks[erwarteterTyp];
+  if (!re) return null;
+  if (!re.test(u)) {
+    const soll = TYP_BEZEICHNUNG[erwarteterTyp] || erwarteterTyp;
+    return `Typ passt nicht: erwartet „${soll}", erhalten „${u.slice(0, 60)}…". Prüfen Sie den Hilfe-Tooltip bei „URLs zu Datenressourcen".`;
+  }
+  return null;
+}
+
+function classifyOdasFehler(error, kontext = {}) {
+  const msg = String((error && error.message) || error || "");
+  const url = String(kontext.url || "");
+  const label = String(kontext.label || "Datenressource");
+  const typLabel = String(kontext.typLabel || TYP_BEZEICHNUNG[kontext.erwarteterTyp] || "Datenquelle");
+  if (/Keine Datenquelle konfiguriert/i.test(msg) || isKeineDatenquelleKonfiguriert(url)) {
+    return {
+      kind: "KEINE_QUELLE",
+      titel: "Es ist keine Datenquelle konfiguriert.",
+      hinweis: `Prüfen Sie unter „URLs zu Datenressourcen → ${label}" ob eine gültige ${typLabel}-URL eingetragen ist (Hilfe-Tooltip beachten).`,
+      detail: msg,
+      alertClass: "alert-info"
+    };
+  }
+  if (/Typ passt nicht: erwartet/i.test(msg)) {
+    return {
+      kind: "TYP_MISMATCH",
+      titel: msg,
+      hinweis: `Diese App erwartet ${typLabel}. Korrigieren Sie die URL gemäß Hilfe-Tooltip (Beispiel dort).`,
+      detail: msg,
+      alertClass: "alert-danger"
+    };
+  }
+  if (/URL origin not allowed/i.test(msg)) {
+    return {
+      kind: "PROXY_ORIGIN",
+      titel: "ODAS-Proxy blockiert: Ziel-Origin nicht freigegeben.",
+      hinweis: "Tragen Sie die Ziel-Origin als eigenen Eintrag unter „URLs zu Datenressourcen“ ein oder prüfen Sie proxyAktiv.",
+      detail: msg,
+      alertClass: "alert-danger"
+    };
+  }
+  if (/ODAS-Proxy-Fehler/i.test(msg) || /kein content-String/i.test(msg)) {
+    return {
+      kind: "PROXY_HTTP",
+      titel: msg,
+      hinweis: "Prüfen Sie proxyAktiv und Erreichbarkeit im ODAS-Live-System (lokal 404 ist normal).",
+      detail: msg,
+      alertClass: "alert-danger"
+    };
+  }
+  if (/Direkter Datenabruf fehlgeschlagen/i.test(msg) || /Failed to fetch/i.test(msg)) {
+    const corsHint = /Failed to fetch/i.test(msg) ? " – vermutlich CORS blockiert → im ODAS-Live proxyAktiv=ja." : "";
+    return {
+      kind: "DIREKT_CORS_HTTP",
+      titel: msg,
+      hinweis: `Prüfen Sie URL und CORS der Quelle${corsHint}`,
+      detail: msg,
+      alertClass: "alert-danger"
+    };
+  }
+  if (/liefert kein JSON/i.test(msg) || /HTML-Seite|CSV-|leere Antwort|unlesbaren/i.test(msg)) {
+    return {
+      kind: "PAYLOAD_TYP",
+      titel: msg,
+      hinweis: "Tragen Sie den passenden Endpunkt ein – nicht die Datensatzseite (/dataset/…) – Hilfe-Tooltip beachten.",
+      detail: msg,
+      alertClass: "alert-danger"
+    };
+  }
+  if (/CKAN.*Fehler|success:false/i.test(msg)) {
+    return {
+      kind: "CKAN_API",
+      titel: msg,
+      hinweis: "Prüfen Sie Daten-ID / Datensatz-ID (existiert die Tabelle/Datei noch auf dem Portal?).",
+      detail: msg,
+      alertClass: "alert-danger"
+    };
+  }
+  if (/404|Nicht gefunden/i.test(msg)) {
+    return {
+      kind: "HTTP_404",
+      titel: msg,
+      hinweis: "Ressource/Datensatz auf dem Portal nicht gefunden (404).",
+      detail: msg,
+      alertClass: "alert-danger"
+    };
+  }
+  return {
+    kind: "UNBEKANNT",
+    titel: msg || "Unbekannter Fehler beim Laden.",
+    hinweis: "Prüfen Sie Konfiguration und Erreichbarkeit der Quelle.",
+    detail: msg,
+    alertClass: "alert-danger"
+  };
+}
+
+function renderOdasFehler(container, error, kontext = {}) {
+  if (!container) return;
+  const typWarn = validateUrlTypErwartung(kontext.url, kontext.erwarteterTyp);
+  if (typWarn && !/Typ passt nicht/i.test(String(error && error.message))) {
+    error = new Error(typWarn);
+  }
+  const info = classifyOdasFehler(error, kontext);
+  const url = String(kontext.url || "");
+  const urlZeile = url ? `<p class="mb-1 small text-muted">Konfigurierte URL: <code>${escapeHtml(url.length > 80 ? url.slice(0, 80) + "…" : url)}</code></p>` : "";
+  const titel = kontext.leer ? "Keine Datensätze gefunden." : info.titel;
+  const alertClass = kontext.leer ? "alert-info" : info.alertClass;
+  container.innerHTML = `<div class="alert ${alertClass}" role="alert"><strong>${escapeHtml(titel)}</strong><p class="mb-1">${escapeHtml(info.hinweis)}</p>${urlZeile}<details class="small"><summary>Details</summary><code>${escapeHtml(info.detail || String(error))}</code></details></div>`;
 }
 
 /* ---------------------------------------------------------------------------
@@ -1866,7 +2018,7 @@ SELECT ?vkGeoTotal WHERE {
     if (total === 0) return [];
     if (total < 10000) return [geoQuery];
     if (tiefe >= 8) {
-      throw new Error("Die Geo-Abfrage kann diesen Umkreis nicht vollständig erfassen. Bitte einen kleineren Umkreis konfigurieren.");
+      throw Object.assign(new Error("Die Geo-Abfrage kann diesen Umkreis nicht vollständig erfassen. Bitte einen kleineren Umkreis konfigurieren."), { konfig: true });
     }
     const bounds = box || umkreisBox;
     let a, b;
@@ -2200,16 +2352,19 @@ function icsTimestamp(datumKey, zeit, plusStunden = 0) {
 }
 
 /*
- * safeHttpUrl(url) -> string | null – daten-gelieferte URLs duerfen nur mit
- * http/https-Scheme verlinkt werden (Review-Fix 2, Vorlage odas-app-wanderwege
- * safeHttpUrl): blockt javascript:/data: u.ae. aus Fremddaten.
+ * safeHttpUrl(url) -> string – daten-gelieferte URLs duerfen nur mit
+ * http/https-Scheme verlinkt werden (Review-Fix 2): blockt javascript:/data:
+ * u.ae. aus Fremddaten. Gueltige URLs kommen unveraendert zurueck, sonst "".
  */
 function safeHttpUrl(url) {
+  const text = String(url == null ? "" : url).trim();
+  if (!text || /[\u0000-\u0020]/.test(text) || text.startsWith("//")) return "";
   try {
-    const parsed = new URL(String(url || "").trim());
-    return parsed.protocol === "http:" || parsed.protocol === "https:" ? parsed.href : null;
+    const parsed = new URL(text);
+    if (!["http:", "https:"].includes(parsed.protocol) || parsed.username || parsed.password) return "";
+    return text;
   } catch (_error) {
-    return null;
+    return "";
   }
 }
 
@@ -2705,7 +2860,7 @@ async function ladeEvents(configdata, signal, optionen) {
 
   const ort = String((configdata && configdata.ort) || "").trim();
   if (!ort) {
-    throw new Error("Es ist kein Ort konfiguriert. Bitte in der Instanz-Konfiguration einen Ort eintragen.");
+    throw Object.assign(new Error("Es ist kein Ort konfiguriert. Bitte in der Instanz-Konfiguration einen Ort eintragen."), { konfig: true });
   }
 
   let fortschrittAktiv = true;
@@ -2720,7 +2875,7 @@ async function ladeEvents(configdata, signal, optionen) {
   if (!vorlage) meldeFortschritt({ phase: "ort" });
   const geo = vorlage ? vorlage.geo : await geocodeOrt(ort, signal);
   if (!geo) {
-    throw new Error(`Der Ort „${ort}“ konnte über OpenStreetMap nicht gefunden werden. Bitte die Instanz-Konfiguration prüfen.`);
+    throw Object.assign(new Error(`Der Ort „${ort}“ konnte über OpenStreetMap nicht gefunden werden. Bitte die Instanz-Konfiguration prüfen.`), { konfig: true });
   }
 
   const base = dztApiPath(apiurl);
