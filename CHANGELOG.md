@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.2 - 2026-10-13
+
+- **Fehlertipps:** Die Standard-Fehleranzeige gibt präzisere Tipps: ein „Failed to fetch“ ohne Proxy-Kontext erhält einen Netzwerk-Hinweis statt `proxyAktiv`; der 404-Hinweis gilt nur noch für echte HTTP-404-Antworten und nennt den lokal fehlenden Proxy/Relay.
+
 ## 1.5.1 - 2026-10-13
 
 - **Fehleranzeige:** Datenquellenfehler zeigen unter dem bisherigen Titel die Portfolio-Standardanzeige (Variante A) mit Hinweis, konfigurierter URL und Details; Ort- und Umkreisfehler bleiben ein Konfigurationshinweis.

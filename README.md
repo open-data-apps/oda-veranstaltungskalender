@@ -6,7 +6,7 @@ Die App ist für die Verwendung im [Open Data App Store](https://open-data-app-s
 
 Mehr zu Open Data Apps: <https://github.com/open-data-apps>
 
-**Aktueller App-Stand:** 1.5.1 · [Änderungsverlauf](CHANGELOG.md)\
+**Aktueller App-Stand:** 1.5.2 · [Änderungsverlauf](CHANGELOG.md)\
 **Technischer Name:** `oda-veranstaltungskalender` · **Lieferpaket:** `oda-veranstaltungskalender.zip`\
 **Demo-Vorbelegung:** Hamburg · 25 km; Ort und Umkreis bleiben konfigurierbar.
 
