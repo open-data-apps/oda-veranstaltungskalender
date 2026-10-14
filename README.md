@@ -326,14 +326,14 @@ Diese App verwendet **immer den speziellen DZT-Relay**. Es gibt keinen Schalter 
 
 ## Beim Aufruf kontaktierte Drittanbieter
 
-Programmbibliotheken werden ausschließlich lokal aus `app/vendor/` geladen, nicht von einem CDN. Die App bindet kein Facebook-SDK, keine fremden Social-Media-Skripte und keine Zählpixel ein.
+Programmbibliotheken werden ausschließlich lokal aus `app/vendor/` ausgeliefert, nicht von einem CDN geladen. Die App bindet kein Facebook-SDK, keine fremden Social-Media-Skripte und keine Zählpixel ein.
 
-| Dienst / Ziel | Zweck und Zeitpunkt |
-| --- | --- |
-| ODAS-DZT-Relay `<App-Basis>/dzt?path=…` | Der Browser kontaktiert den Store beim Datenabruf; dieser fragt den DZT Knowledge Graph serverseitig ab. Der Key bleibt im Store. |
-| `nominatim.openstreetmap.org` | Geokodierung des konfigurierten Ortsnamens beim Laden, sofern kein passender frischer Browser- oder Sitzungscache vorliegt. Es wird keine Geräteposition abgefragt. |
-| `tile.openstreetmap.org` | Kartenkacheln beim Öffnen bzw. Bewegen der Karte. |
-| Bildserver der Datenlieferanten, unter anderem `mein.toubiz.de` | Direkte Bildabrufe aus dem Browser entsprechend den gelieferten Bild-URLs. Die Hostliste ist vom Datenbestand abhängig. |
+Folgende externe Server werden kontaktiert:
+
+- ODAS-DZT-Relay (`/dzt` der App-Instanz) — Der Browser kontaktiert den Store beim Datenabruf; dieser fragt den DZT Knowledge Graph serverseitig ab. Der Key bleibt im Store.
+- `nominatim.openstreetmap.org` — Geokodierung des konfigurierten Ortsnamens beim Laden, sofern kein passender frischer Browser- oder Sitzungscache vorliegt. Es wird keine Geräteposition abgefragt.
+- `tile.openstreetmap.org` — Kartenkacheln beim Öffnen bzw. Bewegen der Karte (OpenStreetMap).
+- Bildserver der Datenlieferanten, unter anderem `mein.toubiz.de` — Direkte Bildabrufe aus dem Browser entsprechend den gelieferten Bild-URLs. Die Hostliste ist vom Datenbestand abhängig.
 
 Bei direkten externen Abrufen erhalten die Zielserver technisch notwendige Verbindungsdaten, darunter die IP-Adresse des Geräts. Zusätzliche Kontakte entstehen **erst beim Anklicken** von Bildquellen, Lizenzlinks, Veranstalter-/Informationslinks, OpenStreetMap-Ortslinks oder Teilen-Diensten. WhatsApp verwendet `wa.me`, X `x.com`; E-Mail öffnet das konfigurierte Mailprogramm. Kopieren und ICS-Erzeugung erfolgen lokal, das geräteeigene Teilen-Menü wird vom Browser bzw. Betriebssystem bereitgestellt.
 

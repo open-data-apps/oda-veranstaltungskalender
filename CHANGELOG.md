@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.5.3 - 2026-10-14
+- DOCS: Datenschutzerklärung (Paket und lokale Config) mit verbindlichem Bibliotheken-Baustein und Liste der kontaktierten Drittanbieter (DZT-Relay, Nominatim, Kartenkacheln, Bildserver) versehen; README-Tabelle durch gleichlautende Aufzählung ersetzt. Keine Änderung an der App-Logik.
+
 ## 1.5.2 - 2026-10-13
 
 - **Fehlertipps:** Die Standard-Fehleranzeige gibt präzisere Tipps: ein „Failed to fetch“ ohne Proxy-Kontext erhält einen Netzwerk-Hinweis statt `proxyAktiv`; der 404-Hinweis gilt nur noch für echte HTTP-404-Antworten und nennt den lokal fehlenden Proxy/Relay.
