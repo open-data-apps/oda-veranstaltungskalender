@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.5.5 - 2026-10-15
+- FIX: Kopfzeile bei 360 px ohne Überlauf (Template): Logo- und Burger-Spalte passen sich der Breite an, das Menü-Symbol ragt nicht mehr über den rechten Rand. Keine Änderung an App-Code oder Konfiguration.
+
 ## 1.5.4 - 2026-10-15
 - DOCS: Store-Galerie bereinigt: Die zwölf nicht ausgewählten historischen Aufnahmen (Hamburg 1.4.6, Böblingen 1.3.3) liegen jetzt unverändert unter `docs/screenshots/archive/2026-10-13/` statt in `assets/`, damit die Galerie nur die sechs ausgewählten Hamburg-Aufnahmen (1.4.7) zeigt. Verweise in README und `assets/BILDNACHWEISE.md` angepasst. Keine Änderung an App-Code oder Konfiguration.
 
