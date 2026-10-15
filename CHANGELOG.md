@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.5.4 - 2026-10-15
+- DOCS: Store-Galerie bereinigt: Die zwölf nicht ausgewählten historischen Aufnahmen (Hamburg 1.4.6, Böblingen 1.3.3) liegen jetzt unverändert unter `docs/screenshots/archive/2026-10-13/` statt in `assets/`, damit die Galerie nur die sechs ausgewählten Hamburg-Aufnahmen (1.4.7) zeigt. Verweise in README und `assets/BILDNACHWEISE.md` angepasst. Keine Änderung an App-Code oder Konfiguration.
+
 ## 1.5.3 - 2026-10-14
 - DOCS: Datenschutzerklärung (Paket und lokale Config) mit verbindlichem Bibliotheken-Baustein und Liste der kontaktierten Drittanbieter (DZT-Relay, Nominatim, Kartenkacheln, Bildserver) versehen; README-Tabelle durch gleichlautende Aufzählung ersetzt. Keine Änderung an der App-Logik.
 

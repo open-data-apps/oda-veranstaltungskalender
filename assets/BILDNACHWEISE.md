@@ -29,7 +29,7 @@ Beide Kartenbilder zeigen **„Leaflet | © OpenStreetMap“** und echte Kacheln
 
 ## Historische Hamburg-Aufnahmen vor Geo-Fix – 12.10.2026, v1.4.6
 
-Die sechs Dateien `Desktop_Hamburg_Programm_1.4.6.png`, `Desktop_Hamburg_Karte_1.4.6.png`, `Desktop_Hamburg_Katalog_1.4.6.png` sowie die entsprechenden drei `Mobile_Hamburg_*_1.4.6.png` zeigen die tatsächliche Dev-Instanz mit Hamburg und 25 km. Der sichtbare Filter steht auf 90 Tage. Desktop und Mobile stammen aus derselben geladenen Sitzung, ohne injizierte Veranstaltungsdaten. Die Aufnahmen sind viewportgroß: Desktop 1440 × 900 Pixel, Mobile 375 × 812 CSS-Pixel bei DPR 2 (750 × 1624 PNG-Pixel).
+Die sechs Dateien `Desktop_Hamburg_Programm_1.4.6.png`, `Desktop_Hamburg_Karte_1.4.6.png`, `Desktop_Hamburg_Katalog_1.4.6.png` sowie die entsprechenden drei `Mobile_Hamburg_*_1.4.6.png` (seit 1.5.4 unter `docs/screenshots/archive/2026-10-13/` im Repository, nicht mehr in `assets/`) zeigen die tatsächliche Dev-Instanz mit Hamburg und 25 km. Der sichtbare Filter steht auf 90 Tage. Desktop und Mobile stammen aus derselben geladenen Sitzung, ohne injizierte Veranstaltungsdaten. Die Aufnahmen sind viewportgroß: Desktop 1440 × 900 Pixel, Mobile 375 × 812 CSS-Pixel bei DPR 2 (750 × 1624 PNG-Pixel).
 
 Der [maschinenlesbare Aufnahmebeleg](SCREENSHOTS_HAMBURG_1.4.6.json) enthält die sichtbaren Bild-URLs, Veranstaltungs-IDs, Viewport-Maße und vom DZT-Relay gelieferten Bildnachweise. Die Sitzung lieferte zwei kommende Veranstaltungen, eine davon mit Foto, und ein leeres Archiv. Die Aufnahmen belegen diesen geladenen Ausschnitt, nicht den vollständigen Hamburger DZT-Bestand.
 
